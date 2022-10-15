@@ -1,18 +1,24 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "typeRoots": [
+      "node_modules/@types", // 默认值
+      "src/types"
+   ],
+    "target": "esnext",
     "useDefineForClassFields": true,
-    "module": "ESNext",
-    "moduleResolution": "Node",
+    "module": "esnext",
+    "moduleResolution": "node",
     "strict": true,
     "jsx": "preserve",
     "sourceMap": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
     "esModuleInterop": true,
-    "lib": ["ESNext", "DOM"],
-    "skipLibCheck": true
+    "lib": ["esnext", "dom"],
+    "baseUrl": "./",
+    "paths":{
+      "@": ["src"],
+      "@/*": ["src/*"],
+    }
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
 }

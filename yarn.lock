@@ -77,6 +77,11 @@
   resolved "https://registry.npmmirror.com/@types/json-schema/-/json-schema-7.0.11.tgz#d421b6c527a3037f7c84433fd2c4229e016863d3"
   integrity sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==
 
+"@types/node@18.7.18":
+  version "18.7.18"
+  resolved "https://registry.npmmirror.com/@types/node/-/node-18.7.18.tgz#633184f55c322e4fb08612307c274ee6d5ed3154"
+  integrity sha512-m+6nTEOadJZuTPkKR/SYK3A2d7FZrgElol9UP1Kae90VVU4a6mxnPuLiIW1m4Cq4gZ/nWb9GrdVXJCoCazDAbg==
+
 "@typescript-eslint/eslint-plugin@^5.40.0":
   version "5.40.0"
   resolved "https://registry.npmmirror.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-5.40.0.tgz#0159bb71410eec563968288a17bd4478cdb685bd"
@@ -247,6 +252,11 @@
   dependencies:
     "@vue/compiler-dom" "3.2.41"
     "@vue/shared" "3.2.41"
+
+"@vue/devtools-api@^6.1.4", "@vue/devtools-api@^6.4.4":
+  version "6.4.4"
+  resolved "https://registry.npmmirror.com/@vue/devtools-api/-/devtools-api-6.4.4.tgz#0b024fc8ca91bb4b6035abaf53c5aecc17119b3b"
+  integrity sha512-Ku31WzpOV/8cruFaXaEZKF81WkNnvCSlBY4eOGtz5WMSdJvX1v1WWlSMGZeqUwPtQ27ZZz7B62erEMq8JDjcXw==
 
 "@vue/reactivity-transform@3.2.41":
   version "3.2.41"
@@ -1116,6 +1126,14 @@ picomatch@^2.3.1:
   resolved "https://registry.npmmirror.com/picomatch/-/picomatch-2.3.1.tgz#3ba3833733646d9d3e4995946c1365a67fb07a42"
   integrity sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==
 
+pinia@^2.0.23:
+  version "2.0.23"
+  resolved "https://registry.npmmirror.com/pinia/-/pinia-2.0.23.tgz#570f5f82160b656b412602789683faa95502d227"
+  integrity sha512-N15hFf4o5STrxpNrib1IEb1GOArvPYf1zPvQVRGOO1G1d74Ak0J0lVyalX/SmrzdT4Q0nlEFjbURsmBmIGUR5Q==
+  dependencies:
+    "@vue/devtools-api" "^6.4.4"
+    vue-demi "*"
+
 postcss-selector-parser@^6.0.9:
   version "6.0.10"
   resolved "https://registry.npmmirror.com/postcss-selector-parser/-/postcss-selector-parser-6.0.10.tgz#79b61e2c0d1bfc2602d549e11d0876256f8df88d"
@@ -1333,6 +1351,11 @@ vite@^3.1.0:
   optionalDependencies:
     fsevents "~2.3.2"
 
+vue-demi@*:
+  version "0.13.11"
+  resolved "https://registry.npmmirror.com/vue-demi/-/vue-demi-0.13.11.tgz#7d90369bdae8974d87b1973564ad390182410d99"
+  integrity sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==
+
 vue-eslint-parser@^9.0.1:
   version "9.1.0"
   resolved "https://registry.npmmirror.com/vue-eslint-parser/-/vue-eslint-parser-9.1.0.tgz#0e121d1bb29bd10763c83e3cc583ee03434a9dd5"
@@ -1345,6 +1368,13 @@ vue-eslint-parser@^9.0.1:
     esquery "^1.4.0"
     lodash "^4.17.21"
     semver "^7.3.6"
+
+vue-router@^4.1.5:
+  version "4.1.5"
+  resolved "https://registry.npmmirror.com/vue-router/-/vue-router-4.1.5.tgz#256f597e3f5a281a23352a6193aa6e342c8d9f9a"
+  integrity sha512-IsvoF5D2GQ/EGTs/Th4NQms9gd2NSqV+yylxIyp/OYp8xOwxmU8Kj/74E9DTSYAyH5LX7idVUngN3JSj1X4xcQ==
+  dependencies:
+    "@vue/devtools-api" "^6.1.4"
 
 vue-tsc@^0.40.4:
   version "0.40.13"
