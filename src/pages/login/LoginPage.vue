@@ -1,6 +1,8 @@
 <template>
   <div class="page">
-    <div class="page_left"></div>
+    <div class="page_left">
+      <!-- <img class="page_left_bg" src="@/assets/img/lg_bg.jpeg" alt="" /> -->
+    </div>
     <div class="page_right">
       <h3>Welcome to admin! 👋🏻</h3>
       <p class="font-14 mtop-15 page_right_txt">
@@ -35,7 +37,22 @@ export default {
   &_left {
     flex: 7;
     height: 100%;
-    background-color: antiquewhite;
+    vertical-align: top;
+    background: #16bffd;
+    background: -webkit-linear-gradient(to right, #cb3066, #16bffd);
+    background: linear-gradient(to right, #cb3066, #16bffd);
+    &_bg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      vertical-align: top;
+      background: linear-gradient(
+          195deg,
+          rgba(66, 66, 74, 0.6),
+          rgba(25, 25, 25, 0.6)
+        )
+        center center / cover no-repeat;
+    }
   }
   &_right {
     display: flex;

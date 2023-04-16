@@ -11,6 +11,7 @@
     "format": "prettier --write ./**/*.{vue,ts,tsx,js,jsx,css,less,scss,json,md}"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.0.10",
     "axios": "^1.1.2",
     "element-plus": "^2.2.18",
     "pinia": "^2.0.23",

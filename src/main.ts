@@ -1,5 +1,6 @@
 import { createApp } from 'vue';
 import '@/assets/css/reset.css';
+import '@/assets/css/global.less';
 import './style.css';
 import App from './App.vue';
 import router from '@/router';
@@ -13,5 +14,12 @@ app.use(router);
 app.use(store);
 //挂载ElementPlus
 app.use(ElementPlus);
+
+// 如果您正在使用CDN引入，请删除下面一行。
+import * as ElementPlusIconsVue from '@element-plus/icons-vue';
+
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component);
+}
 
 app.mount('#app');

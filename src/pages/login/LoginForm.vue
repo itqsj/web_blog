@@ -27,7 +27,11 @@
       </div>
     </el-form-item>
     <el-form-item>
-      <el-button class="form_submit font-15" size="large" @click="submitForm"
+      <el-button
+        class="form_submit font-15"
+        size="large"
+        :loading="loading"
+        @click="submitForm"
         >LOGIN</el-button
       >
     </el-form-item>
@@ -55,6 +59,7 @@ import { useRouter } from 'vue-router';
 
 const ruleFormRef = ref<FormInstance>();
 const remember = ref<boolean>(false);
+const loading = ref<boolean>(false);
 const userStore = useUserStore();
 const router = useRouter();
 const ruleForm = reactive({
@@ -74,15 +79,17 @@ const rules: FormRules = {
 };
 
 const handleLogin = async () => {
+  loading.value = true;
   const params = {
     ...ruleForm,
   };
   const res: ResLoginInt = (await login(params)) as ResLoginInt;
-  if (res.status === 200) {
+  if (res.code === 200) {
     window.sessionStorage.setItem('token', res.token);
     userStore.updateToken(res.token);
     router.push('/home');
   }
+  loading.value = false;
 };
 
 const submitForm = async () => {
@@ -103,16 +110,13 @@ const submitForm = async () => {
 <style scoped lang="less">
 .el-input {
   height: 56px;
-  //   /deep/.is-focus {
-  //     box-shadow: 0 0 0 2px;
-  //   }
 }
 
 .form_operat {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  /deep/.is-checked {
+  :deep(.is-checked) {
     span {
       color: rgb(145, 85, 253);
     }

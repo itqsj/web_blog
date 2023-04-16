@@ -1,5 +1,5 @@
 export interface ResLoginInt {
-  status: number;
+  code: number;
   token: string;
   message: string;
 }
