@@ -1,14 +1,25 @@
-import axios, { AxiosResponse, AxiosRequestConfig } from 'axios';
+import axios, { AxiosResponse, AxiosRequestConfig, AxiosError } from 'axios';
+
+interface ReqInt {
+  url: string;
+  method?: string;
+  data?: object;
+  params?: object;
+}
 
 const service = axios.create();
-
+service.defaults.timeout = 10000; // 请求超时时间
 // Request interceptors
 service.interceptors.request.use(
   (config: AxiosRequestConfig) => {
     // do something
+    config.headers = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    };
     return config;
   },
-  (error: any) => {
+  (error: AxiosError) => {
     Promise.reject(error);
   },
 );
@@ -16,13 +27,30 @@ service.interceptors.request.use(
 // Response interceptors
 service.interceptors.response.use(
   async (response: AxiosResponse) => {
-    // do something
-    return Promise.resolve(response);
+    // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
+    // 否则的话抛出错误 结合自身业务和后台返回的接口状态约定写respone拦截器
+    if (response.status === 200) {
+      return Promise.resolve(response);
+    } else {
+      return Promise.reject(response);
+    }
   },
-  (error: any) => {
+  (error: AxiosError) => {
     // do something
     return Promise.reject(error);
   },
 );
 
-export default service;
+function http({ url, method = 'post', data, params }: ReqInt) {
+  return new Promise((resolve, reject) => {
+    service({ url, method, data, params })
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+}
+
+export default http;

@@ -1,15 +1,16 @@
 import { defineStore } from 'pinia';
 
-export const useUserStore = defineStore({
-  id: 'user', // id必填，且需要唯一
-  state: () => {
-    return {
-      name: '张三',
-    };
+export const useUserStore = defineStore('user', {
+  // id必填，且需要唯一
+  state: () => ({
+    _token: '',
+  }),
+  getters: {
+    token: (state) => state._token,
   },
   actions: {
-    updateName(name: string) {
-      this.name = name;
+    updateToken(token: string) {
+      this._token = token;
     },
   },
 });
