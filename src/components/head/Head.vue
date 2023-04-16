@@ -8,11 +8,11 @@
         <el-breadcrumb-item>Dashboards</el-breadcrumb-item>
         <el-breadcrumb-item> Analytics</el-breadcrumb-item>
       </el-breadcrumb>
-      <h3>Analytics</h3>
+      <h3 class="t-color">Analytics</h3>
     </div>
     <div class="head_center">
       <el-icon v-show="false"><Expand /></el-icon>
-      <el-icon><Fold /></el-icon>
+      <el-icon @click="toggleDark()"><Fold /></el-icon>
     </div>
     <div class="head_right">
       <el-input
@@ -22,11 +22,21 @@
         placeholder="Please Input"
       />
       <el-icon><Avatar /></el-icon>
-      <el-icon><Setting /></el-icon>
+      <el-icon @click="settingDrawer = true"><Setting /></el-icon>
       <el-badge :value="3" class="item">
         <el-icon><Bell /></el-icon>
       </el-badge>
     </div>
+
+    <el-drawer
+      v-model="settingDrawer"
+      title="UI Configurator"
+      :modal="false"
+      size="360px"
+      :custom-class="['t-color', isDark ? 't-background' : '', 't-boxshadow']"
+    >
+      <SettingDrawer></SettingDrawer>
+    </el-drawer>
   </div>
 </template>
 
@@ -37,9 +47,15 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
-import { ArrowRight } from '@element-plus/icons-vue';
+import { ref, watch, toRefs, reactive } from 'vue';
 
+import { ArrowRight } from '@element-plus/icons-vue';
+import SettingDrawer from '@/components/head/SettingDrawer.vue';
+
+import { useThemeStore } from '@/store/theme';
+import { toggleDark, isDark } from '@/composables';
+
+const { getThemStyle } = toRefs(useThemeStore());
 const props = defineProps({
   isFixed: {
     type: Boolean,
@@ -47,23 +63,29 @@ const props = defineProps({
   },
 });
 
-const styleObj = {
+const styleObj = reactive({
   fixed: {
-    background: '#ffffff',
-    boxShadow: '32px 32px 64px #d9d9d9, -32px -32px 64px #f0f2f5',
+    background: getThemStyle.value.background,
+    boxShadow: getThemStyle.value.boxShadow,
   },
   noFixed: {
-    background: '#f0f2f5',
+    background: 'transparent',
     boxShadow: '',
   },
-};
+});
 const style = ref(styleObj.fixed);
 const search = ref('');
+const settingDrawer = ref(false);
 
 watch(
   () => props.isFixed,
   () => {
+    styleObj.fixed = { ...getThemStyle.value };
     style.value = props.isFixed ? styleObj.fixed : styleObj.noFixed;
+
+    if (props.isFixed && !isDark.value) {
+      styleObj.fixed.background = '#ffffff';
+    }
   },
   {
     immediate: true,
@@ -80,6 +102,7 @@ watch(
   padding: 0 16px;
   background: v-bind('style.background');
   box-shadow: v-bind('style.boxShadow');
+  // backdrop-filter: saturate(200%) blur(30px);
   transition: all 0.5s;
   border-radius: 8px;
   box-sizing: border-box;
@@ -123,6 +146,17 @@ watch(
     :deep(.el-input__wrapper) {
       height: 44px;
       background: v-bind('style.background');
+    }
+  }
+
+  :deep(.el-drawer) {
+    .el-drawer__header {
+      font-size: 20px;
+      font-weight: 600;
+      color: inherit;
+    }
+    .el-drawer__body {
+      padding: 0 20px;
     }
   }
 }

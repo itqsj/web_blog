@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card t-boxshadow t-background">
     <div class="card_img">
       <img :src="data.img" alt="" />
     </div>
@@ -61,9 +61,7 @@ const { data } = toRefs(props);
 
 <style lang="less" scoped>
 .card {
-  background: #ffffff;
   border-radius: 8px;
-  box-shadow: 10px 10px 20px #d3d3d3, -10px -10px 20px #ededed;
 
   &:hover {
     .card_img {
@@ -85,7 +83,6 @@ const { data } = toRefs(props);
   }
   &_body {
     position: relative;
-    color: rgb(52, 71, 103);
     &_operat {
       position: absolute;
       top: -50px;

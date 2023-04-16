@@ -1,5 +1,5 @@
 <template>
-  <div class="page dark">
+  <div :class="{ page: true }">
     <div class="page_aside">
       <Aside></Aside>
     </div>
@@ -9,6 +9,7 @@
       </el-affix>
       <div class="page_body_conten">
         <Analytics></Analytics>
+        <div style="height: 100vh"></div>
       </div>
     </div>
   </div>
@@ -20,19 +21,21 @@ export default {
 };
 </script>
 <script lang="ts" setup>
-import { onMounted, h, ref } from 'vue';
+import { onMounted, h, ref, toRefs } from 'vue';
 import { useUserStore } from '@/store/user';
 import { useRouter } from 'vue-router';
+import { useThemeStore } from '@/store/theme';
 
 import { ElNotification } from 'element-plus';
 import Aside from './aside/Aside.vue';
-import Head from '@/components/Head.vue';
+import Head from '@/components/head/Head.vue';
 import Analytics from '@/pages/analytics/Analytics.vue';
 
 import { verifyToken } from '@/api/api_user';
 import { ResVerifyInt } from '@/types/user';
 
 const userStore = useUserStore();
+const { getThemStyle } = toRefs(useThemeStore());
 const router = useRouter();
 const isFixed = ref(false);
 
@@ -63,26 +66,36 @@ const affixChange = (fixed: boolean) => {
 };
 </script>
 
+<style lang="less">
+.t-color {
+  color: v-bind('getThemStyle.color');
+}
+.t-background {
+  background: v-bind('getThemStyle.background');
+}
+.t-boxshadow {
+  box-shadow: v-bind('getThemStyle.boxShadow');
+}
+</style>
+
 <style scoped lang="less">
 .page {
   display: flex;
   overflow: hidden;
   height: 100vh;
   box-sizing: border-box;
-  background: #f0f2f5;
+  // background: #f0f2f5;
   &_aside {
     width: 250px;
     height: calc(100% - 32px);
-    padding: 16px;
+    padding: 16px 0 16px 16px;
     box-sizing: content-box;
   }
   &_body {
     overflow: auto;
     flex: 1;
     height: 100%;
-    margin: 16px 16px 16px 0;
-    &_content {
-    }
+    padding: 16px 16px 16px 16px;
   }
 }
 </style>

@@ -15,12 +15,6 @@
 
 <script setup lang="ts">
 import LoginForm from './LoginForm.vue';
-// import { useUserStore } from '@/store/user';
-
-// const userStore = useUserStore();
-// const handleUpdata = () => {
-//   userStore.updateName('李四');
-// };
 </script>
 
 <script lang="ts">

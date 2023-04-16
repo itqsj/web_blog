@@ -1,5 +1,5 @@
 <template>
-  <div class="aside"></div>
+  <div class="aside t-background t-boxshadow"></div>
 </template>
 
 <script lang="ts">
@@ -15,8 +15,9 @@ export default {
   overflow: auto;
   width: 100%;
   height: 100%;
-  background: #232526;
-  background: -webkit-linear-gradient(to right, #414345, #232526);
-  background: linear-gradient(to right, #414345, #232526);
+  // background: #232526;
+  // background: -webkit-linear-gradient(to right, #414345, #232526);
+  // background: linear-gradient(to right, #414345, #232526);
+  border-radius: 8px;
 }
 </style>

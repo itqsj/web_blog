@@ -71,7 +71,7 @@ div{
     box-sizing: border-box;
 }
 
-::-webkit-scrollbar {width:1px;height:1px;position:absolute;border-radius: 3px;}
+::-webkit-scrollbar {width:0px;height:1px;position:absolute;border-radius: 3px;}
 ::-webkit-scrollbar-thumb {background-color:#ddd}
 /* ::-webkit-scrollbar-track {background-color:#ddd} */
 
