@@ -7,8 +7,8 @@
     size="default"
     status-icon
   >
-    <el-form-item prop="username">
-      <el-input v-model="ruleForm.username" size="large" clearable />
+    <el-form-item prop="email">
+      <el-input v-model="ruleForm.email" size="large" clearable />
     </el-form-item>
 
     <el-form-item prop="password" class="mtop-15">
@@ -63,15 +63,12 @@ const loading = ref<boolean>(false);
 const userStore = useUserStore();
 const router = useRouter();
 const ruleForm = reactive({
-  username: 'admin',
-  password: '123465',
+  email: '1789337400@qq.com',
+  password: '123456',
 });
 
 const rules: FormRules = {
-  username: [
-    { required: true, message: 'Please input', trigger: 'blur' },
-    { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
-  ],
+  email: [{ required: true, message: 'Please input', trigger: 'blur' }],
   password: [
     { required: true, message: 'Please input', trigger: 'blur' },
     { min: 3, max: 12, message: 'Length should be 3 to 12', trigger: 'blur' },

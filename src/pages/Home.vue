@@ -8,8 +8,21 @@
         <Head :is-fixed="isFixed"></Head>
       </el-affix>
       <div class="page_body_conten">
-        <Analytics></Analytics>
-        <div style="height: 100vh"></div>
+        <router-view v-slot="{ Component }">
+          <Transition name="fade" mode="out-in" appear>
+            <keep-alive include="LoginPage">
+              <component :is="Component" />
+            </keep-alive>
+          </Transition>
+        </router-view>
+      </div>
+      <div class="page_body_footer">
+        <div class="page_body_footer_left">
+          © 2022, made with by Creative qsj for a better web.
+        </div>
+        <div class="page_body_footer_right">
+          Creative qsj About Us Blog License
+        </div>
       </div>
     </div>
   </div>
@@ -23,12 +36,13 @@ export default {
 <script lang="ts" setup>
 import { onMounted, h, ref, toRefs } from 'vue';
 import { useUserStore } from '@/store/user';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { useThemeStore } from '@/store/theme';
 
 import { ElNotification } from 'element-plus';
 import Aside from './aside/Aside.vue';
 import Head from '@/components/head/Head.vue';
+import CommonTable from '@/components/table/CommonTable.vue';
 import Analytics from '@/pages/analytics/Analytics.vue';
 
 import { verifyToken } from '@/api/api_user';
@@ -90,12 +104,29 @@ const affixChange = (fixed: boolean) => {
     height: calc(100% - 32px);
     padding: 16px 0 16px 16px;
     box-sizing: content-box;
+    transition: all 0.3s;
   }
   &_body {
     overflow: auto;
     flex: 1;
     height: 100%;
     padding: 16px 16px 16px 16px;
+    &_footer {
+      display: flex;
+      justify-content: space-between;
+      padding: 1.5rem;
+      opacity: 1;
+      background: transparent;
+      color: rgb(123, 128, 154);
+      box-sizing: border-box;
+    }
+  }
+}
+@media screen and (max-width: 1400px) {
+  .page {
+    &_aside {
+      width: 0px;
+    }
   }
 }
 </style>

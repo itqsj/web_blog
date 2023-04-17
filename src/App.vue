@@ -10,7 +10,7 @@
   </router-view>
 </template>
 
-<style scoped lang="less">
+<style lang="less">
 /* 开始过渡 */
 .fade-enter-from {
   opacity: 0;

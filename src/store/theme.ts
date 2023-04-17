@@ -6,10 +6,10 @@ export const useThemeStore = defineStore('theme', {
   state: () => ({
     _themStyle: {
       light: {
-        color: '',
+        color: '#333',
         boxShadow:
           'rgb(255 255 255 / 90%) 0px 0px 1px 1px inset,rgb(0 0 0 / 25%) 0px 20px 27px 0px',
-        background: 'transparent',
+        background: 'rgb(240, 242, 245)',
       },
       dark: {
         color: 'rgb(255, 255, 255)',

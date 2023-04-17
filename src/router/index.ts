@@ -24,6 +24,7 @@ const routes: Array<RouteRecordRaw> = [
       keepAlive: true,
       requireAuth: false,
     },
+    redirect: '/analytics',
     component: () => import('@/pages/Home.vue'),
     beforeEnter: (to, from) => {
       //to是当用户点击进入当前页面的时候,我们可以进行一些拦截设置
@@ -34,6 +35,38 @@ const routes: Array<RouteRecordRaw> = [
         return false;
       }
     },
+    children: [
+      {
+        path: '/analytics',
+        name: 'Analytics',
+        meta: {
+          title: 'Analytics',
+          keepAlive: true,
+          requireAuth: false,
+        },
+        component: () => import('@/pages/analytics/Analytics.vue'),
+      },
+      {
+        path: '/profile',
+        name: 'Profile',
+        meta: {
+          title: 'Profile',
+          keepAlive: true,
+          requireAuth: false,
+        },
+        component: () => import('@/pages/user/Profile.vue'),
+      },
+      {
+        path: '/userList',
+        name: 'UserList',
+        meta: {
+          title: 'UserList',
+          keepAlive: true,
+          requireAuth: false,
+        },
+        component: () => import('@/pages/user/UserList.vue'),
+      },
+    ],
   },
 ];
 

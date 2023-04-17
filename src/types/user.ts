@@ -14,3 +14,8 @@ export interface ResVerifyDataInt {
   user_pic: string;
   username: string;
 }
+
+export interface TabsInt {
+  label: string;
+  value: string | number;
+}

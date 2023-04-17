@@ -11,17 +11,17 @@
     <div class="line"></div>
     <div class="drawer_switch">
       <h4 class="drawer_title">Navbar Fixed</h4>
-      <el-switch v-model="sidenav" />
+      <CommonSwitch v-model="sidenav" />
     </div>
     <div class="line"></div>
     <div class="drawer_switch">
       <h4 class="drawer_title">Sidenav Mini</h4>
-      <el-switch v-model="sidenav" />
+      <CommonSwitch v-model="sidenav" />
     </div>
     <div class="line"></div>
     <div class="drawer_switch">
       <h4 class="drawer_title">Light / Dark</h4>
-      <el-switch v-model="themeSwitch" @change="themeChange" />
+      <CommonSwitch v-model="themeSwitch" @change="themeChange" />
     </div>
     <div class="line"></div>
     <div class="drawer_close">
@@ -38,6 +38,8 @@ export default {
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+
+import CommonSwitch from '@/components/switch/CommonSwitch.vue';
 
 import { toggleDark } from '@/composables';
 
@@ -89,18 +91,6 @@ const themeChange = () => {
         rgb(26 115 232 / 20%) 0rem 0.1875rem 0.0625rem -0.125rem,
         rgb(26 115 232 / 15%) 0rem 0.0625rem 0.3125rem 0rem;
     }
-  }
-}
-
-.el-switch {
-  transform: scale(0.9);
-  :deep(.el-switch__action) {
-    background-color: rgb(255, 255, 255);
-    box-shadow: rgb(0 0 0 / 10%) 0rem 0.25rem 0.375rem -0.0625rem,
-      rgb(0 0 0 / 6%) 0rem 0.125rem 0.25rem -0.0625rem;
-    border: 0.0625rem solid rgb(206, 212, 218);
-    color: var(--el-switch-off-color);
-    transform: scale(1.6);
   }
 }
 </style>

@@ -6,9 +6,9 @@
           ><el-icon><HomeFilled /></el-icon
         ></el-breadcrumb-item>
         <el-breadcrumb-item>Dashboards</el-breadcrumb-item>
-        <el-breadcrumb-item> Analytics</el-breadcrumb-item>
+        <el-breadcrumb-item> {{ title }}</el-breadcrumb-item>
       </el-breadcrumb>
-      <h3 class="t-color">Analytics</h3>
+      <h3 class="t-color">{{ title }}</h3>
     </div>
     <div class="head_center">
       <el-icon v-show="false"><Expand /></el-icon>
@@ -48,6 +48,7 @@ export default {
 
 <script lang="ts" setup>
 import { ref, watch, toRefs, reactive } from 'vue';
+import { useRoute } from 'vue-router';
 
 import { ArrowRight } from '@element-plus/icons-vue';
 import SettingDrawer from '@/components/head/SettingDrawer.vue';
@@ -56,12 +57,24 @@ import { useThemeStore } from '@/store/theme';
 import { toggleDark, isDark } from '@/composables';
 
 const { getThemStyle } = toRefs(useThemeStore());
+const route = useRoute();
 const props = defineProps({
   isFixed: {
     type: Boolean,
     default: false,
   },
 });
+const title = ref('');
+
+watch(
+  () => route.path,
+  () => {
+    title.value = route.meta.title as string;
+  },
+  {
+    immediate: true,
+  },
+);
 
 const styleObj = reactive({
   fixed: {

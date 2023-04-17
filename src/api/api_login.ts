@@ -1,7 +1,7 @@
 import http from './index';
 
 interface ParamsInt {
-  username: string;
+  email: string;
   password: string;
 }
 
