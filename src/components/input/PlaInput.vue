@@ -13,7 +13,7 @@
         top: isFacus || hasVal ? '0' : '',
         fontSize: isFacus || hasVal ? '12px' : '',
       }"
-      class="input_placeholder"
+      class="input_placeholder t-background placeholder"
       @click="click"
       >{{ placeholder }}</span
     >
@@ -75,8 +75,7 @@ const { placeholder, modelValue } = toRefs(props);
     left: 0.9375rem;
     font-size: 16px;
     line-height: normal;
-    color: rgba(0, 0, 0, 0.3);
-    background: #fff;
+    // background: #fff;
     transition: all 0.2s;
     transform: translate(0, -50%);
   }

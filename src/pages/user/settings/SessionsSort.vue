@@ -43,7 +43,7 @@
 
 <script lang="ts">
 export default {
-  name: 'ChangePwd',
+  name: 'SessionsSort',
 };
 </script>
 <script lang="ts" setup>

@@ -5,29 +5,28 @@
       <div class="page_body">
         <el-affix :offset="105">
           <div class="page_body_left t-background t-boxshadow t-clolr">
-            <SettingNavigat />
+            <SettingNavigat @navigat="navigat" />
           </div>
         </el-affix>
 
         <div class="page_body_right">
           <div class="page_body_right_item t-background t-boxshadow">
-            <ProfileSort />
+            <ProfileSort ref="profileSort" />
           </div>
           <div class="page_body_right_item t-background t-boxshadow">
             <h3 class="font-20 t-color">Basic Info</h3>
-            <BasicInfo />
+            <BasicInfo ref="basicInfo" />
           </div>
           <div class="page_body_right_item t-background t-boxshadow">
             <h3 class="font-20 t-color">Change Password</h3>
-            <ChangePwd />
+            <ChangePwd ref="changePwd" />
           </div>
           <div class="page_body_right_item t-background t-boxshadow">
             <h3 class="font-20 t-color">Sessions</h3>
-            <BasicInfo />
+            <SessionsSort ref="sessionsSort" />
           </div>
           <div class="page_body_right_item t-background t-boxshadow">
-            <h3 class="font-20 t-color">Delete Account</h3>
-            <BasicInfo />
+            <AccountDel ref="accountDel" />
           </div>
         </div>
       </div>
@@ -48,6 +47,8 @@ import SettingNavigat from './SettingNavigat.vue';
 import ProfileSort from './ProfileSort.vue';
 import BasicInfo from './BasicInfo.vue';
 import ChangePwd from './ChangePwd.vue';
+import AccountDel from './AccountDel.vue';
+import SessionsSort from './SessionsSort.vue';
 
 const tabs = [
   {
@@ -63,6 +64,51 @@ const tabs = [
     value: 3,
   },
 ];
+const profileSort = ref();
+const basicInfo = ref();
+const changePwd = ref();
+const sessionsSort = ref();
+const accountDel = ref();
+
+const navigat = (name: string) => {
+  switch (name) {
+    case 'profileSort':
+      profileSort.value.$el.scrollIntoView({
+        behavior: 'smooth', // 定义动画过渡效果， "auto"或 "smooth" 之一。默认为 "auto"
+        block: 'start', // 定义垂直方向的对齐， "start", "center", "end", 或 "nearest"之一。默认为 "start"
+        // inline: 'nearest' // 定义水平方向的对齐， "start", "center", "end", 或 "nearest"之一。默认为 "nearest"
+      });
+      break;
+    case 'basicInfo':
+      basicInfo.value.$el.scrollIntoView({
+        behavior: 'smooth', // 定义动画过渡效果， "auto"或 "smooth" 之一。默认为 "auto"
+        block: 'start', // 定义垂直方向的对齐， "start", "center", "end", 或 "nearest"之一。默认为 "start"
+        // inline: 'nearest' // 定义水平方向的对齐， "start", "center", "end", 或 "nearest"之一。默认为 "nearest"
+      });
+      break;
+    case 'changePwd':
+      changePwd.value.$el.scrollIntoView({
+        behavior: 'smooth', // 定义动画过渡效果， "auto"或 "smooth" 之一。默认为 "auto"
+        block: 'start', // 定义垂直方向的对齐， "start", "center", "end", 或 "nearest"之一。默认为 "start"
+        // inline: 'nearest' // 定义水平方向的对齐， "start", "center", "end", 或 "nearest"之一。默认为 "nearest"
+      });
+      break;
+    case 'sessionsSort':
+      sessionsSort.value.$el.scrollIntoView({
+        behavior: 'smooth', // 定义动画过渡效果， "auto"或 "smooth" 之一。默认为 "auto"
+        block: 'start', // 定义垂直方向的对齐， "start", "center", "end", 或 "nearest"之一。默认为 "start"
+        // inline: 'nearest' // 定义水平方向的对齐， "start", "center", "end", 或 "nearest"之一。默认为 "nearest"
+      });
+      break;
+    case 'accountDel':
+      accountDel.value.$el.scrollIntoView({
+        behavior: 'smooth', // 定义动画过渡效果， "auto"或 "smooth" 之一。默认为 "auto"
+        block: 'start', // 定义垂直方向的对齐， "start", "center", "end", 或 "nearest"之一。默认为 "start"
+        // inline: 'nearest' // 定义水平方向的对齐， "start", "center", "end", 或 "nearest"之一。默认为 "nearest"
+      });
+      break;
+  }
+};
 const activeTab = ref(1);
 </script>
 

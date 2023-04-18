@@ -1,18 +1,18 @@
 <template>
-  <ul class="sort t-color">
-    <li>
+  <ul class="sort t-color" @click="navigat">
+    <li name="profileSort">
       <el-icon class="mright-10"><UserFilled /></el-icon>profile
     </li>
-    <li>
+    <li name="basicInfo">
       <el-icon class="mright-10"><Document /></el-icon>Basic Info
     </li>
-    <li>
+    <li name="changePwd">
       <el-icon class="mright-10"><Lock /></el-icon>Change Password
     </li>
-    <li>
+    <li name="sessionsSort">
       <el-icon class="mright-10"><Tools /></el-icon>Sessions
     </li>
-    <li>
+    <li name="accountDel">
       <el-icon class="mright-10"><DeleteFilled /></el-icon>Delete Account
     </li>
   </ul>
@@ -23,7 +23,24 @@ export default {
   name: 'HomePage',
 };
 </script>
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const emit = defineEmits(['navigat']);
+
+const navigat = (e: MouseEvent) => {
+  const tar = e.target as HTMLLIElement;
+  const name = getArrtributeName(tar);
+
+  emit('navigat', name);
+};
+
+const getArrtributeName = (tar: HTMLElement): string => {
+  const name = tar.getAttribute('name');
+  if (!name) {
+    return getArrtributeName(tar.parentElement as HTMLElement);
+  }
+  return name;
+};
+</script>
 
 <style scoped lang="less">
 .sort {
