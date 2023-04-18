@@ -66,6 +66,16 @@ const routes: Array<RouteRecordRaw> = [
         },
         component: () => import('@/pages/user/UserList.vue'),
       },
+      {
+        path: '/settings',
+        name: 'Settings',
+        meta: {
+          title: 'Settings',
+          keepAlive: true,
+          requireAuth: false,
+        },
+        component: () => import('@/pages/user/settings/Settings.vue'),
+      },
     ],
   },
 ];

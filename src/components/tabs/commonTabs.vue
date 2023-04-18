@@ -65,7 +65,7 @@ const { tabs, modelValue } = toRefs(props);
 <style lang="less" scoped>
 .tabs {
   position: relative;
-  display: flex;
+  display: inline-flex;
   font-family: Roboto, Helvetica, Arial, sans-serif;
   font-size: 1rem;
   background: rgba(0, 0, 0, 0.05);

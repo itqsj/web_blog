@@ -8,8 +8,8 @@ export const useThemeStore = defineStore('theme', {
       light: {
         color: '#333',
         boxShadow:
-          'rgb(255 255 255 / 90%) 0px 0px 1px 1px inset,rgb(0 0 0 / 25%) 0px 20px 27px 0px',
-        background: 'rgb(240, 242, 245)',
+          'rgb(0 0 0 / 10%) 0rem 0.25rem 0.375rem -0.0625rem, rgb(0 0 0 / 6%) 0rem 0.125rem 0.25rem -0.0625rem',
+        background: '#ffffff',
       },
       dark: {
         color: 'rgb(255, 255, 255)',

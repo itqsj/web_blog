@@ -16,6 +16,7 @@
         </template>
 
         <el-menu-item index="/profile" class="t-color">My Profile</el-menu-item>
+        <el-menu-item index="/settings" class="t-color">Settings</el-menu-item>
       </el-sub-menu>
       <div class="line"></div>
       <el-sub-menu index="2" :collapse-transition="false">
