@@ -38,6 +38,14 @@
 
         <el-menu-item index="/userList" class="t-color">UserList</el-menu-item>
       </el-sub-menu>
+      <el-menu-item
+        index="/task"
+        class="t-color"
+        :style="{
+          background: activeIndex === '/task' ? 'rgb(26, 115, 232)' : '',
+        }"
+        >Task</el-menu-item
+      >
     </el-menu>
   </div>
 </template>

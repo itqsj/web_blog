@@ -54,7 +54,7 @@ const routes: Array<RouteRecordRaw> = [
           keepAlive: true,
           requireAuth: false,
         },
-        component: () => import('@/pages/user/Profile.vue'),
+        component: () => import('@/pages/profile/Profile.vue'),
       },
       {
         path: '/userList',
@@ -74,7 +74,17 @@ const routes: Array<RouteRecordRaw> = [
           keepAlive: true,
           requireAuth: false,
         },
-        component: () => import('@/pages/user/settings/Settings.vue'),
+        component: () => import('@/pages/profile/settings/Settings.vue'),
+      },
+      {
+        path: '/task',
+        name: 'task',
+        meta: {
+          title: 'Task',
+          keepAlive: true,
+          requireAuth: false,
+        },
+        component: () => import('@/pages/task/Task.vue'),
       },
     ],
   },
