@@ -38,6 +38,16 @@
 
         <el-menu-item index="/userList" class="t-color">UserList</el-menu-item>
       </el-sub-menu>
+      <el-sub-menu index="4" :collapse-transition="false">
+        <template #title>
+          <el-icon><location class="t-color" /></el-icon>
+          <span class="t-color">Article</span>
+        </template>
+
+        <el-menu-item index="/ArticleList" class="t-color"
+          >ArticleList</el-menu-item
+        >
+      </el-sub-menu>
       <el-menu-item
         index="/task"
         class="t-color"
