@@ -1,11 +1,6 @@
 <template>
   <div class="pagination t-background">
-    <el-pagination
-      v-bind="$attrs"
-      background
-      layout="prev, pager, next"
-      :total="1000"
-    />
+    <el-pagination v-bind="$attrs" background />
   </div>
 </template>
 

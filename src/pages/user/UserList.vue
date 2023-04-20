@@ -15,18 +15,19 @@
                 A userList, dependency-free javascript HTML table.
               </p>
               <div class="table_thead_dropdown">
-                <el-dropdown trigger="click">
+                <el-dropdown trigger="click" @command="handleCommand">
                   <el-button>
-                    <span class="table_thead_dropdown_span"> 132 </span
+                    <span class="table_thead_dropdown_span">
+                      {{ pageSize }} </span
                     ><el-icon class="el-icon--right"><arrow-down /></el-icon>
                   </el-button>
                   <template #dropdown>
                     <el-dropdown-menu>
-                      <el-dropdown-item>Action 1</el-dropdown-item>
-                      <el-dropdown-item>Action 2</el-dropdown-item>
-                      <el-dropdown-item>Action 3</el-dropdown-item>
-                      <el-dropdown-item>Action 4</el-dropdown-item>
-                      <el-dropdown-item>Action 5</el-dropdown-item>
+                      <el-dropdown-item :command="10">10</el-dropdown-item>
+                      <el-dropdown-item :command="15">15</el-dropdown-item>
+                      <el-dropdown-item :command="20">20</el-dropdown-item>
+                      <el-dropdown-item :command="25">25</el-dropdown-item>
+                      <el-dropdown-item :command="30">30</el-dropdown-item>
                     </el-dropdown-menu>
                   </template>
                 </el-dropdown>
@@ -34,22 +35,29 @@
               </div>
             </div>
           </template>
-          <el-table-column prop="date" label="Date" sortable />
-          <el-table-column prop="name" label="Name" />
           <el-table-column
-            prop="address"
-            label="Address"
-            :formatter="formatter"
+            prop="createdAt"
+            label="Date"
+            :formatter="formatterDate"
+            sortable
           />
+          <el-table-column prop="user_pic" label="Pic" />
+          <el-table-column prop="username" label="Name" />
+          <el-table-column prop="email" label="Email" />
+          <el-table-column prop="introduction" label="Introduction" />
+          <el-table-column prop="background" label="Background" />
         </CommonTable>
         <div class="page_panel_footer">
           <p class="t-color page_panel_footer_txt">
-            Showing 1 to 10 of 57 entries
+            Showing {{ page }} to {{ pageSize }} of {{ count }} entries
           </p>
           <CommonPagination
+            v-model:current-page="page"
+            v-model:page-size="pageSize"
             background
             layout="prev, pager, next"
-            :total="1000"
+            :total="count"
+            @current-change="handleCurrentChange"
           />
         </div>
       </div>
@@ -63,43 +71,62 @@ export default {
 };
 </script>
 <script lang="ts" setup>
+import { onMounted, ref } from 'vue';
+
 import CommonTable from '@/components/table/CommonTable.vue';
 import CommonPagination from '@/components/pagination/CommonPagination.vue';
 
+import { userList } from '@/api/api_user';
+import { UsersParamsInt, User, UsersRes } from '@/types/user';
 import type { TableColumnCtx } from 'element-plus';
+import formatDate from '@/util/formatDate';
 
-interface User {
-  date: string;
-  name: string;
-  address: string;
-}
+const page = ref<number>(1);
+const pageSize = ref<number>(10);
+const count = ref<number>(0);
 
-const formatter = (row: User, column: TableColumnCtx<User>) => {
-  return row.address;
+const formatterDate = (row: User, column: TableColumnCtx<User>) => {
+  const date = parseInt(row.createdAt);
+  return formatDate(date);
 };
 
-const tableData: User[] = [
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-];
+const tableData = ref<User[]>([]);
+
+const getUsers = async () => {
+  const params: UsersParamsInt = {
+    page: page.value,
+    pageSize: pageSize.value,
+  };
+  const res = (await userList(params)) as UsersRes;
+
+  if (res.code === 200) {
+    tableData.value = res.data.users || [];
+    count.value = res.data.count;
+  }
+};
+
+const handleCommand = (command: number) => {
+  pageSize.value = command;
+  getUsers();
+};
+
+const handleCurrentChange = (currentPage: number) => {
+  page.value = currentPage;
+  getUsers();
+};
+
+onMounted(() => {
+  getUsers();
+  console.log(navigator.userAgent);
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      console.log(position);
+    },
+    (error) => {
+      console.log(error);
+    },
+  );
+});
 </script>
 
 <style lang="less" scoped>
