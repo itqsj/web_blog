@@ -17,6 +17,9 @@
             border-animate
           />
         </el-form-item>
+        <el-form-item prop="title">
+          <Tinymce></Tinymce>
+        </el-form-item>
       </el-form>
     </div>
   </div>
@@ -29,13 +32,15 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue';
+import { reactive, ref, onMounted } from 'vue';
 
 import PlaInput from '@/components/input/PlaInput.vue';
+import Tinymce from '@/components/tinymce/Tinymce.vue';
 
 import type { FormInstance, FormRules } from 'element-plus';
 
 const ruleFormRef = ref<FormInstance>();
+
 const ruleForm = reactive({
   title: '',
 });
@@ -44,6 +49,8 @@ const rules: FormRules = {
     { required: true, message: 'Please input Article Title', trigger: 'blur' },
   ],
 };
+
+onMounted(() => {});
 </script>
 
 <style lang="less" scoped>
