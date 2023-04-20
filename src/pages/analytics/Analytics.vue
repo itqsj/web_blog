@@ -20,7 +20,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import PicCard from './PicCard.vue';
+import PicCard from '@/components/card/PicCard.vue';
 
 import pic1 from '@/assets/img/pic1.jpg';
 import pic2 from '@/assets/img/pic2.jpg';

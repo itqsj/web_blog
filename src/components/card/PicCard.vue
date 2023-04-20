@@ -4,7 +4,7 @@
       <img :src="data.img" alt="" />
     </div>
     <div class="card_body">
-      <div class="card_body_operat">
+      <div v-show="!isBtn" class="card_body_operat">
         <el-tooltip
           class="box-item"
           effect="dark"
@@ -23,15 +23,16 @@
           <el-icon style="color: #1a73e8"><EditPen /></el-icon>
         </el-tooltip>
       </div>
+      <div v-show="isBtn" class="card_body_operat">123132</div>
       <h4 class="font-20">Cozy 5 Stars Apartment</h4>
       <p class="font-16">
         The place is close to Barceloneta Beach and bus stop just 2 min by walk
         and near to "Naviglio" where you can enjoy the main night life in
         Barcelona.
       </p>
-      <div class="line mtop-16 mbouttom-16"></div>
+      <div v-show="showFooter" class="line mtop-16 mbouttom-16"></div>
     </div>
-    <div class="card_footer font-16">
+    <div v-show="showFooter" class="card_footer font-16">
       <div>$899/night</div>
       <div class="flex_center">
         <el-icon class="mright-5"><LocationFilled /></el-icon>Barcelona, Spain
@@ -53,6 +54,14 @@ const props = defineProps({
   data: {
     type: Object,
     default: () => ({}),
+  },
+  showFooter: {
+    type: Boolean,
+    default: true,
+  },
+  isBtn: {
+    type: Boolean,
+    default: false,
   },
 });
 

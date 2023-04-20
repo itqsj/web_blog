@@ -1,5 +1,5 @@
 <template>
-  <div class="input">
+  <div class="input" :class="{ border_animate: borderAnimate }">
     <el-input
       ref="input"
       v-bind="$attrs"
@@ -32,6 +32,10 @@ const props = defineProps({
   placeholder: {
     type: String,
     default: '请输入',
+  },
+  borderAnimate: {
+    type: Boolean,
+    default: false,
   },
 });
 const emit = defineEmits(['focus', 'blur', 'change']);
@@ -104,5 +108,56 @@ const { placeholder, modelValue } = toRefs(props);
   //     box-shadow: none;
   //   }
   position: relative;
+}
+
+.border_animate {
+  box-shadow: none !important;
+  .el-input {
+    :deep(.el-input__wrapper) {
+      position: relative;
+      box-shadow: none;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      &::after {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        transform: translate(-50%, 2px);
+        content: '';
+        border-bottom: 2px solid #1a73e8;
+        transition: all 0.3s;
+      }
+      &:focus-within {
+        &::after {
+          width: 100%;
+        }
+      }
+    }
+  }
+  .el-textarea {
+    // :deep(.el-textarea__inner) {
+    :deep(.el-textarea__inner) {
+      box-shadow: none;
+    }
+    position: relative;
+
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    &::after {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      transform: translate(-50%, 2px);
+      content: '';
+      border-bottom: 2px solid #1a73e8;
+      transition: all 0.3s;
+    }
+    &:focus-within {
+      &::after {
+        width: 100%;
+      }
+    }
+    // }
+  }
 }
 </style>
