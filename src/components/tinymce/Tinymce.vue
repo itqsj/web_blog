@@ -1,10 +1,6 @@
 <template>
   <div class="tinymce t-background">
-    <textarea
-      :id="'editor-div' + timeStamp"
-      v-model="contentValue"
-      class="t-background"
-    />
+    <textarea :id="'editor-div' + timeStamp" class="t-background" />
   </div>
 </template>
 
@@ -23,11 +19,12 @@ const emit = defineEmits(['emitContent']);
 const timeStamp = ref<number>(
   new Date().getTime() + Math.ceil(Math.random() * 10000),
 );
-const skin = ref('oxide-dark');
+let elementId = '';
+const skin = ref('oxide'); //oxide-dark
 const tinymceElement = ref<Editor>(null as unknown as Editor);
 
 const init = () => {
-  const elementId = '#editor-div' + timeStamp.value;
+  elementId = '#editor-div' + timeStamp.value;
   (window as any).tinymce
     .init({
       font_family_formats:
@@ -46,8 +43,8 @@ const init = () => {
       height: 450,
       branding: false,
       menubar: true,
-      skin: 'oxide-dark',
-      content_css: 'dark',
+      skin: skin.value,
+      //   content_css: 'dark', //dark
       body_class: 't-background',
       plugins: [
         'image',
@@ -79,7 +76,7 @@ const init = () => {
     })
     .then((tinymce: Editor[]) => {
       tinymceElement.value = tinymce[0];
-      console.log(tinymceElement.value.documentBaseUrl);
+      console.log(tinymceElement.value);
       setInterval(() => {
         let content = tinymce[0].getContent();
         if (content) {

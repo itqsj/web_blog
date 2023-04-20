@@ -17,7 +17,25 @@
             border-animate
           />
         </el-form-item>
-        <el-form-item prop="title">
+        <div class="form_body_flex">
+          <el-form-item prop="category">
+            <PlaInput
+              v-model="ruleForm.category"
+              placeholder="Article category"
+              size="large"
+              border-animate
+            />
+          </el-form-item>
+          <el-form-item prop="tags">
+            <PlaInput
+              v-model="ruleForm.tags"
+              placeholder="Article tags"
+              size="large"
+              border-animate
+            />
+          </el-form-item>
+        </div>
+        <el-form-item>
           <Tinymce></Tinymce>
         </el-form-item>
       </el-form>
@@ -43,10 +61,26 @@ const ruleFormRef = ref<FormInstance>();
 
 const ruleForm = reactive({
   title: '',
+  category: '',
+  tags: '',
 });
 const rules: FormRules = {
   title: [
     { required: true, message: 'Please input Article Title', trigger: 'blur' },
+  ],
+  category: [
+    {
+      required: true,
+      message: 'Please select Article category',
+      trigger: 'blur',
+    },
+  ],
+  tags: [
+    {
+      required: true,
+      message: 'Please select Article tags',
+      trigger: 'blur',
+    },
   ],
 };
 
@@ -67,6 +101,15 @@ onMounted(() => {});
   }
   &_body {
     margin-top: 1.5rem;
+    &_flex {
+      display: flex;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+  }
+  .el-form-item {
+    width: 100%;
+    margin-bottom: 2.1875rem;
   }
 }
 </style>
