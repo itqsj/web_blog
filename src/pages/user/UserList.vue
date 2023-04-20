@@ -146,6 +146,7 @@ onMounted(() => {
   .table {
     &_thead {
       //   padding: 0 1.5rem;
+      padding-bottom: 1.25rem;
       box-sizing: border-box;
       &_dropdown {
         display: flex;

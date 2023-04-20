@@ -1,5 +1,5 @@
 <template>
-  <div class="table t-background">
+  <div class="ctable t-background">
     <slot name="head"></slot>
     <el-table
       row-class-name="h-64"
@@ -21,7 +21,7 @@ export default {
 <script lang="ts" setup></script>
 
 <style lang="less" scoped>
-.table {
+.ctable {
   padding: 20px 0;
   border-radius: 8px;
 }

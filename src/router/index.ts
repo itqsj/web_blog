@@ -106,6 +106,17 @@ const routes: Array<RouteRecordRaw> = [
         },
         component: () => import('@/pages/article/articleList/ArticleList.vue'),
       },
+      {
+        path: '/articleDetail',
+        name: 'articleDetail',
+        meta: {
+          title: 'articleDetail',
+          keepAlive: true,
+          requireAuth: false,
+        },
+        component: () =>
+          import('@/pages/article/articleDetail/ArticleDetail.vue'),
+      },
     ],
   },
 ];

@@ -33,7 +33,7 @@
       title="UI Configurator"
       :modal="false"
       size="360px"
-      :custom-class="{
+      custom-class="{
         't-color': true,
         't-background': isDark,
         't-boxshadow': true,
