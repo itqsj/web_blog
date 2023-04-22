@@ -1,6 +1,10 @@
 <template>
   <div>
     <div class="page">
+      <!-- <PicEcharts></PicEcharts> -->
+      <div class="page_region">
+        <RegionEcharts></RegionEcharts>
+      </div>
       <div class="page_group">
         <PicCard
           v-for="(card, index) in cardList"
@@ -21,6 +25,8 @@ export default {
 
 <script lang="ts" setup>
 import PicCard from '@/components/card/PicCard.vue';
+import RegionEcharts from './RegionEcharts.vue';
+import PicEcharts from './PicEcharts.vue';
 
 import pic1 from '@/assets/img/pic1.jpg';
 import pic2 from '@/assets/img/pic2.jpg';
@@ -55,6 +61,9 @@ const cardList = [
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
     margin-top: 48px;
+  }
+  &_region {
+    margin-top: 2.5rem;
   }
 }
 </style>
