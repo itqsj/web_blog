@@ -53,7 +53,8 @@ import { Search } from '@element-plus/icons-vue';
 import { ElNotification } from 'element-plus';
 
 import { login } from '@/api/api_login';
-import { ResLoginInt } from '@/types/login';
+import { TokenInt } from '@/types/user';
+import { ResInt } from '@/types/index';
 import { useUserStore } from '@/store/user';
 import { useRouter } from 'vue-router';
 
@@ -80,10 +81,10 @@ const handleLogin = async () => {
   const params = {
     ...ruleForm,
   };
-  const res: ResLoginInt = (await login(params)) as ResLoginInt;
+  const res: ResInt<TokenInt> = (await login(params)) as ResInt<TokenInt>;
   if (res.code === 200) {
-    window.sessionStorage.setItem('token', res.token);
-    userStore.updateToken(res.token);
+    window.sessionStorage.setItem('token', res.data.token);
+    userStore.updateToken(res.data.token);
     router.push('/home');
   }
   loading.value = false;

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="page">
+    <div v-loading="loading" class="page">
       <h3 class="font-18 t-color mtop-15">Tasks Panel</h3>
 
       <draggable
@@ -12,7 +12,7 @@
           name: !drag ? 'flip-list' : null,
         }"
         v-bind="dragOptions"
-        item-key="id"
+        item-key="_id"
         @start="drag = true"
         @end="drag = false"
         @change="change"
@@ -31,20 +31,30 @@ export default {
 };
 </script>
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onBeforeMount, toRefs } from 'vue';
 
 import draggable from 'vuedraggable';
 import TaskGroup from './TaskGroup.vue';
 
-import { DragInt } from '@/types/task';
+import { useUserStore } from '@/store/user';
+import { panelList, panelMove } from '@/api/api_task';
+import { PanelInt } from '@/types/task';
+import { ResInt, DataInt } from '@/types/index';
+import { ElNotification } from 'element-plus';
+import { h } from 'vue';
 
+interface DragChange<T> {
+  moved: {
+    newIndex: number;
+    oldIndex: number;
+    element: T;
+  };
+}
+
+const { getToken, getUserInfo } = toRefs(useUserStore());
 const drag = ref(false);
-const list = ref<DragInt[]>([
-  { name: 'Backlog', id: 1 },
-  { name: 'In progress', id: 2 },
-  { name: 'In review', id: 3 },
-  { name: 'Done', id: 4 },
-]);
+const loading = ref(false);
+const list = ref<PanelInt[]>([]);
 
 const dragOptions = computed(() => ({
   animation: 200,
@@ -52,8 +62,44 @@ const dragOptions = computed(() => ({
   disabled: false,
   ghostClass: 'ghost',
 }));
-const change = (evt: DragInt[]) => {
-  console.log(evt);
+
+onBeforeMount(() => {
+  getPanels();
+});
+
+const getPanels = async () => {
+  const { code, data } = (await panelList()) as ResInt<DataInt<PanelInt[]>>;
+  if (code === 200) {
+    list.value = data.list;
+  }
+};
+const handleMove = async (tar: PanelInt) => {
+  loading.value = true;
+  const params: PanelInt = {
+    name: tar.name,
+    _id: tar._id,
+    team_id: getUserInfo.value.team._id,
+    sort: tar.sort,
+  };
+  const { code } = (await panelMove(params)) as ResInt<string>;
+  if (code === 200) {
+    // ElNotification({
+    //   title: '提示',
+    //   message: h('i', { style: 'color: teal' }, '操作成功'),
+    // });
+  } else {
+    getPanels();
+  }
+
+  loading.value = false;
+};
+const change = (evt: DragChange<PanelInt>) => {
+  console.log(evt.moved.element);
+  const tar: PanelInt = {
+    ...evt.moved.element,
+    sort: evt.moved.newIndex,
+  };
+  handleMove(tar);
 };
 </script>
 

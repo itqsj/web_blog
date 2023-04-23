@@ -3,17 +3,19 @@
     <div class="page">
       <!-- <PicEcharts></PicEcharts> -->
       <div class="page_region t-background t-boxshadow">
-        <div class="page_region_table">
-          <div class="page_region_table_head t-color">
-            <div class="diamonds"></div>
-            <span>Users by China</span>
-          </div>
-          <div class="page_region_table_body">
-            <RegionTable></RegionTable>
-          </div>
+        <div class="page_region_head t-color">
+          <div class="diamonds"></div>
+          <span>Users by China</span>
         </div>
-        <div class="page_region_echarts">
-          <RegionEcharts></RegionEcharts>
+        <div class="page_region_content">
+          <div class="page_region_table">
+            <div class="page_region_table_body">
+              <RegionTable></RegionTable>
+            </div>
+          </div>
+          <div class="page_region_echarts">
+            <RegionEcharts></RegionEcharts>
+          </div>
         </div>
       </div>
       <div class="page_views">
@@ -93,56 +95,67 @@ const cardList = [
     margin-top: 48px;
   }
   &_region {
-    display: flex;
-    justify-content: space-between;
-    gap: 1.5rem;
-    height: 50rem;
+    // display: flex;
+    // justify-content: space-between;
+    // overflow: auto;
     margin-top: 2.5rem;
     border-radius: 0.5rem;
     padding: 1.25rem;
     box-sizing: border-box;
+
+    &_head {
+      display: flex;
+      gap: 1.5rem;
+      .diamonds {
+        position: relative;
+        top: -1.25rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 4rem;
+        height: 4rem;
+        margin-top: -1.25rem;
+        background: linear-gradient(
+          195deg,
+          rgb(102, 187, 106),
+          rgb(67, 160, 71)
+        );
+        color: rgb(255, 255, 255);
+        border-radius: 0.75rem;
+        box-shadow: rgb(0 0 0 / 10%) 0rem 0.25rem 0.375rem -0.0625rem,
+          rgb(0 0 0 / 6%) 0rem 0.125rem 0.25rem -0.0625rem;
+      }
+      span {
+        font-size: 1rem;
+        line-height: 1.625;
+        font-family: Roboto, Helvetica, Arial, sans-serif;
+        font-weight: 700;
+        letter-spacing: 0.0075em;
+      }
+    }
+
+    &_content {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      height: 50rem;
+    }
+
     &_table {
+      overflow: auto;
       display: flex;
       flex-direction: column;
-      flex: 1;
+      // flex: 1;
       height: 100%;
-      &_head {
-        display: flex;
-        gap: 1.5rem;
-        .diamonds {
-          position: relative;
-          top: -1.25rem;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 4rem;
-          height: 4rem;
-          margin-top: -1.25rem;
-          background: linear-gradient(
-            195deg,
-            rgb(102, 187, 106),
-            rgb(67, 160, 71)
-          );
-          color: rgb(255, 255, 255);
-          border-radius: 0.75rem;
-          box-shadow: rgb(0 0 0 / 10%) 0rem 0.25rem 0.375rem -0.0625rem,
-            rgb(0 0 0 / 6%) 0rem 0.125rem 0.25rem -0.0625rem;
-        }
-        span {
-          font-size: 1rem;
-          line-height: 1.625;
-          font-family: Roboto, Helvetica, Arial, sans-serif;
-          font-weight: 700;
-          letter-spacing: 0.0075em;
-        }
-      }
+
       &_body {
         overflow: hidden;
         flex: 1;
       }
     }
     &_echarts {
-      flex: 1;
+      // flex: 1;
+      overflow: hidden;
       height: 100%;
     }
   }

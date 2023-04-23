@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ page: true }">
+  <div v-if="isFinish" :class="{ page: true }">
     <div class="page_aside">
       <Aside></Aside>
     </div>
@@ -34,26 +34,30 @@ export default {
 };
 </script>
 <script lang="ts" setup>
-import { onMounted, h, ref, toRefs } from 'vue';
+import { onBeforeMount, h, ref, toRefs } from 'vue';
 import { useUserStore } from '@/store/user';
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { useThemeStore } from '@/store/theme';
 
 import { ElNotification } from 'element-plus';
 import Aside from './aside/Aside.vue';
 import Head from '@/components/head/Head.vue';
-import CommonTable from '@/components/table/CommonTable.vue';
-import Analytics from '@/pages/analytics/Analytics.vue';
+// import CommonTable from '@/components/table/CommonTable.vue';
+// import Analytics from '@/pages/analytics/Analytics.vue';
 
-import { verifyToken } from '@/api/api_user';
-import { ResVerifyInt } from '@/types/user';
+import { verifyToken, userInfo } from '@/api/api_user';
+import { User, TokenInt, UserInfoInt } from '@/types/user';
+import { ResInt } from '@/types/index';
+
+interface VerifyRes extends User, TokenInt {}
 
 const userStore = useUserStore();
 const { getThemStyle } = toRefs(useThemeStore());
 const router = useRouter();
 const isFixed = ref(false);
+const isFinish = ref(false);
 
-onMounted(() => {
+onBeforeMount(() => {
   verify();
 });
 
@@ -63,9 +67,12 @@ const verify = async () => {
     token = window.sessionStorage.getItem('token') as string;
   }
 
-  const { code } = (await verifyToken({ token })) as ResVerifyInt;
+  const { code, data } = (await verifyToken({ token })) as ResInt<VerifyRes>;
   if (code === 200) {
-    console.log(200);
+    window.sessionStorage.setItem('token', data.token);
+    userStore.updateToken(data.token);
+
+    getUserinfo();
   } else if (code === 4004) {
     window.sessionStorage.clear();
     ElNotification({
@@ -73,6 +80,13 @@ const verify = async () => {
       message: h('i', { style: 'color: teal' }, '当前token失效！请重新登录'),
     });
     router.push('/login');
+  }
+};
+const getUserinfo = async () => {
+  const { code, data } = (await userInfo()) as ResInt<UserInfoInt>;
+  if (code === 200) {
+    userStore.updateUserInfo(data);
+    isFinish.value = true;
   }
 };
 const affixChange = (fixed: boolean) => {

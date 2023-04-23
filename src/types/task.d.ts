@@ -1,4 +1,6 @@
-export interface DragInt {
+export interface PanelInt {
   name: string;
-  id: number;
+  _id: string;
+  sort: number;
+  team_id: string;
 }

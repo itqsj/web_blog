@@ -1,5 +1,5 @@
 <template>
-  <div class="tinymce t-background">
+  <div ref="tinymceBox" class="tinymce t-background">
     <textarea :id="'editor-div' + timeStamp" class="t-background" />
   </div>
 </template>
@@ -10,22 +10,28 @@ export default {
 };
 </script>
 <script lang="ts" setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue';
 
-import type { Editor } from '../../../public/tinymce/tinymce';
+import type { Editor, EditorManager } from '../../../public/tinymce/tinymce';
+
+import { isDark } from '@/composables';
+
+interface WindowTinymce extends Window {
+  tinymce: EditorManager;
+}
 
 const emit = defineEmits(['emitContent']);
 
-const timeStamp = ref<number>(
-  new Date().getTime() + Math.ceil(Math.random() * 10000),
-);
+const timeStamp = ref<number>();
 let elementId = '';
-const skin = ref('oxide'); //oxide-dark
+let skin = isDark.value ? 'oxide-dark' : 'oxide'; //oxide-dark
+let content_css = isDark.value ? 'dark' : ''; //  dark
 const tinymceElement = ref<Editor>(null as unknown as Editor);
 
 const init = () => {
   elementId = '#editor-div' + timeStamp.value;
-  (window as any).tinymce
+
+  (window as unknown as WindowTinymce).tinymce
     .init({
       font_family_formats:
         '微软雅黑=Microsoft YaHei,Helvetica Neue,PingFang SC,sans-serif;' +
@@ -43,8 +49,8 @@ const init = () => {
       height: 450,
       branding: false,
       menubar: true,
-      skin: skin.value,
-      //   content_css: 'dark', //dark
+      skin,
+      content_css, //dark
       body_class: 't-background',
       plugins: [
         'image',
@@ -76,7 +82,6 @@ const init = () => {
     })
     .then((tinymce: Editor[]) => {
       tinymceElement.value = tinymce[0];
-      console.log(tinymceElement.value);
       setInterval(() => {
         let content = tinymce[0].getContent();
         if (content) {
@@ -85,9 +90,30 @@ const init = () => {
       }, 500);
     });
 };
+const reset = () => {
+  tinymceElement.value.remove(); //销毁
+
+  timeStamp.value = new Date().getTime() + Math.ceil(Math.random() * 10000);
+  nextTick(() => {
+    init();
+  });
+};
+
+watch(
+  () => isDark.value,
+  () => {
+    skin = isDark.value ? 'oxide-dark' : 'oxide'; //oxide-dark
+    content_css = isDark.value ? 'dark' : ''; //  dark
+    reset();
+  },
+);
 
 onMounted(() => {
-  init();
+  timeStamp.value = new Date().getTime() + Math.ceil(Math.random() * 10000);
+
+  nextTick(() => {
+    init();
+  });
 });
 onUnmounted(() => {
   setTimeout(() => {

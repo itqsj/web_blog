@@ -1,20 +1,3 @@
-export interface ResVerifyInt {
-  code: number;
-  data: ResVerifyDataInt;
-}
-
-export interface ResVerifyDataInt {
-  email: string;
-  exp: number;
-  iat: number;
-  id: number;
-  nickname: string;
-  password: string;
-  token: string;
-  user_pic: string;
-  username: string;
-}
-
 export interface TabsInt {
   label: string;
   value: string | number;
@@ -32,13 +15,6 @@ export interface User {
   _id: string;
 }
 
-// 请求返回
-export interface UsersRes {
-  data: UsersDataRes;
-  message: string;
-  code: number;
-}
-
 export interface UsersDataRes {
   count: number;
   page: number;
@@ -46,14 +22,19 @@ export interface UsersDataRes {
   users: User[];
 }
 
-// 请求
-//获取用户列表
-export interface UsersParamsInt {
-  page: number;
-  pageSize: number;
+//verifyToken
+export interface TokenInt {
+  token: string;
 }
 
-//verifyToken
-export interface VerifyParamsInt {
-  token: string;
+// 团队
+export interface TeamInt {
+  create_at: string;
+  name: string;
+  users: Array<string>;
+  _id: string;
+}
+
+export interface UserInfoInt extends User {
+  team: TeamInt;
 }

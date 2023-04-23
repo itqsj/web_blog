@@ -26,7 +26,7 @@ export default {
 };
 </script>
 <script lang="ts" setup>
-import { toRefs, ref } from 'vue';
+import { toRefs, ref, onMounted } from 'vue';
 
 const props = defineProps({
   placeholder: {
@@ -43,6 +43,8 @@ const emit = defineEmits(['focus', 'blur', 'change']);
 const isFacus = ref<boolean>(false);
 const input = ref();
 const hasVal = ref<boolean>(false);
+
+const { placeholder } = toRefs(props);
 
 const focus = () => {
   isFacus.value = true;
@@ -63,7 +65,9 @@ const click = () => {
   input.value.focus();
 };
 
-const { placeholder, modelValue } = toRefs(props);
+onMounted(() => {
+  hasVal.value = !!input.value.input.value;
+});
 </script>
 
 <style lang="less" scoped>

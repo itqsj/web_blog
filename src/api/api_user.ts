@@ -1,9 +1,10 @@
 import http from './index';
 
-import { UsersParamsInt, VerifyParamsInt } from '@/types/user';
+import { TokenInt } from '@/types/user';
+import { ParamsInt } from '@/types/index';
 
 // 登录
-export function verifyToken(data: VerifyParamsInt) {
+export function verifyToken(data: TokenInt) {
   return http({
     url: '/api/user/verifyToken',
     data,
@@ -11,10 +12,18 @@ export function verifyToken(data: VerifyParamsInt) {
 }
 
 // 用户列表
-export function userList(params: UsersParamsInt) {
+export function userList(params: ParamsInt) {
   return http({
     url: '/api/user/list',
     method: 'get',
     params,
+  });
+}
+
+// 用户信息
+export function userInfo() {
+  return http({
+    url: '/api/user/info',
+    method: 'get',
   });
 }

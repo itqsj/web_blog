@@ -35,6 +35,7 @@ const props = defineProps({
 
 <style lang="less" scoped>
 .panel {
+  aspect-ratio: 1.6/1;
   border-radius: 8px;
 
   &_echarts {
@@ -42,6 +43,7 @@ const props = defineProps({
     position: relative;
     top: -20px;
     padding: 0 16px;
+    aspect-ratio: 2.5/1;
     box-sizing: border-box;
     transition: all 300ms cubic-bezier(0.34, 1.61, 0.7, 1) 0s;
     img {

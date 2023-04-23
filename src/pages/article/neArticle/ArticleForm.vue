@@ -60,9 +60,9 @@ import type { FormInstance, FormRules } from 'element-plus';
 const ruleFormRef = ref<FormInstance>();
 
 const ruleForm = reactive({
-  title: '',
-  category: '',
-  tags: '',
+  title: '123',
+  category: '123',
+  tags: '13',
 });
 const rules: FormRules = {
   title: [

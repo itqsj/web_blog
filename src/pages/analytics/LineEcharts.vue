@@ -1,6 +1,6 @@
 <template>
   <div class="echarts">
-    <div :id="echartsid" style="width: 100%; height: 200px"></div>
+    <div :id="echartsid" style="width: 100%; height: 100%"></div>
   </div>
 </template>
 
@@ -93,6 +93,7 @@ const initEchart = () => {
 };
 
 const resize = () => {
+  console.log(123)
   Chart.value.resize();
 };
 
@@ -111,7 +112,13 @@ onBeforeUnmount(() => {
 <style lang="less" scoped>
 .echarts {
   overflow: hidden;
+  height: 100%;
   // background-color: 'linear-gradient(195deg, rgb(73, 163, 241), rgb(26, 115, 232))';
   border-radius: 0.5rem;
+
+  :deep(div){
+    width: 100% !important;
+    height: 100% !important;
+  }
 }
 </style>

@@ -95,7 +95,7 @@ const dragOptions = computed(() => ({
   ghostClass: 'ghost',
 }));
 const change = (evt: DragInt) => {
-  console.log(list.value);
+  console.log(evt);
 };
 
 const { data } = toRefs(props);

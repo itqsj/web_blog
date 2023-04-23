@@ -77,7 +77,9 @@ import CommonTable from '@/components/table/CommonTable.vue';
 import CommonPagination from '@/components/pagination/CommonPagination.vue';
 
 import { userList } from '@/api/api_user';
-import { UsersParamsInt, User, UsersRes } from '@/types/user';
+import { User, UsersDataRes } from '@/types/user';
+import { ResInt } from '@/types/index';
+import { ParamsInt } from '@/types/index';
 import type { TableColumnCtx } from 'element-plus';
 import formatDate from '@/util/formatDate';
 
@@ -93,11 +95,11 @@ const formatterDate = (row: User, column: TableColumnCtx<User>) => {
 const tableData = ref<User[]>([]);
 
 const getUsers = async () => {
-  const params: UsersParamsInt = {
+  const params: ParamsInt = {
     page: page.value,
     pageSize: pageSize.value,
   };
-  const res = (await userList(params)) as UsersRes;
+  const res = (await userList(params)) as ResInt<UsersDataRes>;
 
   if (res.code === 200) {
     tableData.value = res.data.users || [];
