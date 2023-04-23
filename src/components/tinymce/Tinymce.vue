@@ -90,7 +90,9 @@ onMounted(() => {
   init();
 });
 onUnmounted(() => {
-  tinymceElement.value.remove(); //销毁
+  setTimeout(() => {
+    tinymceElement.value.remove(); //销毁
+  }, 1000);
 });
 </script>
 

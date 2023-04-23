@@ -1,6 +1,6 @@
 <template>
   <div class="echarts">
-    <div id="main" style="height: 800px"></div>
+    <div id="main" style="height: 100%"></div>
   </div>
 </template>
 
@@ -11,25 +11,11 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 // import * as echarts from 'echarts';
 import chinaJson from '@/util/region/china.json';
-
-interface RegionInt {
-  name: string;
-  ename?: string;
-  value?: number;
-}
-
-interface TooltipInt {
-  seriesName: string;
-  name: string;
-  value: string;
-}
-interface EchartsInt {
-  resize: () => void;
-}
+import { RegionInt, TooltipInt, EchartsInt } from '@/types/analytics';
 
 const regionList = ref<RegionInt[]>([
   { name: '南海诸岛' },
@@ -149,10 +135,14 @@ onMounted(() => {
   initEchart();
   window.addEventListener('resize', resize);
 });
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', resize);
+});
 </script>
 
 <style lang="less" scoped>
 .echarts {
   width: 100%;
+  height: 100%;
 }
 </style>

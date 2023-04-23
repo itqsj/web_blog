@@ -17,6 +17,23 @@ const initEchart = () => {
   var myChart = (window as any).echarts.init(document.getElementById('pic'));
 
   var option = {
+    backgroundColor: new (window as any).echarts.graphic.LinearGradient(
+      0,
+      0,
+      1,
+      0,
+      [
+        {
+          offset: 0.1,
+          color: 'rgb(73, 163, 241)', // 0% 处的颜色
+        },
+        {
+          offset: 1,
+          color: 'rgb(26, 115, 232)', // 100% 处的颜色
+        },
+      ],
+      false,
+    ),
     legend: {
       top: 'bottom',
     },
@@ -60,4 +77,10 @@ onMounted(() => {
 });
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.echarts {
+  overflow: hidden;
+  // background-color: 'linear-gradient(195deg, rgb(73, 163, 241), rgb(26, 115, 232))';
+  border-radius: 0.5rem;
+}
+</style>

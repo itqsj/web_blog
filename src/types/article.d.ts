@@ -1,5 +1,5 @@
 export interface ArticleInt {
-  _id: number;
+  _id: string;
   title: string;
   createdAt: string;
   review: number;

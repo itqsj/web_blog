@@ -54,9 +54,9 @@ import CommonTable from '@/components/table/CommonTable.vue';
 
 import type { TableColumnCtx } from 'element-plus';
 import formatDate from '@/util/formatDate';
-import { ArticleInt } from '@/types/Article';
+import { ArticleInt } from '@/types/article';
 
-const tableData = ref<Array<ArticleInt>>([
+const tableData = ref<ArticleInt[]>([
   {
     _id: '230019',
     title: 'Christopher Knight Home',
