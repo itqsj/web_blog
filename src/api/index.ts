@@ -2,6 +2,7 @@ import axios, { AxiosResponse, AxiosRequestConfig, AxiosError } from 'axios';
 
 import { h } from 'vue';
 import { ElNotification } from 'element-plus';
+import { ResInt } from '@/types/index';
 
 interface ReqInt {
   url: string;
@@ -51,7 +52,12 @@ service.interceptors.response.use(
   },
 );
 
-function http({ url, method = 'post', data, params }: ReqInt) {
+function http<T>({
+  url,
+  method = 'post',
+  data,
+  params,
+}: ReqInt): Promise<ResInt<T>> {
   return new Promise((resolve, reject) => {
     service({ url, method, data, params })
       .then((res) => {

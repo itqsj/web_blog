@@ -8,7 +8,7 @@
         </div>
       </div>
       <draggable
-        v-model="list"
+        v-model="data.tasks"
         class="list-group"
         :component-data="{
           tag: 'div',
@@ -16,7 +16,7 @@
           name: !drag ? 'flip-list' : null,
         }"
         v-bind="dragOptions"
-        item-key="id"
+        item-key="_id"
         @start="drag = true"
         @end="drag = false"
         @change="change"
@@ -26,6 +26,7 @@
         </template>
       </draggable>
     </div>
+    <Overlay v-model="loading"> </Overlay>
   </div>
 </template>
 
@@ -39,54 +40,23 @@ import { ref, computed, toRefs } from 'vue';
 
 import draggable from 'vuedraggable';
 import TaskItem from './TaskItem.vue';
+import Overlay from '@/components/mask/Overlay.vue';
 
-import { DragInt } from '@/types/task';
+import { PanelInt, DragChange, TaskInt, MoveTaskParams } from '@/types/task';
+import { taskMove } from '@/api/api_task';
+import { ElNotification } from 'element-plus';
+import { h } from 'vue';
 
 const props = defineProps({
   data: {
-    type: Object,
-    default: () => ({}),
+    type: Object as () => PanelInt,
+    default: null,
   },
 });
-
-const list = ref([
-  {
-    name: 'vue.draggable',
-    id: 7,
-    show_img: false,
-  },
-  {
-    name: 'draggable',
-    id: 8,
-    show_img: false,
-  },
-  {
-    name: 'component',
-    id: 9,
-    show_img: true,
-  },
-  {
-    name: 'for',
-    id: 10,
-    show_img: false,
-  },
-  {
-    name: 'vue.js 2.0',
-    id: 11,
-    show_img: false,
-  },
-  {
-    name: 'based',
-    id: 12,
-    show_img: false,
-  },
-  {
-    name: 'Sortablejs',
-    id: 13,
-    show_img: false,
-  },
-]);
+const emit = defineEmits(['move', 'refresh', 'cloneList']);
+const { data } = toRefs(props);
 const drag = ref(false);
+const loading = ref(false);
 
 const dragOptions = computed(() => ({
   animation: 200,
@@ -94,11 +64,40 @@ const dragOptions = computed(() => ({
   disabled: false,
   ghostClass: 'ghost',
 }));
-const change = (evt: DragInt) => {
-  console.log(evt);
+
+const change = (evt: DragChange<TaskInt>) => {
+  if (evt.moved) {
+    const params: MoveTaskParams = {
+      team_id: evt.moved.element.team_id,
+      type: 1,
+      data: JSON.stringify({
+        _id: evt.moved.element._id,
+        sort: evt.moved.newIndex,
+        panel_id: evt.moved.element.panel_id,
+      }),
+    };
+    handleMove(params);
+  } else {
+    emit('move', { tar: data.value, evt });
+  }
 };
 
-const { data } = toRefs(props);
+const handleMove = async (params: MoveTaskParams) => {
+  loading.value = true;
+  const { code } = await taskMove(params);
+
+  if (code === 200) {
+    // ElNotification({
+    //   title: '提示',
+    //   message: h('i', { style: 'color: teal' }, '操作成功'),
+    // });
+    emit('cloneList');
+  } else {
+    emit('refresh');
+  }
+
+  loading.value = false;
+};
 </script>
 
 <style lang="less" scoped>

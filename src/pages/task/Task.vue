@@ -1,28 +1,49 @@
 <template>
-  <div>
-    <div v-loading="loading" class="page">
-      <h3 class="font-18 t-color mtop-15">Tasks Panel</h3>
+  <!-- <commonSkeleton :loading="skeletonLoad">
+    <template #template>
+      <el-skeleton-item variant="image" style="width: 240px; height: 240px" />
+    </template> -->
+  <div class="page">
+    <h3 class="font-18 t-color mtop-15">Tasks Panel</h3>
 
-      <draggable
-        v-model="list"
-        class="list-group mtop-20"
-        :component-data="{
-          tag: 'ul',
-          type: 'transition-group',
-          name: !drag ? 'flip-list' : null,
-        }"
-        v-bind="dragOptions"
-        item-key="_id"
-        @start="drag = true"
-        @end="drag = false"
-        @change="change"
-      >
-        <template #item="{ element }">
-          <TaskGroup :data="element" />
-        </template>
-      </draggable>
-    </div>
+    <draggable
+      v-model="list"
+      class="list-group mtop-20"
+      :component-data="{
+        tag: 'ul',
+        type: 'transition-group',
+        name: !drag ? 'flip-list' : null,
+      }"
+      v-bind="dragOptions"
+      item-key="_id"
+      @start="drag = true"
+      @end="drag = false"
+      @change="change"
+    >
+      <template #item="{ element }">
+        <TaskGroup
+          :data="element"
+          @clone-list="cloneList"
+          @move="TaskMove"
+          @refresh="resetList"
+        />
+      </template>
+    </draggable>
   </div>
+  <!-- </commonSkeleton> -->
+  <el-dialog
+    v-model="dialogVis"
+    style="border-radius: 8px"
+    title="Task Time"
+    width="650"
+  >
+    <taskTime
+      ref="taskTimeRef"
+      @close="closeTimeDialog"
+      @submit="submitTask"
+    ></taskTime>
+  </el-dialog>
+  <Overlay v-model="loading"> </Overlay>
 </template>
 
 <script lang="ts">
@@ -31,30 +52,48 @@ export default {
 };
 </script>
 <script lang="ts" setup>
-import { ref, computed, onBeforeMount, toRefs } from 'vue';
+import { ref, computed, onBeforeMount, toRefs, nextTick, Component } from 'vue';
 
 import draggable from 'vuedraggable';
 import TaskGroup from './TaskGroup.vue';
+import commonSkeleton from '@/components/skeleton/commonSkeleton.vue';
+import Overlay from '@/components/mask/Overlay.vue';
+import taskTime from './taskTime.vue';
 
 import { useUserStore } from '@/store/user';
-import { panelList, panelMove } from '@/api/api_task';
-import { PanelInt } from '@/types/task';
-import { ResInt, DataInt } from '@/types/index';
-import { ElNotification } from 'element-plus';
-import { h } from 'vue';
+import { panelList, panelMove, taskMove } from '@/api/api_task';
+import {
+  PanelInt,
+  MovePanelParams,
+  DragChange,
+  TaskInt,
+  TaskTimeInt,
+  MoveTaskParams,
+} from '@/types/task';
+import cloneDeep from 'lodash/cloneDeep';
 
-interface DragChange<T> {
-  moved: {
-    newIndex: number;
-    oldIndex: number;
-    element: T;
-  };
+interface MoveInt {
+  tar: PanelInt;
+  evt: DragChange<TaskInt>;
 }
 
-const { getToken, getUserInfo } = toRefs(useUserStore());
+interface TaskParamsInt {
+  added: Pick<TaskInt, '_id' | 'sort' | 'panel_id'> & Pick<PanelInt, 'type'>;
+  removed: Pick<TaskInt, '_id' | 'sort' | 'panel_id'>;
+}
+
+const { getUserInfo } = toRefs(useUserStore());
+const taskTimeRef: Component = ref(null);
+let oldList: PanelInt[] = [];
+const list = ref<PanelInt[]>([]);
 const drag = ref(false);
 const loading = ref(false);
-const list = ref<PanelInt[]>([]);
+const skeletonLoad = ref(true);
+const dialogVis = ref(false);
+const taskParams: TaskParamsInt = {
+  added: {},
+  removed: {},
+} as unknown as TaskParamsInt;
 
 const dragOptions = computed(() => ({
   animation: 200,
@@ -67,39 +106,125 @@ onBeforeMount(() => {
   getPanels();
 });
 
-const getPanels = async () => {
-  const { code, data } = (await panelList()) as ResInt<DataInt<PanelInt[]>>;
-  if (code === 200) {
-    list.value = data.list;
+const submitTask = (data: TaskTimeInt) => {
+  console.log(data);
+  handleTaskMove(data);
+};
+
+const TaskMove = ({ tar, evt }: MoveInt) => {
+  if (evt.added) {
+    taskParams.added = {
+      _id: evt.added.element._id,
+      sort: evt.added.newIndex,
+      panel_id: tar._id,
+      type: tar.type,
+    };
+  } else {
+    taskParams.removed = {
+      _id: evt.removed.element._id,
+      sort: evt.removed.oldIndex,
+      panel_id: tar._id,
+    };
+
+    // if (taskParams.added.type === 2) {
+    //   dialogVis.value = true;
+    //   return;
+    // }
+    handleTaskMove();
   }
 };
+
+const handleTaskMove = async (data?: TaskTimeInt) => {
+  loading.value = true;
+  const params: MoveTaskParams = {
+    team_id: getUserInfo.value.team._id,
+    type: 2,
+    data: JSON.stringify(taskParams),
+  };
+  // if (data) {
+  //   params.needTime = data.needTime;
+  // }
+
+  const { code } = await taskMove(params);
+  if (code === 200) {
+    const index = list.value.findIndex(
+      (item) => item._id === taskParams.added.panel_id,
+    );
+
+    list.value[index].tasks.forEach((element) => {
+      if (element._id === taskParams.added._id) {
+        element.panel_id = list.value[index]._id;
+        if (list.value[index].type === 2 && !element.startTime) {
+          element.startTime = Date.now();
+        } else if (list.value[index].type === 3) {
+          element.completeTime = Date.now();
+        }
+      }
+    });
+    console.log(list.value[index].tasks);
+
+    cloneList();
+  }
+  nextTick(() => {
+    loading.value = false;
+    if (data) {
+      taskTimeRef.value.submitLoad = false;
+      closeTimeDialog();
+    }
+  });
+};
+
+const getPanels = async () => {
+  loading.value = true;
+  const { code, data } = await panelList();
+  if (code === 200) {
+    list.value = data.list;
+    cloneList();
+    nextTick(() => {
+      skeletonLoad.value = false;
+      loading.value = false;
+    });
+  }
+};
+
 const handleMove = async (tar: PanelInt) => {
   loading.value = true;
-  const params: PanelInt = {
+  const params: MovePanelParams = {
     name: tar.name,
     _id: tar._id,
     team_id: getUserInfo.value.team._id,
     sort: tar.sort,
   };
-  const { code } = (await panelMove(params)) as ResInt<string>;
+  const { code } = await panelMove(params);
+
   if (code === 200) {
-    // ElNotification({
-    //   title: '提示',
-    //   message: h('i', { style: 'color: teal' }, '操作成功'),
-    // });
+    cloneList();
   } else {
-    getPanels();
+    resetList();
   }
 
   loading.value = false;
 };
+
+const resetList = () => {
+  list.value = cloneDeep(oldList);
+};
+
+const cloneList = () => {
+  oldList = cloneDeep(list.value);
+};
+
 const change = (evt: DragChange<PanelInt>) => {
-  console.log(evt.moved.element);
   const tar: PanelInt = {
     ...evt.moved.element,
     sort: evt.moved.newIndex,
   };
   handleMove(tar);
+};
+
+const closeTimeDialog = () => {
+  resetList();
+  dialogVis.value = false;
 };
 </script>
 

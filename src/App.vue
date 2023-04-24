@@ -43,4 +43,7 @@
   position: relative;
   left: -50px;
 }
+.el-dialog__body {
+  padding-bottom: 20px !important;
+}
 </style>
