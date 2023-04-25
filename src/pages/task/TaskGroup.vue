@@ -42,10 +42,13 @@ import draggable from 'vuedraggable';
 import TaskItem from './TaskItem.vue';
 import Overlay from '@/components/mask/Overlay.vue';
 
-import { PanelInt, DragChange, TaskInt, MoveTaskParams } from '@/types/task';
+import type {
+  PanelInt,
+  DragChange,
+  TaskInt,
+  MoveTaskParams,
+} from '@/types/task';
 import { taskMove } from '@/api/api_task';
-import { ElNotification } from 'element-plus';
-import { h } from 'vue';
 
 const props = defineProps({
   data: {
@@ -87,10 +90,6 @@ const handleMove = async (params: MoveTaskParams) => {
   const { code } = await taskMove(params);
 
   if (code === 200) {
-    // ElNotification({
-    //   title: '提示',
-    //   message: h('i', { style: 'color: teal' }, '操作成功'),
-    // });
     emit('cloneList');
   } else {
     emit('refresh');

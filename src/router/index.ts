@@ -87,6 +87,16 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/pages/task/Task.vue'),
       },
       {
+        path: '/addTask',
+        name: 'addTask',
+        meta: {
+          title: 'addTask',
+          keepAlive: true,
+          requireAuth: false,
+        },
+        component: () => import('@/pages/task/addTask/AddTask.vue'),
+      },
+      {
         path: '/newArticle',
         name: 'newArticle',
         meta: {

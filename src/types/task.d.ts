@@ -7,6 +7,15 @@ export interface PanelInt {
   tasks: TaskInt[];
 }
 
+export type AddTaskParams = Pick<
+  TaskInt,
+  'name' | 'needTime' | 'img' | 'priority' | 'content'
+>;
+
+export type EditTaskParams = AddTaskParams & Pick<TaskInt, '_id'>;
+
+export type IdParamsInt = Pick<TaskInt, '_id'>;
+
 export interface TaskInt {
   _id: string;
   name: string;
@@ -16,7 +25,8 @@ export interface TaskInt {
   img: string;
   startTime?: number;
   completeTime?: number;
-  needTime?: number;
+  content: string;
+  needTime: number;
   priority: keyof [1, 2, 3];
   creator: string;
 }

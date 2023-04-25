@@ -5,8 +5,8 @@
       <el-skeleton-item variant="image" style="width: 240px; height: 240px" />
     </template> -->
     <div class="page">
-      <h3 class="font-18 t-color mtop-15">Tasks Panel</h3>
-
+      <h3 class="font-18 t-color mtop-15 mbottom-15">Tasks Panel</h3>
+      <el-button class="page_add" @click="addTask">ADD TASK</el-button>
       <draggable
         v-model="list"
         class="list-group mtop-20"
@@ -55,6 +55,7 @@ export default {
 </script>
 <script lang="ts" setup>
 import { ref, computed, onBeforeMount, toRefs, nextTick, Component } from 'vue';
+import { useRouter } from 'vue-router';
 
 import draggable from 'vuedraggable';
 import TaskGroup from './TaskGroup.vue';
@@ -84,8 +85,9 @@ interface TaskParamsInt {
   removed: Pick<TaskInt, '_id' | 'sort' | 'panel_id'>;
 }
 
+const router = useRouter();
 const { getUserInfo } = toRefs(useUserStore());
-const taskTimeRef: Component = ref(null);
+const taskTimeRef = ref();
 let oldList: PanelInt[] = [];
 const list = ref<PanelInt[]>([]);
 const drag = ref(false);
@@ -228,12 +230,34 @@ const closeTimeDialog = () => {
   resetList();
   dialogVis.value = false;
 };
+
+const addTask = () => {
+  router.push('/addTask');
+};
 </script>
 
 <style lang="less" scoped>
 .page {
-  h3 {
-    margin-bottom: 1.5625rem;
+  &_add {
+    padding: 0.5625rem 1rem;
+    background-image: linear-gradient(
+      195deg,
+      rgb(73, 163, 241),
+      rgb(26, 115, 232)
+    );
+    background-position-y: initial;
+    background-repeat: initial;
+    background-attachment: initial;
+    background-origin: initial;
+    background-clip: initial;
+    background-color: initial;
+    color: rgb(255, 255, 255);
+    box-sizing: border-box;
+    box-shadow: rgb(26 115 232 / 15%) 0rem 0.1875rem 0.1875rem 0rem,
+      rgb(26 115 232 / 20%) 0rem 0.1875rem 0.0625rem -0.125rem,
+      rgb(26 115 232 / 15%) 0rem 0.0625rem 0.3125rem 0rem;
+    background-size: 150% !important;
+    background-position-x: 25% !important;
   }
 
   .flip-list-move {

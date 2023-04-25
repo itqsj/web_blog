@@ -20,8 +20,7 @@ interface WindowTinymce extends Window {
   tinymce: EditorManager;
 }
 
-const emit = defineEmits(['emitContent']);
-
+const emit = defineEmits(['update:modelValue']);
 const timeStamp = ref<number>();
 let elementId = '';
 let skin = isDark.value ? 'oxide-dark' : 'oxide'; //oxide-dark
@@ -85,11 +84,23 @@ const init = () => {
       setInterval(() => {
         let content = tinymce[0].getContent();
         if (content) {
-          emit('emitContent', content);
+          // emit('emitContent', content);
+          emit('update:modelValue', content);
         }
       }, 500);
     });
 };
+
+const setContent = (content: string) => {
+  if (tinymceElement.value) {
+    tinymceElement.value.setContent(content);
+  } else {
+    requestAnimationFrame(() => {
+      setContent(content);
+    });
+  }
+};
+
 const reset = () => {
   tinymceElement.value.remove(); //销毁
 
@@ -119,6 +130,10 @@ onUnmounted(() => {
   setTimeout(() => {
     tinymceElement.value.remove(); //销毁
   }, 1000);
+});
+
+defineExpose({
+  setContent,
 });
 </script>
 

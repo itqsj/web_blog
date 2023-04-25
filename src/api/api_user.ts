@@ -1,11 +1,12 @@
 import http from './index';
 
-import { TokenInt } from '@/types/user';
 import { ParamsInt } from '@/types/index';
+import { User, TokenInt, UserInfoInt, UsersDataRes } from '@/types/user';
 
+interface VerifyRes extends User, TokenInt {}
 // 登录
 export function verifyToken(data: TokenInt) {
-  return http({
+  return http<VerifyRes>({
     url: '/api/user/verifyToken',
     data,
   });
@@ -13,7 +14,7 @@ export function verifyToken(data: TokenInt) {
 
 // 用户列表
 export function userList(params: ParamsInt) {
-  return http({
+  return http<UsersDataRes>({
     url: '/api/user/list',
     method: 'get',
     params,
@@ -22,7 +23,7 @@ export function userList(params: ParamsInt) {
 
 // 用户信息
 export function userInfo() {
-  return http({
+  return http<UserInfoInt>({
     url: '/api/user/info',
     method: 'get',
   });

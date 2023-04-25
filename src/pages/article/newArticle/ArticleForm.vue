@@ -50,7 +50,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { reactive, ref, onMounted } from 'vue';
+import { reactive, ref } from 'vue';
 
 import PlaInput from '@/components/input/PlaInput.vue';
 import Tinymce from '@/components/tinymce/Tinymce.vue';
@@ -83,8 +83,6 @@ const rules: FormRules = {
     },
   ],
 };
-
-onMounted(() => {});
 </script>
 
 <style lang="less" scoped>

@@ -2,17 +2,18 @@
   <div>
     <div class="item t-color t-background t-boxshadow">
       <img
-        v-if="data.show_img"
         class="item_img mbottom-15"
         src="https://demos.creative-tim.com/otis-admin-pro/static/media/office-dark.1a5b950b43ac88b815d5.jpg"
         alt=""
       />
-      <ul class="item_tags mbottom-10">
-        <li :class="{ item_tags_err: true }">UPDATES</li>
-        <li :class="{ item_tags_updata: true }">UPDATES</li>
-        <li :class="{ item_tags_review: true }">UPDATES</li>
+      <p class="mbottom-10">{{ data.name }}</p>
+      <ul class="item_tags">
+        <li :class="{ item_tags_err: true }">DELECT</li>
+        <li :class="{ item_tags_updata: true }" @click="handleUpdate">
+          UPDATES
+        </li>
+        <li :class="{ item_tags_review: true }">REVIEW</li>
       </ul>
-      <p>{{ data.name }}</p>
     </div>
   </div>
 </template>
@@ -24,15 +25,29 @@ export default {
 </script>
 <script lang="ts" setup>
 import { toRefs } from 'vue';
+import { useRouter } from 'vue-router';
+
+import type { TaskInt } from '@/types/task';
 
 const props = defineProps({
   data: {
-    type: Object,
+    type: Object as () => TaskInt,
     default: () => ({}),
   },
 });
 
+const router = useRouter();
 const { data } = toRefs(props);
+
+const handleUpdate = () => {
+  const query = {
+    id: data.value._id,
+  };
+  router.push({
+    path: '/addTask',
+    query,
+  });
+};
 </script>
 
 <style lang="less" scoped>
@@ -71,6 +86,7 @@ const { data } = toRefs(props);
       font-weight: 700;
       border-radius: 0.375rem;
       color: rgb(255, 255, 255);
+      cursor: pointer;
     }
   }
 }

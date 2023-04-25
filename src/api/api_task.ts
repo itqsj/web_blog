@@ -1,6 +1,14 @@
 import http from './index';
-import { MovePanelParams, PanelInt, MoveTaskParams } from '@/types/task';
-import { DataInt } from '@/types/index';
+import type {
+  MovePanelParams,
+  PanelInt,
+  MoveTaskParams,
+  AddTaskParams,
+  TaskInt,
+  IdParamsInt,
+  EditTaskParams,
+} from '@/types/task';
+import type { DataInt } from '@/types/index';
 // 面板列表
 export function panelList() {
   return http<DataInt<PanelInt[]>>({
@@ -20,6 +28,30 @@ export function panelMove(data: MovePanelParams) {
 export function taskMove(data: MoveTaskParams) {
   return http({
     url: '/api/task/move',
+    data,
+  });
+}
+
+// task
+export function taskAdd(data: AddTaskParams) {
+  return http({
+    url: '/api/task/add',
+    data,
+  });
+}
+
+// task编辑
+export function taskEdit(data: EditTaskParams) {
+  return http({
+    url: '/api/task/edit',
+    data,
+  });
+}
+
+// task详情
+export function taskDetail(data: IdParamsInt) {
+  return http<TaskInt>({
+    url: '/api/task/detail',
     data,
   });
 }

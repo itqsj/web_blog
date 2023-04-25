@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isFinish" :class="{ page: true }">
+  <div v-if="isFinish" class="page">
     <div class="page_aside">
       <Aside></Aside>
     </div>
@@ -46,10 +46,7 @@ import Head from '@/components/head/Head.vue';
 // import Analytics from '@/pages/analytics/Analytics.vue';
 
 import { verifyToken, userInfo } from '@/api/api_user';
-import { User, TokenInt, UserInfoInt } from '@/types/user';
 import { ResInt } from '@/types/index';
-
-interface VerifyRes extends User, TokenInt {}
 
 const userStore = useUserStore();
 const { getThemStyle } = toRefs(useThemeStore());
@@ -67,7 +64,7 @@ const verify = async () => {
     token = window.sessionStorage.getItem('token') as string;
   }
 
-  const { code, data } = (await verifyToken({ token })) as ResInt<VerifyRes>;
+  const { code, data } = await verifyToken({ token });
   if (code === 200) {
     window.sessionStorage.setItem('token', data.token);
     userStore.updateToken(data.token);
@@ -83,7 +80,7 @@ const verify = async () => {
   }
 };
 const getUserinfo = async () => {
-  const { code, data } = (await userInfo()) as ResInt<UserInfoInt>;
+  const { code, data } = await userInfo();
   if (code === 200) {
     userStore.updateUserInfo(data);
     isFinish.value = true;
