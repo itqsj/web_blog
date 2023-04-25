@@ -87,14 +87,14 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/pages/task/Task.vue'),
       },
       {
-        path: '/neArticle',
-        name: 'neArticle',
+        path: '/newArticle',
+        name: 'newArticle',
         meta: {
-          title: 'neArticle',
+          title: 'newArticle',
           keepAlive: true,
           requireAuth: false,
         },
-        component: () => import('@/pages/article/neArticle/NEArticle.vue'),
+        component: () => import('@/pages/article/newArticle/NewArticle.vue'),
       },
       {
         path: '/articleList',

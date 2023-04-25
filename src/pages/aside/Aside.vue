@@ -43,7 +43,7 @@
           <el-icon><location class="t-color" /></el-icon>
           <span class="t-color">Article</span>
         </template>
-        <el-menu-item index="/neArticle" class="t-color"
+        <el-menu-item index="/newArticle" class="t-color"
           >New Article</el-menu-item
         >
         <el-menu-item index="/articleList" class="t-color"

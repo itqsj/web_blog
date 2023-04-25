@@ -1,49 +1,51 @@
 <template>
-  <!-- <commonSkeleton :loading="skeletonLoad">
+  <div>
+    <!-- <commonSkeleton :loading="skeletonLoad">
     <template #template>
       <el-skeleton-item variant="image" style="width: 240px; height: 240px" />
     </template> -->
-  <div class="page">
-    <h3 class="font-18 t-color mtop-15">Tasks Panel</h3>
+    <div class="page">
+      <h3 class="font-18 t-color mtop-15">Tasks Panel</h3>
 
-    <draggable
-      v-model="list"
-      class="list-group mtop-20"
-      :component-data="{
-        tag: 'ul',
-        type: 'transition-group',
-        name: !drag ? 'flip-list' : null,
-      }"
-      v-bind="dragOptions"
-      item-key="_id"
-      @start="drag = true"
-      @end="drag = false"
-      @change="change"
+      <draggable
+        v-model="list"
+        class="list-group mtop-20"
+        :component-data="{
+          tag: 'ul',
+          type: 'transition-group',
+          name: !drag ? 'flip-list' : null,
+        }"
+        v-bind="dragOptions"
+        item-key="_id"
+        @start="drag = true"
+        @end="drag = false"
+        @change="change"
+      >
+        <template #item="{ element }">
+          <TaskGroup
+            :data="element"
+            @clone-list="cloneList"
+            @move="TaskMove"
+            @refresh="resetList"
+          />
+        </template>
+      </draggable>
+    </div>
+    <!-- </commonSkeleton> -->
+    <el-dialog
+      v-model="dialogVis"
+      style="border-radius: 8px"
+      title="Task Time"
+      width="650"
     >
-      <template #item="{ element }">
-        <TaskGroup
-          :data="element"
-          @clone-list="cloneList"
-          @move="TaskMove"
-          @refresh="resetList"
-        />
-      </template>
-    </draggable>
+      <taskTime
+        ref="taskTimeRef"
+        @close="closeTimeDialog"
+        @submit="submitTask"
+      ></taskTime>
+    </el-dialog>
+    <Overlay v-model="loading"> </Overlay>
   </div>
-  <!-- </commonSkeleton> -->
-  <el-dialog
-    v-model="dialogVis"
-    style="border-radius: 8px"
-    title="Task Time"
-    width="650"
-  >
-    <taskTime
-      ref="taskTimeRef"
-      @close="closeTimeDialog"
-      @submit="submitTask"
-    ></taskTime>
-  </el-dialog>
-  <Overlay v-model="loading"> </Overlay>
 </template>
 
 <script lang="ts">
