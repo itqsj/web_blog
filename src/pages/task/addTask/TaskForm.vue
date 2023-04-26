@@ -15,7 +15,8 @@
             placeholder="Task Title"
             size="large"
             border-animate
-          />
+          >
+          </PlaInput>
         </el-form-item>
         <div class="form_body_flex">
           <el-form-item prop="priority">
@@ -50,7 +51,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { Component, reactive, ref } from 'vue';
+import { reactive, ref } from 'vue';
 
 import PlaInput from '@/components/input/PlaInput.vue';
 import Tinymce from '@/components/tinymce/Tinymce.vue';

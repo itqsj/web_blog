@@ -1,6 +1,6 @@
 import http from './index';
 
-import { ParamsInt } from '@/types/index';
+import { ParamsListInt } from '@/types/index';
 import { User, TokenInt, UserInfoInt, UsersDataRes } from '@/types/user';
 
 interface VerifyRes extends User, TokenInt {}
@@ -13,7 +13,7 @@ export function verifyToken(data: TokenInt) {
 }
 
 // 用户列表
-export function userList(params: ParamsInt) {
+export function userList(params: ParamsListInt) {
   return http<UsersDataRes>({
     url: '/api/user/list',
     method: 'get',

@@ -1,31 +1,39 @@
 <template>
-  <div class="sort">
-    <h3 class="sort_title t-color">Minimal Bar Stool</h3>
+  <div v-if="data" class="sort">
+    <h3 class="sort_title t-color">{{ data.title }}</h3>
     <el-rate v-model="rate" size="large" allow-half class="t-color" />
-    <div class="sort_tags">
+    <div class="sort_cell">
+      <h6 class="sort_cell_title t-color">Author:</h6>
+      <div class="sort_cell_value">{{ data.author_name }}</div>
+    </div>
+    <div class="sort_cell">
+      <h6 class="sort_cell_title t-color">CreatTime:</h6>
+      <div class="sort_cell_value">{{ formatDate(data.pub_time) }}</div>
+    </div>
+    <div class="sort_cell">
+      <h6 class="sort_cell_title t-color">Cate:</h6>
+      <div class="sort_cell_value">{{ data.cate?.name }}</div>
+    </div>
+    <div v-if="data.tags.length" class="sort_tags">
       <h6 class="sort_tags_title t-color">Tags</h6>
       <ul>
-        <li>IN STOCK</li>
-        <li>IN STOCK</li>
+        <li v-for="(tag, index) in data.tags" :key="index">{{ tag }}</li>
       </ul>
     </div>
     <div class="sort_des">
       <h6 class="sort_des_title">Description</h6>
-      <ol>
+      <ul>
         <li>
-          <i></i> The most beautiful curves of this swivel stool adds an elegant
-          touch to any environment
+          <!-- <i></i> -->
+          {{ data.introduce ? data.introduce : '--' }}
         </li>
-        <li><i></i>Memory swivel seat returns to original seat position</li>
-        <li><i></i>Comfortable integrated layered chair seat cushion design</li>
-        <li><i></i>Fully assembled! No assembly required</li>
-      </ol>
+      </ul>
     </div>
     <div class="sort_content">
-      <h6 class="sort_content_title">Article</h6>
-      <div>ArticleDetail</div>
+      <h6 class="sort_content_title">Content</h6>
+      <div class="sort_content_body t-color" v-html="data.content"></div>
     </div>
-    <button class="sort_btn">Edit Article</button>
+    <v-btn class="sort_btn" @click="handleEdit">Edit Article</v-btn>
   </div>
 </template>
 
@@ -36,14 +44,39 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, toRefs } from 'vue';
+import { useRouter } from 'vue-router';
 
+import type { ArticleInt } from '@/types/article';
+import formatDate from '@/util/formatDate';
+
+const props = defineProps({
+  data: {
+    type: Object as () => ArticleInt | null,
+    default: null,
+  },
+});
+const router = useRouter();
+const { data } = toRefs(props);
 const rate = ref(1);
+
+const handleEdit = () => {
+  console.log(123123);
+
+  const query = {
+    id: data.value?._id,
+  };
+  router.push({
+    path: '/newArticle',
+    query,
+  });
+};
 </script>
 
 <style lang="less" scoped>
 .sort {
   &_title {
+    text-align: justify;
     font-size: 1.6rem;
     line-height: 1.375;
     font-family: Roboto, Helvetica, Arial, sans-serif;
@@ -52,6 +85,23 @@ const rate = ref(1);
   .el-rate {
     :deep(.el-rate__icon) {
       font-size: 1.5rem;
+    }
+  }
+  &_cell {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1rem;
+    line-height: 1.625;
+    margin-bottom: 0.8rem;
+    &_title {
+      font-family: Roboto, Helvetica, Arial, sans-serif;
+      letter-spacing: 0.0075em;
+      font-weight: 600;
+    }
+    &_value {
+      letter-spacing: 0.01071em;
+      color: rgb(123, 128, 154);
     }
   }
   &_tags {
@@ -73,7 +123,7 @@ const rate = ref(1);
         font-weight: 700;
         text-transform: uppercase;
         line-height: 1;
-        text-align: center;
+        text-align: justify;
         white-space: nowrap;
         vertical-align: baseline;
         border-radius: 0.375rem;
@@ -89,12 +139,11 @@ const rate = ref(1);
       line-height: 1.5;
       letter-spacing: 0.02857em;
       color: rgb(123, 128, 154);
-      margin-top: 24px;
-      margin-bottom: 8px;
+      margin-bottom: 0.5rem;
       margin-left: 4px;
       background: transparent;
     }
-    ol {
+    ul {
       li {
         display: flex;
         flex-wrap: wrap;
@@ -103,6 +152,7 @@ const rate = ref(1);
         font-family: Roboto, Helvetica, Arial, sans-serif;
         font-size: 1rem;
         line-height: 1.6;
+        text-align: justify;
         letter-spacing: 0.01071em;
         color: rgb(123, 128, 154);
         padding-left: 0.5rem;
@@ -117,14 +167,20 @@ const rate = ref(1);
     }
   }
   &_content {
+    &_body {
+      text-align: justify;
+      :deep(img) {
+        max-width: 100%;
+      }
+    }
     &_title {
       font-family: Roboto, Helvetica, Arial, sans-serif;
       font-size: 0.875rem;
       line-height: 1.5;
       letter-spacing: 0.02857em;
       color: rgb(123, 128, 154);
-      margin-top: 24px;
-      margin-bottom: 15px;
+      margin-top: 0.8rem;
+      margin-bottom: 0.8rem;
       margin-left: 4px;
       background: transparent;
     }

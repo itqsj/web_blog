@@ -78,7 +78,7 @@ import CommonPagination from '@/components/pagination/CommonPagination.vue';
 
 import { userList } from '@/api/api_user';
 import { User } from '@/types/user';
-import { ParamsInt } from '@/types/index';
+import { ParamsListInt } from '@/types/index';
 import type { TableColumnCtx } from 'element-plus';
 import formatDate from '@/util/formatDate';
 
@@ -94,7 +94,7 @@ const formatterDate = (row: User, column: TableColumnCtx<User>) => {
 const tableData = ref<User[]>([]);
 
 const getUsers = async () => {
-  const params: ParamsInt = {
+  const params: ParamsListInt = {
     page: page.value,
     pageSize: pageSize.value,
   };

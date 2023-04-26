@@ -1,3 +1,5 @@
+import type { User, TeamInt } from '@/types/user';
+
 export interface PanelInt {
   name: string;
   _id: string;
@@ -29,6 +31,9 @@ export interface TaskInt {
   needTime: number;
   priority: keyof [1, 2, 3];
   creator: string;
+  creator_at: number;
+  user?: User;
+  team?: TeamInt;
 }
 
 export type TaskTimeInt = Pick<TaskInt, 'startTime' | 'needTime'>;

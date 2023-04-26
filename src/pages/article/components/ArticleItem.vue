@@ -20,14 +20,16 @@
       </v-carousel>
     </div>
     <div class="card_body">
-      <div v-show="!isBtn" class="card_body_operat">
+      <div class="card_body_operat">
         <el-tooltip
           class="box-item"
           effect="dark"
-          content="Refresh"
+          content="Detail"
           placement="bottom"
         >
-          <el-icon style="color: #e82567"><RefreshRight /></el-icon>
+          <el-icon style="color: #e82567" @click="goDetail"
+            ><Checked
+          /></el-icon>
         </el-tooltip>
 
         <el-tooltip
@@ -36,19 +38,46 @@
           content="Edit"
           placement="bottom"
         >
-          <el-icon style="color: #1a73e8"><EditPen /></el-icon>
+          <el-icon style="color: #1a73e8" @click="handleEdit"
+            ><EditPen
+          /></el-icon>
         </el-tooltip>
+
+        <delConfirm
+          v-model="showDel"
+          persistent
+          width="360"
+          :loading="delLoading"
+        >
+          <template #activator="{ props }">
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="Del"
+              placement="bottom"
+            >
+              <el-icon style="color: #e82567" v-bind="props"
+                ><Delete
+              /></el-icon>
+            </el-tooltip>
+          </template>
+          <template #actions>
+            <v-btn variant="text" color="teal-accent-4" @click="closeDel"
+              >CANCEL</v-btn
+            >
+            <v-btn variant="text" color="teal-accent-4" @click="handleDel"
+              >COMFIRM</v-btn
+            >
+          </template>
+        </delConfirm>
       </div>
-      <div v-show="isBtn" class="card_body_operat">123132</div>
-      <h4 class="font-20">Cozy 5 Stars Apartment</h4>
+      <h4 class="font-20">{{ data.title }}</h4>
       <p class="font-16">
-        The place is close to Barceloneta Beach and bus stop just 2 min by walk
-        and near to "Naviglio" where you can enjoy the main night life in
-        Barcelona.
+        {{ data.introduce }}
       </p>
-      <div v-show="showFooter" class="line mtop-16 mbouttom-16"></div>
+      <div class="line mtop-16 mbouttom-16"></div>
     </div>
-    <div v-show="showFooter" class="card_footer font-16">
+    <div class="card_footer font-16">
       <div>$899/night</div>
       <div class="flex_center">
         <el-icon class="mright-5"><LocationFilled /></el-icon>Barcelona, Spain
@@ -59,29 +88,75 @@
 
 <script lang="ts">
 export default {
-  name: 'PicCard',
+  name: 'ArticleItem',
 };
 </script>
 
 <script lang="ts" setup>
-import { toRefs } from 'vue';
+import { toRefs, ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+import delConfirm from '@/components/delConfirm/delConfirm.vue';
+import { ElNotification } from 'element-plus';
+
+import type { ArticleInt } from '@/types/article';
+import { articleDel } from '@/api/api_article';
 
 const props = defineProps({
   data: {
-    type: Object,
+    type: Object as () => ArticleInt,
     default: () => ({}),
   },
-  showFooter: {
-    type: Boolean,
-    default: true,
-  },
-  isBtn: {
-    type: Boolean,
-    default: false,
-  },
 });
-
+const emit = defineEmits(['del']);
+const router = useRouter();
 const { data } = toRefs(props);
+const showDel = ref(false);
+const delLoading = ref(false);
+
+const goDetail = () => {
+  const query = {
+    id: data.value._id,
+  };
+  router.push({
+    path: '/articleDetail',
+    query,
+  });
+};
+
+const handleDel = async () => {
+  delLoading.value = true;
+  const params = {
+    _id: data.value._id,
+  };
+  const { code, message } = await articleDel(params);
+  if (code === 200) {
+    emit('del', data.value._id);
+  }
+  delLoading.value = false;
+  ElNotification({
+    type: 'success',
+    title: '提示',
+    message,
+  });
+  showDel.value = false;
+};
+
+const closeDel = () => {
+  if (!delLoading.value) {
+    showDel.value = false;
+  }
+};
+
+const handleEdit = () => {
+  const query = {
+    id: data.value._id,
+  };
+  router.push({
+    path: '/newArticle',
+    query,
+  });
+};
 </script>
 
 <style lang="less" scoped>

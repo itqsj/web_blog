@@ -22,7 +22,11 @@
         @change="change"
       >
         <template #item="{ element }">
-          <TaskItem :data="element"></TaskItem>
+          <TaskItem
+            :type="data.type"
+            :data="element"
+            @del="handleDel"
+          ></TaskItem>
         </template>
       </draggable>
     </div>
@@ -83,6 +87,11 @@ const change = (evt: DragChange<TaskInt>) => {
   } else {
     emit('move', { tar: data.value, evt });
   }
+};
+
+const handleDel = (id: string) => {
+  data.value.tasks = data.value.tasks.filter((item) => item._id !== id);
+  emit('cloneList');
 };
 
 const handleMove = async (params: MoveTaskParams) => {

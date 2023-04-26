@@ -17,11 +17,14 @@
     "element-plus": "^2.2.26",
     "lodash": "^4.17.21",
     "pinia": "^2.0.23",
+    "vite-plugin-vuetify": "^1.0.2",
     "vue": "^3.2.37",
     "vue-router": "^4.1.5",
-    "vuedraggable": "^4.1.0"
+    "vuedraggable": "^4.1.0",
+    "vuetify": "^3.1.13"
   },
   "devDependencies": {
+    "@mdi/font": "^7.2.96",
     "@types/node": "18.7.18",
     "@typescript-eslint/eslint-plugin": "^5.40.0",
     "@typescript-eslint/parser": "^5.40.0",

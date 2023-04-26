@@ -6,7 +6,7 @@
     </template> -->
     <div class="page">
       <h3 class="font-18 t-color mtop-15 mbottom-15">Tasks Panel</h3>
-      <el-button class="page_add" @click="addTask">ADD TASK</el-button>
+      <v-btn class="page_add" @click="addTask">ADD TASK</v-btn>
       <draggable
         v-model="list"
         class="list-group mtop-20"

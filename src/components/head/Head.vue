@@ -12,7 +12,7 @@
     </div>
     <div class="head_center">
       <el-icon v-show="false"><Expand /></el-icon>
-      <el-icon @click="toggleDark()"><Fold /></el-icon>
+      <el-icon @click="toggleThem()"><Fold /></el-icon>
     </div>
     <div class="head_right">
       <el-input
@@ -59,6 +59,7 @@ import SettingDrawer from '@/components/head/SettingDrawer.vue';
 
 import { useThemeStore } from '@/store/theme';
 import { toggleDark, isDark } from '@/composables';
+import { useTheme } from 'vuetify';
 
 const { getThemStyle } = toRefs(useThemeStore());
 const route = useRoute();
@@ -69,17 +70,6 @@ const props = defineProps({
   },
 });
 const title = ref('');
-
-watch(
-  () => route.path,
-  () => {
-    title.value = route.meta.title as string;
-  },
-  {
-    immediate: true,
-  },
-);
-
 const styleObj = reactive({
   fixed: {
     background: getThemStyle.value.background,
@@ -93,6 +83,21 @@ const styleObj = reactive({
 const style = ref(styleObj.fixed);
 const search = ref('');
 const settingDrawer = ref(false);
+const theme = useTheme();
+const toggleTheme = () =>
+  (theme.global.name.value = theme.global.current.value.dark
+    ? 'light'
+    : 'dark');
+
+watch(
+  () => route.path,
+  () => {
+    title.value = route.meta.title as string;
+  },
+  {
+    immediate: true,
+  },
+);
 
 watch(
   () => props.isFixed,
@@ -108,6 +113,11 @@ watch(
     immediate: true,
   },
 );
+
+const toggleThem = () => {
+  toggleDark();
+  toggleTheme();
+};
 </script>
 
 <style lang="less" scoped>

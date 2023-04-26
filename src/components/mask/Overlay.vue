@@ -45,7 +45,13 @@ const defaultSlot = computed(() => slots.default && slots.default().length);
 watch(
   () => modelValue.value,
   () => {
-    show.value = modelValue.value;
+    if (!modelValue.value) {
+      setTimeout(() => {
+        show.value = modelValue.value;
+      }, 300);
+    } else {
+      show.value = modelValue.value;
+    }
   },
   {
     immediate: true,

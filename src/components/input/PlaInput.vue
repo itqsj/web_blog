@@ -2,11 +2,15 @@
   <div class="input" :class="{ border_animate: borderAnimate }">
     <el-input
       ref="input"
+      v-model="inputValue"
       v-bind="$attrs"
       @focus="focus"
       @blur="blur"
-      @change="change"
-    />
+    >
+      <template v-for="(value, name) in slots" #[name]="slotData">
+        <slot :name="name" v-bind="slotData || {}"></slot>
+      </template>
+    </el-input>
     <span
       :style="{
         transform: isFacus || hasVal ? 'translate(0, -55%)' : '',
@@ -26,8 +30,14 @@ export default {
 };
 </script>
 <script lang="ts" setup>
-import { toRefs, ref, onMounted } from 'vue';
+import { watch, toRefs, useSlots, ref, onMounted } from 'vue';
 
+interface ExposeObjInt {
+  [key: string]: any;
+  // other properties
+}
+
+const slots = useSlots();
 const props = defineProps({
   placeholder: {
     type: String,
@@ -37,37 +47,61 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  modelValue: {
+    type: String,
+    default: '',
+  },
 });
-const emit = defineEmits(['focus', 'blur', 'change']);
-
+const emit = defineEmits(['focus', 'blur', 'update:modelValue']);
 const isFacus = ref<boolean>(false);
 const input = ref();
 const hasVal = ref<boolean>(false);
+const inputValue = ref('');
+const { placeholder, modelValue } = toRefs(props);
+const exposeObj: ExposeObjInt = {};
 
-const { placeholder } = toRefs(props);
+watch(
+  () => modelValue.value,
+  () => {
+    if (inputValue.value !== modelValue.value) {
+      inputValue.value = modelValue.value;
+    }
+    hasVal.value = !!modelValue.value;
+  },
+  {
+    immediate: true,
+  },
+);
+
+onMounted(() => {
+  setRefExpose();
+});
+
+const setRefExpose = () => {
+  const entries = Object.entries(input.value);
+  for (const [key, value] of entries) {
+    if (key !== 'actions') {
+      exposeObj[key] = value;
+    }
+  }
+};
 
 const focus = () => {
   isFacus.value = true;
   emit('focus');
 };
+
 const blur = () => {
   isFacus.value = false;
   emit('blur');
-};
-
-const change = (value: string) => {
-  hasVal.value = !!value;
-
-  emit('change', value);
+  emit('update:modelValue', inputValue.value);
 };
 
 const click = () => {
   input.value.focus();
 };
 
-onMounted(() => {
-  hasVal.value = !!input.value.input.value;
-});
+defineExpose(exposeObj);
 </script>
 
 <style lang="less" scoped>

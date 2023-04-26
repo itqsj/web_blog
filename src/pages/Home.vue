@@ -137,6 +137,7 @@ const affixChange = (fixed: boolean) => {
   .page {
     &_aside {
       width: 0px;
+      padding: 0;
     }
   }
 }

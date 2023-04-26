@@ -1,28 +1,31 @@
 import { createApp } from 'vue';
+import App from './App.vue';
+import { setupRouter } from '@/router';
+import { setupStore } from './store';
+import { setupVuetify } from '@/plugins/vuetify';
+import { setupElementPlus, setupElementPlusIcon } from '@/plugins/elementPlus';
+
+// 公共样式
 import '@/assets/css/reset.css';
 import '@/assets/css/global.less';
 import './style.css';
-import App from './App.vue';
-import router from '@/router';
-import store from './store';
-import ElementPlus from 'element-plus';
+// element ui
 import 'element-plus/dist/index.css';
-
 import 'element-plus/theme-chalk/dark/css-vars.css';
 import '@/assets/css/theme.less';
+// vuetify
+import 'vuetify/styles';
 
 const app = createApp(App);
-app.use(router);
+// 挂载路由
+setupRouter(app);
 // 挂载pinia
-app.use(store);
+setupStore(app);
 //挂载ElementPlus
-app.use(ElementPlus);
-
-// 如果您正在使用CDN引入，请删除下面一行。
-import * as ElementPlusIconsVue from '@element-plus/icons-vue';
-
-for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-  app.component(key, component);
-}
+setupElementPlus(app);
+//挂载ElementPlusIcon
+setupElementPlusIcon(app);
+// 挂载vuetify
+setupVuetify(app);
 
 app.mount('#app');

@@ -1,3 +1,4 @@
+import type { App } from 'vue';
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 
 const routes: Array<RouteRecordRaw> = [
@@ -97,6 +98,16 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/pages/task/addTask/AddTask.vue'),
       },
       {
+        path: '/taskDetail',
+        name: 'taskDetail',
+        meta: {
+          title: 'taskDetail',
+          keepAlive: true,
+          requireAuth: false,
+        },
+        component: () => import('@/pages/task/taskDetail/TaskDetail.vue'),
+      },
+      {
         path: '/newArticle',
         name: 'newArticle',
         meta: {
@@ -135,4 +146,8 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes,
 });
-export default router;
+
+// 配置路由器
+export function setupRouter(app: App<Element>) {
+  app.use(router);
+}

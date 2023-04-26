@@ -19,11 +19,11 @@
         </div>
       </div>
       <div class="page_footer">
-        <el-button
+        <v-btn
           class="page_footer_add mtop-15 mright-20"
           :loading="submitLoading"
           @click="handleSubmit"
-          >SUBMIT</el-button
+          >SUBMIT</v-btn
         >
       </div>
     </div>
@@ -37,21 +37,24 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { ref, Component, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 
 import PicCard from '@/components/card/PicCard.vue';
 import TaskForm from './TaskForm.vue';
+import { ElNotification } from 'element-plus';
 
 import { taskAdd, taskDetail, taskEdit } from '@/api/api_task';
 import type { AddTaskParams, IdParamsInt, EditTaskParams } from '@/types/task';
 import type { FormInstance } from 'element-plus';
-import { ElNotification } from 'element-plus';
 import pic1 from '@/assets/img/pic1.jpg';
 
 interface TaskFormRef {
   ruleFormRef: FormInstance;
   ruleForm: AddTaskParams;
+  tinymceRef: {
+    setContent: (data: string) => void;
+  };
 }
 
 const router = useRouter();
@@ -81,6 +84,7 @@ const handleSubmit = async () => {
 
 const editTask = async (data: AddTaskParams) => {
   submitLoading.value = true;
+
   const params = {
     ...data,
     _id: taskId,
@@ -94,7 +98,7 @@ const editTask = async (data: AddTaskParams) => {
       type: 'success',
       message: '操作成功',
     });
-    router.push('/task');
+    router.back();
   }
   submitLoading.value = false;
 };
@@ -113,7 +117,7 @@ const addTask = async (data: AddTaskParams) => {
       type: 'success',
       message: '操作成功',
     });
-    router.push('/task');
+    router.back();
   }
   submitLoading.value = false;
 };

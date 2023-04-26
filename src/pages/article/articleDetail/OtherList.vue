@@ -4,7 +4,7 @@
     <div class="panel_table">
       <CommonTable
         class="table"
-        :data="tableData"
+        :data="list"
         :default-sort="{ prop: 'date', order: 'descending' }"
         style="width: 100%"
       >
@@ -30,12 +30,13 @@
             />
           </template>
         </el-table-column>
-        <el-table-column
-          prop="createdAt"
-          label="Date"
-          :formatter="formatterDate"
-          sortable
-        />
+        <el-table-column label="Date" :formatter="formatterDate" sortable />
+        <el-table-column label="State" :formatter="formatterState" sortable />
+        <el-table-column sortable>
+          <template #default="{ row }">
+            <span class="table_detail" @click="goDetail(row)">详情</span>
+          </template>
+        </el-table-column>
       </CommonTable>
     </div>
   </div>
@@ -48,76 +49,54 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, toRefs } from 'vue';
+import { useRouter } from 'vue-router';
 
 import CommonTable from '@/components/table/CommonTable.vue';
 
 import type { TableColumnCtx } from 'element-plus';
 import formatDate from '@/util/formatDate';
-import { ArticleInt } from '@/types/article';
+import type { ArticleInt } from '@/types/article';
 
-const tableData = ref<ArticleInt[]>([
-  {
-    _id: '230019',
-    title: 'Christopher Knight Home',
-    createdAt: Date.now().toString(),
-    review: 1,
-    cover_img: '',
+const props = defineProps({
+  list: {
+    type: Array as () => ArticleInt[],
+    default: () => [],
   },
-  {
-    _id: '23001',
-    title: 'Christopher Knight Home',
-    createdAt: Date.now().toString(),
-    review: 1,
-    cover_img: '',
-  },
-  {
-    _id: '23019',
-    title: 'hristopher Knight Home',
-    createdAt: Date.now().toString(),
-    review: 1,
-    cover_img: '',
-  },
-  {
-    _id: '2301',
-    title: 'Christopher Knight Home',
-    createdAt: Date.now().toString(),
-    review: 1,
-    cover_img: '',
-  },
-  {
-    _id: '30019',
-    title: 'Christopher Knight Home',
-    createdAt: Date.now().toString(),
-    review: 1,
-    cover_img: '',
-  },
-  {
-    _id: '6',
-    title: 'Christopher Knight Home',
-    createdAt: Date.now().toString(),
-    review: 1,
-    cover_img: '',
-  },
-  {
-    _id: '1',
-    title: 'Christopher Knight Home',
-    createdAt: Date.now().toString(),
-    review: 1,
-    cover_img: '',
-  },
-  {
-    _id: '.',
-    title: 'Christopher Knight Home',
-    createdAt: Date.now().toString(),
-    review: 1,
-    cover_img: '',
-  },
-]);
+});
+const emit = defineEmits(['refresh']);
+const router = useRouter();
+const { list } = toRefs(props);
 
 const formatterDate = (row: ArticleInt, column: TableColumnCtx<ArticleInt>) => {
-  const date = parseInt(row.createdAt);
-  return formatDate(date);
+  return formatDate(row.pub_time);
+};
+
+const formatterState = (
+  row: ArticleInt,
+  column: TableColumnCtx<ArticleInt>,
+) => {
+  switch (row.state) {
+    case '1':
+      return '已上线';
+    case '2':
+      return '草稿';
+    case '3':
+      return '已下线';
+    default:
+      return '--';
+  }
+};
+
+const goDetail = (row: ArticleInt) => {
+  const query = {
+    id: row._id,
+  };
+  router.replace({
+    path: '/articleDetail',
+    query,
+  });
+  emit('refresh');
 };
 </script>
 
@@ -134,6 +113,10 @@ const formatterDate = (row: ArticleInt, column: TableColumnCtx<ArticleInt>) => {
     // margin-top: 1rem;
     .table {
       padding-top: 1.25rem;
+      &_detail {
+        color: #3f94ee;
+        cursor: pointer;
+      }
     }
     :deep(.el-table__cell) {
       background-color: transparent;

@@ -4,16 +4,17 @@
       <h3 class="t-color">Article Details</h3>
       <section class="page_body">
         <div class="page_body_left">
-          <ImgSort></ImgSort>
+          <ImgSort :data="article"></ImgSort>
         </div>
         <div class="page_body_right">
-          <InfoSort></InfoSort>
+          <InfoSort :data="article"></InfoSort>
         </div>
       </section>
     </div>
     <div class="other t-boxshadow t-background">
-      <OtherList></OtherList>
+      <OtherList :list="articles" @refresh="init"></OtherList>
     </div>
+    <Overlay v-model="loading"> </Overlay>
   </div>
 </template>
 
@@ -24,9 +25,66 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { ref, onBeforeMount } from 'vue';
+import { useRoute } from 'vue-router';
+
 import ImgSort from './ImgSort.vue';
 import InfoSort from './InfoSort.vue';
 import OtherList from './OtherList.vue';
+import Overlay from '@/components/mask/Overlay.vue';
+
+import { articleDetail, articleList } from '@/api/api_article';
+import type { ArticleInt, ArticleListParams } from '@/types/article';
+
+const route = useRoute();
+const article = ref<ArticleInt | null>(null);
+const loading = ref(false);
+const articles = ref<ArticleInt[]>([]);
+let articleId = '';
+
+onBeforeMount(() => {
+  init();
+});
+
+const init = () => {
+  if (route.query.id) {
+    if (route.query.id === articleId) {
+      setTimeout(() => {
+        init();
+      }, 0);
+      return;
+    }
+    articleId = route.query.id as string;
+    getDetail();
+  }
+};
+
+const getDetail = async () => {
+  loading.value = true;
+  const params = {
+    _id: articleId,
+  };
+
+  const { code, data } = await articleDetail(params);
+
+  if (code === 200) {
+    article.value = data;
+  }
+  getList();
+};
+
+const getList = async () => {
+  const params: ArticleListParams = {
+    page: 1,
+    pageSize: 10,
+    not_id: articleId,
+  };
+  const { code, data } = await articleList(params);
+  if (code === 200) {
+    articles.value = data.list;
+  }
+  loading.value = false;
+};
 </script>
 
 <style lang="less" scoped>

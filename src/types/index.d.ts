@@ -1,7 +1,8 @@
 // 请求列表
-export interface ParamsInt<> {
+export interface ParamsListInt<> {
   page: number;
   pageSize: number;
+  keyWord?: string;
 }
 
 // 结果

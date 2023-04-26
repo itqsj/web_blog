@@ -1,6 +1,43 @@
 <template>
-  <div>
-    <div class="page">123</div>
+  <div class="container">
+    <el-affix :offset="105">
+      <v-expand-x-transition>
+        <div v-show="showFilter" class="container_filter">
+          <FiltersForm></FiltersForm>
+        </div>
+      </v-expand-x-transition>
+    </el-affix>
+
+    <div class="container_right">
+      <div class="container_right_head">
+        <h4 class="t-color">Article List</h4>
+        <div>
+          <v-btn
+            variant="text"
+            class="t-color"
+            @click="showFilter = !showFilter"
+          >
+            <el-icon style="margin-right: 5px"><Filter /></el-icon>
+            Filters
+          </v-btn>
+          <v-btn
+            variant="text"
+            class="t-color"
+            @click="showFilter = !showFilter"
+          >
+            NEW
+          </v-btn>
+        </div>
+      </div>
+      <div class="container_right_list">
+        <ArticleItem
+          v-for="(item, index) in list"
+          :key="index"
+          :data="item"
+          @del="articleDel"
+        ></ArticleItem>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -9,10 +46,81 @@ export default {
   name: 'ArticleList',
 };
 </script>
+<script lang="ts" setup>
+import { ref, onBeforeMount } from 'vue';
+import ArticleItem from '../components/ArticleItem.vue';
+import FiltersForm from './FiltersForm.vue';
 
-<script lang="ts" setup></script>
+import { articleList } from '@/api/api_article';
+import type { ArticleInt } from '@/types/article';
+
+const showFilter = ref(true);
+const list = ref<ArticleInt[]>([]);
+
+onBeforeMount(() => {
+  getList();
+});
+
+const articleDel = (id: string) => {
+  list.value = list.value.filter((item) => item._id !== id);
+};
+
+const getList = async () => {
+  const params = {
+    page: 1,
+    pageSize: 10,
+  };
+
+  const { code, data } = await articleList(params);
+
+  if (code === 200) {
+    list.value = data.list;
+  }
+};
+</script>
 
 <style lang="less" scoped>
-.page {
+.container {
+  margin: 1rem;
+  display: flex;
+  justify-content: space-between;
+  // gap: 1.5rem;
+  margin-top: 1.75rem;
+  div {
+    border-radius: 0.5rem;
+  }
+  &_filter {
+    height: 80vh;
+    // padding: 1rem;
+  }
+  &_right {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    flex: 1;
+    width: 100%;
+    &_list {
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      align-items: self-start;
+      // column-count: 3; /* 将容器分成三列 */
+      // column-gap: 10px; /* 列与列之间的间隔 */
+      gap: 2rem 1rem;
+      width: 100%;
+      padding: 4rem 0 1rem;
+      box-sizing: border-box;
+      // height: 300px;
+    }
+    &_head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      h4 {
+        font-size: 2.0833rem;
+      }
+    }
+  }
 }
 </style>

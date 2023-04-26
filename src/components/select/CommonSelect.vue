@@ -1,11 +1,11 @@
 <template>
   <div class="select" :class="{ border_animate: borderAnimate }">
     <el-select-v2
-      ref="select"
+      v-model="value"
       v-bind="$attrs"
       @focus="focus"
-      @blur="blur"
       @change="change"
+      @blur="blur"
     />
     <span
       :style="{
@@ -25,8 +25,8 @@ export default {
 };
 </script>
 <script lang="ts" setup>
-// click placeholder有问题
-import { toRefs, ref, onMounted } from 'vue';
+import { toRefs, ref, watch } from 'vue';
+type ValueInt = string | number;
 
 const props = defineProps({
   placeholder: {
@@ -37,33 +37,47 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  modelValue: {
+    type: String as () => ValueInt,
+    default: '',
+  },
 });
-const emit = defineEmits(['focus', 'blur', 'change']);
+const emit = defineEmits(['focus', 'blur', 'change', 'update:modelValue']);
 
 const isFacus = ref<boolean>(false);
-const select = ref();
 const hasVal = ref<boolean>(false);
+const value = ref<number | string>();
 
-const { placeholder } = toRefs(props);
+const { placeholder, modelValue } = toRefs(props);
 
 const focus = () => {
   isFacus.value = true;
   emit('focus');
 };
+
+watch(
+  () => modelValue.value,
+  () => {
+    if (value.value !== modelValue.value) {
+      value.value = modelValue.value;
+    }
+    hasVal.value = !!modelValue.value;
+  },
+  {
+    immediate: true,
+  },
+);
+
 const blur = () => {
   isFacus.value = false;
   emit('blur');
 };
 
-const change = (value: string) => {
-  hasVal.value = !!value;
-
-  emit('change', value);
+const change = (data: number) => {
+  hasVal.value = !!value.value;
+  emit('update:modelValue', value.value);
+  emit('change', data);
 };
-
-onMounted(() => {
-  hasVal.value = !!select.value.modelValue;
-});
 </script>
 
 <style lang="less" scoped>

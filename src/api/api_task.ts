@@ -55,3 +55,11 @@ export function taskDetail(data: IdParamsInt) {
     data,
   });
 }
+
+// task删除
+export function taskDel(data: IdParamsInt) {
+  return http({
+    url: '/api/task/del',
+    data,
+  });
+}
