@@ -93,7 +93,6 @@ const initEchart = () => {
 };
 
 const resize = () => {
-  console.log(123)
   Chart.value.resize();
 };
 

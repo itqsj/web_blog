@@ -30,12 +30,14 @@
         </div>
       </div>
       <div class="container_right_list">
-        <ArticleItem
-          v-for="(item, index) in list"
-          :key="index"
-          :data="item"
-          @del="articleDel"
-        ></ArticleItem>
+        <waterfall ref="waterfallref" style="width: 100%">
+          <ArticleItem
+            v-for="(item, index) in list"
+            :key="index"
+            :data="item"
+            @del="articleDel"
+          ></ArticleItem>
+        </waterfall>
       </div>
     </div>
   </div>
@@ -47,19 +49,25 @@ export default {
 };
 </script>
 <script lang="ts" setup>
-import { ref, onBeforeMount } from 'vue';
+import { ref, onBeforeMount, nextTick } from 'vue';
 import ArticleItem from '../components/ArticleItem.vue';
 import FiltersForm from './FiltersForm.vue';
+import waterfall from '@/components/waterfall/waterfall.vue';
 
 import { articleList } from '@/api/api_article';
 import type { ArticleInt } from '@/types/article';
 
 const showFilter = ref(true);
 const list = ref<ArticleInt[]>([]);
+const waterfallref = ref();
 
 onBeforeMount(() => {
   getList();
 });
+
+const imgLoad = () => {
+  waterfallref.value.setPosition();
+};
 
 const articleDel = (id: string) => {
   list.value = list.value.filter((item) => item._id !== id);
@@ -75,6 +83,9 @@ const getList = async () => {
 
   if (code === 200) {
     list.value = data.list;
+    nextTick(() => {
+      imgLoad();
+    });
   }
 };
 </script>
@@ -102,12 +113,6 @@ const getList = async () => {
     width: 100%;
     &_list {
       overflow: hidden;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      align-items: self-start;
-      // column-count: 3; /* 将容器分成三列 */
-      // column-gap: 10px; /* 列与列之间的间隔 */
-      gap: 2rem 1rem;
       width: 100%;
       padding: 4rem 0 1rem;
       box-sizing: border-box;

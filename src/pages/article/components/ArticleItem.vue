@@ -7,12 +7,10 @@
           src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
           cover
         ></v-carousel-item>
-
         <v-carousel-item
           src="https://cdn.vuetifyjs.com/images/cards/hotel.jpg"
           cover
         ></v-carousel-item>
-
         <v-carousel-item
           src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
           cover
@@ -161,6 +159,7 @@ const handleEdit = () => {
 
 <style lang="less" scoped>
 .card {
+  position: absolute;
   border-radius: 8px;
 
   &:hover {
