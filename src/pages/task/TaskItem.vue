@@ -15,7 +15,7 @@
         height="20"
         striped
       >
-        <template v-slot:default="{ value }">
+        <template #default="{ value }">
           <span>时间已使用{{ Math.ceil(value) }}%</span>
         </template>
       </v-progress-linear>
@@ -99,8 +99,21 @@ const showDel = ref(false);
 const delLoading = ref(false);
 
 const taskSlider = computed(() => {
-  console.log(data.value);
-  return 10;
+  const useTime = data.value.usageTime.reduce((total, item) => {
+    if (item.length === 2) {
+      return (total += item[1] - item[0]);
+    } else if (item.length === 1) {
+      return (total += Date.now() - item[0]);
+    } else {
+      return total;
+    }
+  }, 0);
+  let percentage = (useTime / data.value.needTime) * 100;
+  if (percentage > 100) {
+    percentage = 100;
+  }
+
+  return percentage;
 });
 
 const progressColor = computed(() => {

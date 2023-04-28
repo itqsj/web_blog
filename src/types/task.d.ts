@@ -5,7 +5,7 @@ export interface PanelInt {
   _id: string;
   sort: number;
   team_id: string;
-  type: keyof [1, 2, 3, 4]; //1 待执行 2.进行中 3已完成 4需复习
+  type: 1 | 2 | 3 | 4; //1 待执行 2.进行中 3已完成 4需复习
   tasks: TaskInt[];
 }
 
@@ -25,7 +25,7 @@ export interface TaskInt {
   panel_id: string;
   team_id: string;
   img: string;
-  startTime?: number;
+  usageTime: Array<number[]>;
   completeTime?: number;
   content: string;
   needTime: number;
@@ -36,7 +36,7 @@ export interface TaskInt {
   team?: TeamInt;
 }
 
-export type TaskTimeInt = Pick<TaskInt, 'startTime' | 'needTime'>;
+export type TaskTimeInt = Pick<TaskInt, 'usageTime' | 'needTime'>;
 
 // 移动改变
 export interface DragChange<T> {

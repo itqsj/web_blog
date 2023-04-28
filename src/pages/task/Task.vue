@@ -151,21 +151,36 @@ const handleTaskMove = async (data?: TaskTimeInt) => {
 
   const { code } = await taskMove(params);
   if (code === 200) {
+    //获取原来面板和新加入的面板
     const index = list.value.findIndex(
       (item) => item._id === taskParams.added.panel_id,
+    );
+    const removeIndex = list.value.findIndex(
+      (item) => item._id === taskParams.removed.panel_id,
     );
 
     list.value[index].tasks.forEach((element) => {
       if (element._id === taskParams.added._id) {
         element.panel_id = list.value[index]._id;
-        if (list.value[index].type === 2 && !element.startTime) {
-          element.startTime = Date.now();
+        if (list.value[index].type === 2) {
+          // 当新加入的面板是进行中，计入开始时间
+          element.usageTime.push([Date.now()]);
         } else if (list.value[index].type === 3) {
+          // 当新加入的面板是已完成，更新完成时间
           element.completeTime = Date.now();
         }
       }
+      if (
+        list.value[removeIndex].type === 2 &&
+        element._id === taskParams.removed._id
+      ) {
+        // 当原来的面板是进行中，更新使用时间
+        const index = (element.usageTime.length || 1) - 1;
+        if (element.usageTime[index]) {
+          element.usageTime[index].push(Date.now());
+        }
+      }
     });
-    console.log(list.value[index].tasks);
 
     cloneList();
   }
