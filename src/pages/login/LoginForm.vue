@@ -27,12 +27,12 @@
       </div>
     </el-form-item>
     <el-form-item>
-      <el-button
+      <v-btn
         class="form_submit font-15"
         size="large"
         :loading="loading"
         @click="submitForm"
-        >LOGIN</el-button
+        >LOGIN</v-btn
       >
     </el-form-item>
     <el-form-item>
@@ -55,13 +55,19 @@ import { ElNotification } from 'element-plus';
 import { login } from '@/api/api_login';
 import { useUserStore } from '@/store/user';
 import { useRouter } from 'vue-router';
+import encrypted from '@/util/encrypted';
+
+interface LoginFormInt {
+  email: string;
+  password: string;
+}
 
 const ruleFormRef = ref<FormInstance>();
 const remember = ref<boolean>(false);
 const loading = ref<boolean>(false);
 const userStore = useUserStore();
 const router = useRouter();
-const ruleForm = reactive({
+const ruleForm = reactive<LoginFormInt>({
   email: '1789337400@qq.com',
   password: '123456',
 });
@@ -76,15 +82,18 @@ const rules: FormRules = {
 
 const handleLogin = async () => {
   loading.value = true;
-  const params = {
+  const params: LoginFormInt = {
     ...ruleForm,
   };
-  const res = await login(params);
+  const encryptedParams = await encrypted(params);
+
+  const res = await login(encryptedParams);
   if (res.code === 200) {
     window.sessionStorage.setItem('token', res.data.token);
     userStore.updateToken(res.data.token);
     router.push('/home');
   }
+
   loading.value = false;
 };
 

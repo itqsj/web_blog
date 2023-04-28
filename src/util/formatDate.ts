@@ -21,7 +21,7 @@ export default function formatDate(value: number) {
     return Math.floor((nowTimes - value) / (60 * 60 * 1000)) + '小时前';
   }
   const date = new Date(value);
-  const dateNumFun = (num) => (num < 10 ? `0${num}` : num);
+  const dateNumFun = (num: number) => (num < 10 ? `0${num}` : num);
   const [Y, M, D, h, m, s] = [
     date.getFullYear(),
     dateNumFun(date.getMonth() + 1),

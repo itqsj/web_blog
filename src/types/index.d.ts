@@ -18,3 +18,7 @@ export interface DataInt<T> {
   page: number;
   pageSize: number;
 }
+
+interface EncryptedInt {
+  cryptData: string;
+}
