@@ -46,10 +46,10 @@ import Head from '@/components/head/Head.vue';
 // import Analytics from '@/pages/analytics/Analytics.vue';
 
 import { verifyToken, userInfo } from '@/api/api_user';
-import { ResInt } from '@/types/index';
 
 const userStore = useUserStore();
-const { getThemStyle } = toRefs(useThemeStore());
+const themeStore = useThemeStore();
+const { getThemStyle } = toRefs(themeStore);
 const router = useRouter();
 const isFixed = ref(false);
 const isFinish = ref(false);
@@ -84,6 +84,7 @@ const getUserinfo = async () => {
   if (code === 200) {
     userStore.updateUserInfo(data);
     isFinish.value = true;
+    themeStore.changeCodeLink();
   }
 };
 const affixChange = (fixed: boolean) => {
@@ -92,6 +93,9 @@ const affixChange = (fixed: boolean) => {
 </script>
 
 <style lang="less">
+.t-codebg {
+  background-color: v-bind('getThemStyle.codeBg');
+}
 .t-color {
   color: v-bind('getThemStyle.color');
 }

@@ -15,6 +15,7 @@
     "@vueuse/core": "^9.6.0",
     "axios": "^1.1.2",
     "element-plus": "^2.2.26",
+    "highlight.js": "^11.7.0",
     "jsencrypt": "^3.3.2",
     "lodash": "^4.17.21",
     "pinia": "^2.0.23",

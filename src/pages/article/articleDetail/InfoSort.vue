@@ -31,7 +31,7 @@
     </div>
     <div class="sort_content">
       <h6 class="sort_content_title">Content</h6>
-      <div class="sort_content_body t-color" v-html="data.content"></div>
+      <EchoTinymce :data="data.content"></EchoTinymce>
     </div>
     <v-btn class="sort_btn" @click="handleEdit">Edit Article</v-btn>
   </div>
@@ -47,6 +47,8 @@ export default {
 import { ref, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 
+import EchoTinymce from '@/components/tinymce/EchoTinymce.vue';
+
 import type { ArticleInt } from '@/types/article';
 import formatDate from '@/util/formatDate';
 
@@ -61,8 +63,6 @@ const { data } = toRefs(props);
 const rate = ref(1);
 
 const handleEdit = () => {
-  console.log(123123);
-
   const query = {
     id: data.value?._id,
   };
@@ -167,12 +167,6 @@ const handleEdit = () => {
     }
   }
   &_content {
-    &_body {
-      text-align: justify;
-      :deep(img) {
-        max-width: 100%;
-      }
-    }
     &_title {
       font-family: Roboto, Helvetica, Arial, sans-serif;
       font-size: 0.875rem;

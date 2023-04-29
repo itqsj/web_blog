@@ -42,12 +42,15 @@ import { ref } from 'vue';
 import CommonSwitch from '@/components/switch/CommonSwitch.vue';
 
 import { toggleDark } from '@/composables';
+import { useThemeStore } from '@/store/theme';
 
+const themeStore = useThemeStore();
 const sidenav = ref(false);
 const themeSwitch = ref(false);
 
 const themeChange = () => {
   toggleDark();
+  themeStore.changeCodeLink();
 };
 </script>
 
