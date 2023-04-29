@@ -59,7 +59,6 @@ import SettingDrawer from '@/components/head/SettingDrawer.vue';
 
 import { useThemeStore } from '@/store/theme';
 import { toggleDark, isDark } from '@/composables';
-import { useTheme } from 'vuetify';
 
 const { getThemStyle } = toRefs(useThemeStore());
 const route = useRoute();
@@ -83,11 +82,6 @@ const styleObj = reactive({
 const style = ref(styleObj.fixed);
 const search = ref('');
 const settingDrawer = ref(false);
-const theme = useTheme();
-const toggleTheme = () =>
-  (theme.global.name.value = theme.global.current.value.dark
-    ? 'light'
-    : 'dark');
 
 watch(
   () => route.path,
@@ -116,7 +110,6 @@ watch(
 
 const toggleThem = () => {
   toggleDark();
-  toggleTheme();
 };
 </script>
 

@@ -23,7 +23,7 @@
 
     <div style="height: 30px"></div>
     <v-card title="Basic info" class="t-boxshadow">
-      <div class="content" v-html="task?.content"></div>
+      <EchoTinymce class="content" :data="task?.content"></EchoTinymce>
     </v-card>
     <Overlay v-model="loading"> </Overlay>
   </div>
@@ -40,6 +40,7 @@ import { useRoute } from 'vue-router';
 
 import TaskBasicInfo from './TaskBasicInfo.vue';
 import Overlay from '@/components/mask/Overlay.vue';
+import EchoTinymce from '@/components/tinymce/EchoTinymce.vue';
 
 import type { TaskInt } from '@/types/task';
 import { taskDetail } from '@/api/api_task';

@@ -76,9 +76,10 @@
       <div class="line mtop-16 mbouttom-16"></div>
     </div>
     <div class="card_footer font-16">
-      <div>$899/night</div>
+      <div>creator: {{ data.author_name }}</div>
       <div class="flex_center">
-        <el-icon class="mright-5"><LocationFilled /></el-icon>Barcelona, Spain
+        <el-icon class="mright-5"><Stopwatch /></el-icon>
+        {{ formatDate(data.pub_time) }}
       </div>
     </div>
   </div>
@@ -99,6 +100,7 @@ import { ElNotification } from 'element-plus';
 
 import type { ArticleInt } from '@/types/article';
 import { articleDel } from '@/api/api_article';
+import formatDate from '@/util/formatDate';
 
 const props = defineProps({
   data: {

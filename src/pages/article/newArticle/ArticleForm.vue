@@ -40,7 +40,6 @@
           <v-textarea
             v-model="ruleForm.introduce"
             :rows="2"
-            bg-color="white"
             color="blue-accent-4"
             label="introduce"
           ></v-textarea>

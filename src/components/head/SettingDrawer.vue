@@ -43,15 +43,23 @@ import CommonSwitch from '@/components/switch/CommonSwitch.vue';
 
 import { toggleDark } from '@/composables';
 import { useThemeStore } from '@/store/theme';
+import { useTheme } from 'vuetify';
 
 const themeStore = useThemeStore();
 const sidenav = ref(false);
 const themeSwitch = ref(false);
+const theme = useTheme();
 
 const themeChange = () => {
   toggleDark();
+  toggleTheme();
   themeStore.changeCodeLink();
 };
+
+const toggleTheme = () =>
+  (theme.global.name.value = theme.global.current.value.dark
+    ? 'light'
+    : 'dark');
 </script>
 
 <style lang="less" scoped>
