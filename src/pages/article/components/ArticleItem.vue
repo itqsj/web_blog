@@ -161,7 +161,7 @@ const handleEdit = () => {
 .card {
   position: absolute;
   border-radius: 8px;
-  transition: all 0.3s;
+  transition: all 0.1s;
 
   &:hover {
     .card_img {
