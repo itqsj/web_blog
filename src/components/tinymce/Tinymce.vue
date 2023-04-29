@@ -13,7 +13,7 @@ export default {
 import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue';
 
 import type { Editor, EditorManager } from '../../../public/tinymce/tinymce';
-
+import { uploadFile } from '@/api/api_upload';
 import { isDark } from '@/composables';
 
 interface WindowTinymce extends Window {
@@ -66,6 +66,21 @@ const init = () => {
         'undo redo | styles | codesample bold italic  | alignleft aligncenter alignright alignjustify | ' +
         'bullist numlist outdent indent | image | preview media fullpage | ' +
         'forecolor backcolor emoticons',
+      images_upload_handler: (blobInfo, process) =>
+        new Promise((resolve, reject) => {
+          const file = blobInfo.blob();
+
+          const formD = new FormData();
+          formD.append('file', file);
+          uploadFile(formD).then((res) => {
+            // succFun(res.data.url + '?download=0')
+            if (res.code === 200) {
+              resolve(res.data.url);
+            } else {
+              resolve('');
+            }
+          });
+        }),
       codesample_languages: [
         { text: 'HTML/XML', value: 'markup' },
         { text: 'JavaScript', value: 'javascript' },

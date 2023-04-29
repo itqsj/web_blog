@@ -1,14 +1,24 @@
-import axios, { AxiosResponse, AxiosRequestConfig, AxiosError } from 'axios';
+import axios, {
+  AxiosResponse,
+  AxiosRequestConfig,
+  AxiosError,
+  AxiosRequestHeaders,
+} from 'axios';
 
 import { h } from 'vue';
 import { ElNotification } from 'element-plus';
 import { ResInt } from '@/types/index';
+
+interface MyAxiosHeaders {
+  [key: string]: string | undefined;
+}
 
 interface ReqInt {
   url: string;
   method?: string;
   data?: object;
   params?: object;
+  headers?: MyAxiosHeaders;
 }
 
 const service = axios.create();
@@ -16,12 +26,14 @@ service.defaults.timeout = 10000; // 请求超时时间
 // Request interceptors
 service.interceptors.request.use(
   (config: AxiosRequestConfig) => {
-    // do something
-    config.headers = {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: window.sessionStorage.getItem('token'),
-    };
+    config.headers = Object.assign(
+      {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: window.sessionStorage.getItem('token')?.trim() ?? '',
+      },
+      config.headers,
+    );
     return config;
   },
   (error: AxiosError) => {
@@ -57,9 +69,10 @@ function http<T>({
   method = 'post',
   data,
   params,
+  headers,
 }: ReqInt): Promise<ResInt<T>> {
   return new Promise((resolve, reject) => {
-    service({ url, method, data, params })
+    service({ url, method, data, params, headers })
       .then((res) => {
         resolve(res.data);
       })
