@@ -49,7 +49,7 @@ export default {
 };
 </script>
 <script lang="ts" setup>
-import { ref, onBeforeMount, nextTick } from 'vue';
+import { ref, onBeforeMount, nextTick, onBeforeUnmount } from 'vue';
 import ArticleItem from '../components/ArticleItem.vue';
 import FiltersForm from './FiltersForm.vue';
 import waterfall from '@/components/waterfall/waterfall.vue';
@@ -63,7 +63,17 @@ const waterfallref = ref();
 
 onBeforeMount(() => {
   getList();
+  window.addEventListener('resize', reseize);
 });
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', reseize);
+});
+
+const reseize = () => {
+  waterfallref.value.setWarpWith();
+  imgLoad();
+};
 
 const imgLoad = () => {
   waterfallref.value.setPosition();

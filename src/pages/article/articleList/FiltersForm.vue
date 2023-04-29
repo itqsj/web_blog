@@ -7,9 +7,7 @@
       prepend-inner-icon="mdi-map-marker"
       variant="solo"
     ></v-text-field>
-
     <p class="form_text">Issue date</p>
-
     <el-date-picker
       v-model="form.startTime"
       class="form_picker"
@@ -25,6 +23,7 @@
       placeholder="Pick a day"
       size="large"
     />
+    <p class="form_text mtop-10">From customer</p>
   </div>
 </template>
 

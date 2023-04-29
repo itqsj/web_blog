@@ -28,11 +28,15 @@ const props = defineProps({
 const { info } = toRefs(props);
 
 onMounted(() => {
+  setWarpWith();
+});
+
+const setWarpWith = () => {
   itemWidth.value =
     (waterfall.value.clientWidth -
       (info.value.columns - 1) * info.value.space) /
     info.value.columns;
-});
+};
 
 const setPosition = () => {
   const nextTops = new Array(info.value.columns).fill(0);
@@ -55,6 +59,7 @@ const setPosition = () => {
 
 defineExpose({
   setPosition,
+  setWarpWith,
 });
 </script>
 
