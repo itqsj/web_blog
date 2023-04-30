@@ -14,7 +14,8 @@
         ></v-carousel-item>
 
         <v-carousel-item
-          src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+          v-if="imgList.length"
+          :src="imgList[0]"
           cover
         ></v-carousel-item>
       </v-carousel>
@@ -57,7 +58,7 @@
       </div>
     </div>
     <CommonDialog v-model="uploadShow" draggable title="上传图片">
-      <CommonUpload></CommonUpload>
+      <CommonUpload @success="uoloadSuccess"></CommonUpload>
     </CommonDialog>
   </div>
 </template>
@@ -90,6 +91,12 @@ const props = defineProps({
 
 const { data } = toRefs(props);
 const uploadShow = ref(false);
+const imgList = ref<Array<string>>([]);
+
+const uoloadSuccess = (url: string) => {
+  uploadShow.value = false;
+  imgList.value.push(url);
+};
 </script>
 
 <style lang="less" scoped>
