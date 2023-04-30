@@ -2,7 +2,7 @@
   <div class="card t-boxshadow t-background">
     <div class="card_img">
       <!-- <img :src="data.img" alt="" /> -->
-      <v-carousel :show-arrows="false" height="auto">
+      <v-carousel height="auto">
         <v-carousel-item
           src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
           cover
@@ -39,7 +39,9 @@
           <el-icon style="color: #1a73e8"><EditPen /></el-icon>
         </el-tooltip>
       </div>
-      <div v-show="isBtn" class="card_body_operat">123132</div>
+      <div v-show="isBtn" class="card_body_operat" @click="uploadShow = true">
+        123132
+      </div>
       <h4 class="font-20">Cozy 5 Stars Apartment</h4>
       <p class="font-16">
         The place is close to Barceloneta Beach and bus stop just 2 min by walk
@@ -54,6 +56,9 @@
         <el-icon class="mright-5"><LocationFilled /></el-icon>Barcelona, Spain
       </div>
     </div>
+    <CommonDialog v-model="uploadShow" draggable title="上传图片">
+      <CommonUpload></CommonUpload>
+    </CommonDialog>
   </div>
 </template>
 
@@ -64,7 +69,9 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { toRefs } from 'vue';
+import { toRefs, ref } from 'vue';
+import CommonDialog from '@/components/dialog/CommonDialog.vue';
+import CommonUpload from '@/components/upload/uploadImg.vue';
 
 const props = defineProps({
   data: {
@@ -82,6 +89,7 @@ const props = defineProps({
 });
 
 const { data } = toRefs(props);
+const uploadShow = ref(false);
 </script>
 
 <style lang="less" scoped>
