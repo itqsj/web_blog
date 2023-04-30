@@ -54,7 +54,7 @@ export default {
 };
 </script>
 <script lang="ts" setup>
-import { ref, computed, onBeforeMount, toRefs, nextTick, Component } from 'vue';
+import { ref, computed, onBeforeMount, toRefs, nextTick } from 'vue';
 import { useRouter } from 'vue-router';
 
 import draggable from 'vuedraggable';
@@ -165,7 +165,10 @@ const handleTaskMove = async (data?: TaskTimeInt) => {
         if (list.value[index].type === 2) {
           // 当新加入的面板是进行中，计入开始时间
           element.usageTime.push([Date.now()]);
-        } else if (list.value[index].type === 3) {
+        } else if (
+          list.value[index].type === 3 ||
+          list.value[index].type === 4
+        ) {
           // 当新加入的面板是已完成，更新完成时间
           element.completeTime = Date.now();
         }

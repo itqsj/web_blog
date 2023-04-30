@@ -9,6 +9,7 @@
       <div class="page_body">
         <div class="page_body_left">
           <PicCard
+            ref="imgsRef"
             :data="picData"
             :show-footer="false"
             :is-btn="true"
@@ -27,25 +28,27 @@
         >
       </div>
     </div>
+    <Overlay v-model="loading"> </Overlay>
   </div>
 </template>
 
 <script lang="ts">
 export default {
-  name: 'addTask',
+  name: 'AddTask',
 };
 </script>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, nextTick } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 
 import PicCard from '@/components/card/PicCard.vue';
 import TaskForm from './TaskForm.vue';
 import { ElNotification } from 'element-plus';
+import Overlay from '@/components/mask/Overlay.vue';
 
 import { taskAdd, taskDetail, taskEdit } from '@/api/api_task';
-import type { AddTaskParams, IdParamsInt, EditTaskParams } from '@/types/task';
+import type { AddTaskParams, IdParamsInt } from '@/types/task';
 import type { FormInstance } from 'element-plus';
 import pic1 from '@/assets/img/pic1.jpg';
 
@@ -66,7 +69,9 @@ const picData = {
     'The place is close to Barceloneta Beach and bus stop just 2 min by walk and near to "Naviglio" where you can enjoy the main night life in Barcelona.',
 };
 const taskFormRef = ref();
+const imgsRef = ref();
 const submitLoading = ref(false);
+const loading = ref(false);
 let taskId = '';
 
 const handleSubmit = async () => {
@@ -89,6 +94,7 @@ const editTask = async (data: AddTaskParams) => {
     ...data,
     _id: taskId,
   };
+  params.imgs = imgsRef.value.imgList.join(',');
   params.needTime = data.needTime * 60 * 60 * 24 * 1000;
   const res = await taskEdit(params);
 
@@ -108,6 +114,7 @@ const addTask = async (data: AddTaskParams) => {
   const params = {
     ...data,
   };
+  params.imgs = imgsRef.value.imgList.join(',');
   params.needTime = data.needTime * 60 * 60 * 24 * 1000;
   const res = await taskAdd(params);
 
@@ -130,9 +137,11 @@ const init = () => {
 };
 
 const getTask = async () => {
+  loading.value = true;
   const params: IdParamsInt = {
     _id: taskId,
   };
+
   const { code, data } = await taskDetail(params);
   if (code === 200) {
     taskFormRef.value.ruleForm.name = data.name;
@@ -140,6 +149,14 @@ const getTask = async () => {
     taskFormRef.value.ruleForm.priority = data.priority;
     taskFormRef.value.ruleForm.needTime = data.needTime / 1000 / 24 / 60 / 60;
     taskFormRef.value.tinymceRef.setContent(data.content);
+    nextTick(() => {
+      try {
+        imgsRef.value.imgList = data.imgs.split(',');
+      } catch {
+        imgsRef.value.imgList = [];
+      }
+      loading.value = false;
+    });
   }
 };
 

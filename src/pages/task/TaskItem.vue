@@ -1,13 +1,11 @@
 <template>
   <div>
     <div class="item t-color t-background t-boxshadow">
-      <img
-        v-if="false"
-        class="item_img mbottom-15"
-        src="https://demos.creative-tim.com/otis-admin-pro/static/media/office-dark.1a5b950b43ac88b815d5.jpg"
-        alt=""
-      />
+      <CommonImg v-if="cover" class="item_img mbottom-15" :src="cover" alt="" />
       <p class="mbottom-10">{{ data.name }}</p>
+      <p v-if="type === 3 || type === 4" class="mbottom-10 item_time">
+        completeTime:&nbsp;&nbsp;&nbsp;{{ formatDate(data.completeTime) }}
+      </p>
       <v-progress-linear
         v-if="type === 2"
         :model-value="taskSlider"
@@ -76,9 +74,11 @@ import { useRouter } from 'vue-router';
 
 import delConfirm from '@/components/delConfirm/delConfirm.vue';
 import { ElNotification } from 'element-plus';
+import CommonImg from '@/components/img/CommonImg.vue';
 
 import type { TaskInt } from '@/types/task';
 import { taskDel } from '@/api/api_task';
+import formatDate from '@/util/formatDate';
 
 const emit = defineEmits(['del']);
 const props = defineProps({
@@ -98,6 +98,14 @@ const { data } = toRefs(props);
 const showDel = ref(false);
 const delLoading = ref(false);
 
+const cover = computed(() => {
+  const imgArr = (data.value.imgs ?? '').split(',');
+  if (imgArr.length) {
+    return imgArr[0];
+  }
+  return '';
+});
+
 const taskSlider = computed(() => {
   const useTime = data.value.usageTime.reduce((total, item) => {
     if (item.length === 2) {
@@ -109,9 +117,9 @@ const taskSlider = computed(() => {
     }
   }, 0);
   let percentage = (useTime / data.value.needTime) * 100;
-  if (percentage > 100) {
-    percentage = 100;
-  }
+  // if (percentage > 100) {
+  //   percentage = 100;
+  // }
 
   return percentage;
 });
@@ -179,6 +187,10 @@ const handleUpdate = () => {
   cursor: move;
   &::marker {
     display: none;
+  }
+  &_time {
+    font-size: 0.875rem;
+    color: rgba(0, 0, 0, 0.5);
   }
   &_img {
     width: 100%;

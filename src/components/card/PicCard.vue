@@ -2,46 +2,41 @@
   <div class="card t-boxshadow t-background">
     <div class="card_img">
       <!-- <img :src="data.img" alt="" /> -->
-      <v-carousel height="auto">
-        <v-carousel-item
-          src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-          cover
-        ></v-carousel-item>
-
-        <v-carousel-item
-          src="https://cdn.vuetifyjs.com/images/cards/hotel.jpg"
-          cover
-        ></v-carousel-item>
-
-        <v-carousel-item
-          v-if="imgList.length"
-          :src="imgList[0]"
-          cover
-        ></v-carousel-item>
+      <div
+        v-if="!imgList.length"
+        class="card_img_empty"
+        @click="uploadShow = true"
+      >
+        <el-icon :size="48" class="el-icon--upload"><upload-filled /></el-icon>
+        <span>点击上传图片</span>
+      </div>
+      <v-carousel v-else height="auto">
+        <v-carousel-item v-for="(item, index) in imgList" :key="index">
+          <CommonImg cover :src="item"></CommonImg>
+        </v-carousel-item>
       </v-carousel>
     </div>
     <div class="card_body">
-      <div v-show="!isBtn" class="card_body_operat">
+      <div class="card_body_operat">
         <el-tooltip
           class="box-item"
           effect="dark"
-          content="Refresh"
+          content="Upload"
           placement="bottom"
         >
-          <el-icon style="color: #e82567"><RefreshRight /></el-icon>
+          <v-btn icon="mdi-cloud-upload" @click="uploadShow = true"></v-btn>
         </el-tooltip>
 
         <el-tooltip
           class="box-item"
           effect="dark"
-          content="Edit"
+          content="del"
           placement="bottom"
         >
-          <el-icon style="color: #1a73e8"><EditPen /></el-icon>
+          <v-btn v-show="imgList.length" class="v-btn--icon">
+            <el-icon :size="18"><DeleteFilled /></el-icon>
+          </v-btn>
         </el-tooltip>
-      </div>
-      <div v-show="isBtn" class="card_body_operat" @click="uploadShow = true">
-        123132
       </div>
       <h4 class="font-20">Cozy 5 Stars Apartment</h4>
       <p class="font-16">
@@ -73,6 +68,7 @@ export default {
 import { toRefs, ref } from 'vue';
 import CommonDialog from '@/components/dialog/CommonDialog.vue';
 import CommonUpload from '@/components/upload/uploadImg.vue';
+import CommonImg from '@/components/img/CommonImg.vue';
 
 const props = defineProps({
   data: {
@@ -83,12 +79,7 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  isBtn: {
-    type: Boolean,
-    default: false,
-  },
 });
-
 const { data } = toRefs(props);
 const uploadShow = ref(false);
 const imgList = ref<Array<string>>([]);
@@ -97,6 +88,10 @@ const uoloadSuccess = (url: string) => {
   uploadShow.value = false;
   imgList.value.push(url);
 };
+
+defineExpose({
+  imgList,
+});
 </script>
 
 <style lang="less" scoped>
@@ -105,7 +100,7 @@ const uoloadSuccess = (url: string) => {
 
   &:hover {
     .card_img {
-      transform: translate(0, -35px);
+      transform: translate(0, -55px);
     }
   }
   &_img {
@@ -113,6 +108,7 @@ const uoloadSuccess = (url: string) => {
     position: relative;
     top: -20px;
     width: 95%;
+    aspect-ratio: 1.5/1;
     margin: auto;
     transition: all 300ms cubic-bezier(0.34, 1.61, 0.7, 1) 0s;
     .v-carousel {
@@ -123,6 +119,22 @@ const uoloadSuccess = (url: string) => {
         overflow: hidden;
         width: 100%;
         aspect-ratio: 1.5/1;
+      }
+    }
+    &_empty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1.25rem;
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      border: 1px dashed rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      span {
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.7);
       }
     }
     img {
@@ -136,10 +148,10 @@ const uoloadSuccess = (url: string) => {
     position: relative;
     &_operat {
       position: absolute;
-      top: -40px;
+      top: -70px;
       display: flex;
       justify-content: center;
-      gap: 50px;
+      gap: 40px;
       width: 100%;
       font-size: 18px;
     }

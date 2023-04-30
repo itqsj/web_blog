@@ -2,7 +2,6 @@
   <teleport :to="appendTo">
     <Transition name="slide-fade">
       <div v-show="modelValue" class="overlay" @click="close">
-        {{ defaultSlot }}
         <slot v-if="defaultSlot"></slot>
         <loading v-else></loading>
       </div>

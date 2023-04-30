@@ -25,7 +25,10 @@
       @change="cropperChange"
     />
     <div class="upload_footer">
-      <v-btn class="upload_footer_add mtop-15 mright-20" @click="submit"
+      <v-btn
+        class="upload_footer_add mtop-15 mright-20"
+        :loading="loading"
+        @click="submit"
         >SUBMIT</v-btn
       >
     </div>
@@ -54,6 +57,7 @@ interface CropperChangeInt {
 
 const emit = defineEmits(['success']);
 const cropperImg = ref('');
+const loading = ref(false);
 let corImg = '';
 
 const beforeUpload = (rawFile: UploadRawFile) => {
@@ -78,6 +82,7 @@ const submit = () => {
     });
     return;
   }
+  loading.value = true;
   const formD = new FormData();
   const blob = dataURLtoBlob(corImg);
   const file = blobToFile(blob, guid());
@@ -90,7 +95,9 @@ const submit = () => {
         message: '上传成功',
       });
       emit('success', res.data.url);
+      corImg = '';
     }
+    loading.value = false;
   });
 };
 
