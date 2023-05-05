@@ -8,8 +8,8 @@
           alt=""
         />
         <div class="user_left_text">
-          <h3>Richard Davis</h3>
-          <p>CEO / Co-Founder</p>
+          <h3>{{ userInfo.username }}</h3>
+          <p>TEAM / {{ userInfo.team.name }}</p>
         </div>
       </div>
       <div class="user_right">
@@ -22,7 +22,7 @@
         <hr class="vertical_line" />
       </div>
       <div class="panel_item">
-        <InformatSort />
+        <InformatSort :user-info="userInfo" />
         <hr class="vertical_line" />
       </div>
       <div>
@@ -52,7 +52,7 @@ export default {
 };
 </script>
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, toRefs } from 'vue';
 
 import commonTabs from '@/components/tabs/commonTabs.vue';
 import SettingSort from './sort/SettingSort.vue';
@@ -60,26 +60,13 @@ import ConversatSort from './sort/ConversatSort.vue';
 import InformatSort from './sort/InformatSort.vue';
 import ArticlePanel from '@/components/panel/ArticlePanel.vue';
 
+import { useUserStore } from '@/store/user';
+
 import pic1 from '@/assets/img/pic1.jpg';
 import pic2 from '@/assets/img/pic2.jpg';
 import pic3 from '@/assets/img/pic3.jpg';
 
-const tabs = [
-  {
-    label: 'App',
-    value: 1,
-  },
-  {
-    label: 'Message',
-    value: 2,
-  },
-  {
-    label: 'Setting',
-    value: 3,
-  },
-];
-const activeTab = ref(1);
-
+const { userInfo } = toRefs(useUserStore());
 const cardList = [
   {
     img: pic1,
@@ -106,6 +93,21 @@ const cardList = [
       'The place is close to Metro Station and bus stop just 2 min by walk and near to "Naviglio" where you can enjoy the night life in London, UK.',
   },
 ];
+const tabs = [
+  {
+    label: 'App',
+    value: 1,
+  },
+  {
+    label: 'Message',
+    value: 2,
+  },
+  {
+    label: 'Setting',
+    value: 3,
+  },
+];
+const activeTab = ref(1);
 </script>
 
 <style lang="less" scoped>

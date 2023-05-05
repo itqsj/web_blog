@@ -3,9 +3,11 @@ export default function formatDate(value: number) {
   if (!value) {
     return '';
   }
+
   if (value.toString().length === 10) {
     value = value * 1000;
   }
+
   const nowTimes = new Date().getTime();
   if (nowTimes - value < 60 * 1000) {
     if (Math.floor((nowTimes - value) / 1000) < 5) {
@@ -21,6 +23,8 @@ export default function formatDate(value: number) {
     return Math.floor((nowTimes - value) / (60 * 60 * 1000)) + '小时前';
   }
   const date = new Date(value);
+  console.log(date);
+
   const dateNumFun = (num: number) => (num < 10 ? `0${num}` : num);
   const [Y, M, D, h, m, s] = [
     date.getFullYear(),

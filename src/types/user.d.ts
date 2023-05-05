@@ -38,3 +38,8 @@ export interface TeamInt {
 export interface UserInfoInt extends User {
   team: TeamInt;
 }
+
+export interface UserStateInt {
+  _token: string;
+  _userInfo: UserInfoInt | null;
+}

@@ -4,13 +4,15 @@
       <!-- <img :src="data.img" alt="" /> -->
       <div
         v-if="!imgList.length"
-        class="card_img_empty"
+        class="card_img_empty t-background"
         @click="uploadShow = true"
       >
-        <el-icon :size="48" class="el-icon--upload"><upload-filled /></el-icon>
-        <span>点击上传图片</span>
+        <el-icon :size="48" class="el-icon--upload t-color"
+          ><upload-filled
+        /></el-icon>
+        <span class="t-color">点击上传图片</span>
       </div>
-      <v-carousel v-else height="auto">
+      <v-carousel v-else height="auto" hide-delimiter-background>
         <v-carousel-item v-for="(item, index) in imgList" :key="index">
           <CommonImg cover :src="item"></CommonImg>
         </v-carousel-item>
@@ -100,7 +102,7 @@ defineExpose({
 
   &:hover {
     .card_img {
-      transform: translate(0, -55px);
+      transform: translate(0, -3.4375rem);
     }
   }
   &_img {
@@ -129,12 +131,12 @@ defineExpose({
       gap: 1.25rem;
       width: 100%;
       height: 100%;
-      background: #ffffff;
+      // background: #ffffff;
       border: 1px dashed rgba(0, 0, 0, 0.1);
       cursor: pointer;
       span {
         font-size: 14px;
-        color: rgba(0, 0, 0, 0.7);
+        // color: rgba(0, 0, 0, 0.7);
       }
     }
     img {
@@ -148,12 +150,12 @@ defineExpose({
     position: relative;
     &_operat {
       position: absolute;
-      top: -70px;
+      top: -4.375rem;
       display: flex;
       justify-content: center;
-      gap: 40px;
+      gap: 2.5rem;
       width: 100%;
-      font-size: 18px;
+      font-size: 1.125rem;
     }
     h4 {
       color: rgb(123, 128, 154);

@@ -1,29 +1,60 @@
 <template>
   <div class="form t-background t-boxshadow t-color">
     <h4>Filters</h4>
-    <v-text-field
+    <!-- <v-text-field
       label="Prepend inner"
       class="form_search"
       prepend-inner-icon="mdi-map-marker"
       variant="solo"
-    ></v-text-field>
+    ></v-text-field> -->
+    <BorInput
+      v-model="form.keyWord"
+      class="mtop-20 mbottom-20"
+      placeholder="keyWord"
+      :prefix-icon="Search"
+    />
     <p class="form_text">Issue date</p>
     <el-date-picker
       v-model="form.startTime"
       class="form_picker"
       type="date"
-      placeholder="Pick a day"
+      placeholder="Pick start_time"
       size="large"
+      @change="startTimeChange"
     />
 
     <el-date-picker
       v-model="form.endTime"
       class="form_picker mtop-20"
       type="date"
-      placeholder="Pick a day"
+      placeholder="Pick end_time"
       size="large"
+      @change="endTimeChange"
     />
-    <p class="form_text mtop-10">From customer</p>
+    <p class="form_text mtop-20">From customer</p>
+    <div class="form_category">
+      <v-checkbox
+        v-for="item in cates"
+        :key="item._id"
+        v-model="form.cateIds"
+        :label="item.name"
+        :value="item._id"
+        color="red-darken-3"
+        hide-details
+      ></v-checkbox>
+    </div>
+    <v-btn
+      :disabled="loading"
+      :loading="loading"
+      block
+      class="text-none mb-4 mt-4"
+      color="indigo-darken-3"
+      size="large"
+      variant="flat"
+      @click="handleFilter"
+    >
+      FILTER
+    </v-btn>
   </div>
 </template>
 
@@ -33,11 +64,67 @@ export default {
 };
 </script>
 <script lang="ts" setup>
-import { reactive } from 'vue';
+import { onMounted, reactive, ref, toRefs } from 'vue';
 
-const form = {
-  startTime: '',
-  endTime: '',
+import { Search } from '@element-plus/icons-vue';
+import BorInput from '@/components/input/BorInput.vue';
+
+import type { ArticleFilterInt } from '@/types/article';
+import { cateList } from '@/api/api_cate';
+import type { CateInt } from '@/types/cate';
+
+const props = defineProps({
+  loading: {
+    type: Boolean,
+    default: false,
+  },
+});
+const { loading } = toRefs(props);
+const emit = defineEmits(['change']);
+const form = reactive<ArticleFilterInt>({
+  startTime: null,
+  endTime: null,
+  keyWord: '',
+  timeRang: [0, 0],
+  cateIds: [],
+});
+const cates = ref<CateInt[]>([]);
+let catePage = 1;
+
+onMounted(() => {
+  getCateList();
+});
+
+const handleFilter = () => {
+  emit('change', form);
+};
+
+const getCateList = async () => {
+  const params = {
+    page: catePage,
+    pageSize: 10,
+  };
+
+  const { code, data } = await cateList(params);
+  if (code === 200) {
+    cates.value = data.list;
+  }
+};
+
+const startTimeChange = () => {
+  if (form.startTime) {
+    form.timeRang[0] = form.startTime.getTime();
+  } else {
+    form.timeRang[0] = 0;
+  }
+};
+
+const endTimeChange = () => {
+  if (form.endTime) {
+    form.timeRang[1] = form.endTime.getTime() + 60 * 60 * 24 * 1000 - 1000;
+  } else {
+    form.timeRang[1] = 0;
+  }
 };
 </script>
 
@@ -64,6 +151,10 @@ const form = {
   }
   :deep(.form_picker) {
     width: 100%;
+  }
+  &_category {
+    overflow: auto;
+    max-height: 15.625rem;
   }
 }
 </style>

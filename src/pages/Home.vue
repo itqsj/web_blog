@@ -10,7 +10,7 @@
       <div class="page_body_conten">
         <router-view v-slot="{ Component }">
           <Transition name="fade" mode="out-in" appear>
-            <keep-alive include="LoginPage">
+            <keep-alive :include="['LoginPage', 'TaskPage']">
               <component :is="Component" />
             </keep-alive>
           </Transition>
@@ -65,12 +65,14 @@ const verify = async () => {
   }
 
   const { code, data } = await verifyToken({ token });
+
   if (code === 200) {
     window.sessionStorage.setItem('token', data.token);
     userStore.updateToken(data.token);
 
     getUserinfo();
-  } else if (code === 4004) {
+    // if (code === 4004)
+  } else {
     window.sessionStorage.clear();
     ElNotification({
       title: '提示',

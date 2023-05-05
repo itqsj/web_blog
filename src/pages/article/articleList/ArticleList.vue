@@ -1,9 +1,9 @@
 <template>
-  <div class="container">
+  <div v-infinite-scroll="loadMore" class="container">
     <el-affix :offset="105">
       <v-expand-x-transition>
         <div v-show="showFilter" class="container_filter">
-          <FiltersForm></FiltersForm>
+          <FiltersForm :loading="loading" @change="filtersChange"></FiltersForm>
         </div>
       </v-expand-x-transition>
     </el-affix>
@@ -12,11 +12,7 @@
       <div class="container_right_head">
         <h4 class="t-color">Article List</h4>
         <div>
-          <v-btn
-            variant="text"
-            class="t-color"
-            @click="showFilter = !showFilter"
-          >
+          <v-btn variant="text" class="t-color" @click="handleShowFilter">
             <el-icon style="margin-right: 5px"><Filter /></el-icon>
             Filters
           </v-btn>
@@ -32,12 +28,21 @@
       <div class="container_right_list">
         <waterfall ref="waterfallref" style="width: 100%">
           <ArticleItem
-            v-for="(item, index) in list"
-            :key="index"
+            v-for="item in list"
+            :key="item._id"
             :data="item"
             @del="articleDel"
           ></ArticleItem>
         </waterfall>
+        <p v-if="loading" class="container_right_list_load t-color">
+          Loading...
+        </p>
+        <p
+          v-else-if="!loading && finish"
+          class="container_right_list_load t-color"
+        >
+          No more
+        </p>
       </div>
     </div>
   </div>
@@ -55,14 +60,30 @@ import FiltersForm from './FiltersForm.vue';
 import waterfall from '@/components/waterfall/waterfall.vue';
 
 import { articleList } from '@/api/api_article';
-import type { ArticleInt } from '@/types/article';
+import { useDefer } from '@/hook/useDefer';
+import type {
+  ArticleInt,
+  ArticleFilterInt,
+  ArticleListParams,
+} from '@/types/article';
 
 const showFilter = ref(true);
-const list = ref<ArticleInt[]>([]);
+// const list = ref<ArticleInt[]>([]);
 const waterfallref = ref();
+const loading = ref(false);
+const finish = ref(false);
+const { list, addToDefer, resetList } = useDefer<ArticleInt>();
+let filterData: ArticleFilterInt = {
+  startTime: null,
+  endTime: null,
+  keyWord: '',
+  timeRang: [],
+  cateIds: [],
+};
+let page = 1;
+let count = 0;
 
 onBeforeMount(() => {
-  getList();
   window.addEventListener('resize', reseize);
 });
 
@@ -75,8 +96,31 @@ const reseize = () => {
   imgLoad();
 };
 
+const filtersChange = (data: ArticleFilterInt) => {
+  filterData = data;
+  page = 1;
+  finish.value = false;
+  getList();
+};
+
+const loadMore = () => {
+  if (loading.value || finish.value) {
+    return;
+  }
+  getList();
+};
+
 const imgLoad = () => {
-  waterfallref.value.setPosition();
+  nextTick(() => {
+    waterfallref.value.setPosition();
+  });
+};
+
+const handleShowFilter = () => {
+  showFilter.value = !showFilter.value;
+  setTimeout(() => {
+    reseize();
+  }, 300);
 };
 
 const articleDel = (id: string) => {
@@ -84,19 +128,38 @@ const articleDel = (id: string) => {
 };
 
 const getList = async () => {
-  const params = {
-    page: 1,
+  loading.value = true;
+  const params: ArticleListParams = {
+    page,
     pageSize: 10,
   };
+  if (filterData.keyWord) {
+    params.keyWord = filterData.keyWord;
+  }
+  if (filterData.timeRang?.length) {
+    params.timeRang = filterData.timeRang;
+  }
+  if (filterData.cateIds.length) {
+    params.cateIds = filterData.cateIds;
+  }
 
   const { code, data } = await articleList(params);
 
   if (code === 200) {
-    list.value = data.list;
-    nextTick(() => {
-      imgLoad();
-    });
+    count = data.count;
+    if (page === 1) {
+      await resetList(data.list, imgLoad);
+    } else {
+      await addToDefer(data.list, imgLoad);
+    }
+    if (count <= list.value.length) {
+      finish.value = true;
+    }
   }
+  page++;
+  nextTick(() => {
+    loading.value = false;
+  });
 };
 </script>
 
@@ -127,6 +190,9 @@ const getList = async () => {
       padding: 4rem 0 1rem;
       box-sizing: border-box;
       // height: 300px;
+      &_load {
+        text-align: center;
+      }
     }
     &_head {
       display: flex;

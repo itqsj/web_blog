@@ -1,18 +1,20 @@
 <template>
   <el-image v-bind="$attrs">
     <template #placeholder>
-      <div class="d-flex align-center justify-center fill-height">
+      <div
+        class="d-flex align-center justify-center fill-height bg-placeholder"
+      >
         <v-progress-circular
           color="grey-lighten-4"
           indeterminate
         ></v-progress-circular>
       </div>
     </template>
-    <template #error>
+    <!-- <template #error>
       <div class="image-slot">
         <el-icon><icon-picture /></el-icon>
       </div>
-    </template>
+    </template> -->
   </el-image>
 </template>
 
@@ -39,5 +41,8 @@ export default {
 .el-image {
   width: 100%;
   height: 100%;
+}
+.bg-placeholder {
+  background-color: #ffffff;
 }
 </style>

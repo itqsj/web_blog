@@ -1,20 +1,16 @@
 <template>
-  <div class="card t-boxshadow t-background">
+  <div class="card t-boxshadow t-background enter">
     <div class="card_img">
       <!-- <img :src="data.img" alt="" /> -->
-      <v-carousel :show-arrows="false" height="auto">
-        <v-carousel-item
-          src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-          cover
-        ></v-carousel-item>
-        <v-carousel-item
-          src="https://cdn.vuetifyjs.com/images/cards/hotel.jpg"
-          cover
-        ></v-carousel-item>
-        <v-carousel-item
-          src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-          cover
-        ></v-carousel-item>
+      <v-carousel
+        hide-delimiter-background
+        show-arrows="hover"
+        :interval="300"
+        height="auto"
+      >
+        <v-carousel-item v-for="(item, index) in data.cover_img" :key="index">
+          <CommonImg lazy cover :src="item"></CommonImg>
+        </v-carousel-item>
       </v-carousel>
     </div>
     <div class="card_body">
@@ -25,9 +21,9 @@
           content="Detail"
           placement="bottom"
         >
-          <el-icon style="color: #e82567" @click="goDetail"
-            ><Checked
-          /></el-icon>
+          <v-btn class="v-btn--icon" @click="goDetail">
+            <el-icon style="color: #e82567" :size="18"><Checked /></el-icon>
+          </v-btn>
         </el-tooltip>
 
         <el-tooltip
@@ -36,9 +32,9 @@
           content="Edit"
           placement="bottom"
         >
-          <el-icon style="color: #1a73e8" @click="handleEdit"
-            ><EditPen
-          /></el-icon>
+          <v-btn class="v-btn--icon" @click="handleEdit">
+            <el-icon :size="18" style="color: #1a73e8"><EditPen /></el-icon>
+          </v-btn>
         </el-tooltip>
 
         <delConfirm
@@ -54,9 +50,9 @@
               content="Del"
               placement="bottom"
             >
-              <el-icon style="color: #e82567" v-bind="props"
-                ><Delete
-              /></el-icon>
+              <v-btn v-bind="props" class="v-btn--icon">
+                <el-icon style="color: #e82567" :size="18"><Delete /></el-icon>
+              </v-btn>
             </el-tooltip>
           </template>
           <template #actions>
@@ -92,11 +88,12 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { toRefs, ref } from 'vue';
+import { toRefs, ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 import delConfirm from '@/components/delConfirm/delConfirm.vue';
 import { ElNotification } from 'element-plus';
+import CommonImg from '@/components/img/CommonImg.vue';
 
 import type { ArticleInt } from '@/types/article';
 import { articleDel } from '@/api/api_article';
@@ -113,6 +110,13 @@ const router = useRouter();
 const { data } = toRefs(props);
 const showDel = ref(false);
 const delLoading = ref(false);
+const isShow = ref(false);
+
+onMounted(() => {
+  setTimeout(() => {
+    isShow.value = true;
+  }, 300);
+});
 
 const goDetail = () => {
   const query = {
@@ -163,11 +167,11 @@ const handleEdit = () => {
 .card {
   position: absolute;
   border-radius: 8px;
-  transition: all 0.1s;
+  // transition: all 0.3s ease;
 
   &:hover {
     .card_img {
-      transform: translate(0, -35px);
+      transform: translate(0, -3.4375rem);
     }
   }
   &_img {
@@ -198,12 +202,12 @@ const handleEdit = () => {
     position: relative;
     &_operat {
       position: absolute;
-      top: -40px;
+      top: -4.375rem;
       display: flex;
       justify-content: center;
-      gap: 50px;
+      gap: 2.5rem;
       width: 100%;
-      font-size: 18px;
+      font-size: 1.125rem;
     }
     h4 {
       color: rgb(123, 128, 154);

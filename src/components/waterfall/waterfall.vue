@@ -11,7 +11,14 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { onMounted, ref, defineExpose, defineProps, toRefs } from 'vue';
+import {
+  onMounted,
+  ref,
+  defineExpose,
+  defineProps,
+  toRefs,
+  nextTick,
+} from 'vue';
 
 const waterfall = ref();
 const itemWidth = ref(0);
@@ -50,7 +57,7 @@ const setPosition = () => {
     children[i].style.width = itemWidth.value + 'px';
     item.style.top = `${minTop}px`;
     item.style.left = left + 'px';
-    nextTops[index] += item.clientHeight + info.value.space;
+    nextTops[index] += item.clientHeight + info.value.space + 50;
   }
 
   const maxHeight = Math.max.apply(null, nextTops);

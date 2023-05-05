@@ -1,35 +1,29 @@
 <template>
   <div class="sort">
-    <h3>Platform Settings</h3>
+    <h3>My Basic Information</h3>
     <p class="sort_introd">
-      Hi, I’m Alec Thompson, Decisions: If you can’t decide, the answer is no.
-      If two equally difficult paths, choose the one more painful in the short
-      term (pain avoidance is creating an illusion of equality).
+      {{ userInfo.introduction }}
     </p>
     <ul>
       <li class="sort_li">
-        <span class="sort_li_left t-color">Full Name: </span>
-        <span class="sort_li_right"> Alec M. Thompson</span>
+        <span class="sort_li_left t-color">id: </span>
+        <span class="sort_li_right"> {{ userInfo._id }}</span>
       </li>
       <li class="sort_li">
-        <span class="sort_li_left t-color">Mobile: </span>
-        <span class="sort_li_right">(44) 123 1234 123</span>
+        <span class="sort_li_left t-color">Full Name: </span>
+        <span class="sort_li_right">{{ userInfo.username }}</span>
       </li>
       <li class="sort_li">
         <span class="sort_li_left t-color">Email: </span>
-        <span class="sort_li_right">(44) 123 1234 123</span>
+        <span class="sort_li_right">{{ userInfo.email }}</span>
       </li>
       <li class="sort_li">
         <span class="sort_li_left t-color">Location: </span>
         <span class="sort_li_right">USA</span>
       </li>
       <li class="sort_li">
-        <span class="sort_li_left t-color">Location: </span>
-        <span class="sort_li_right">USA</span>
-      </li>
-      <li class="sort_li">
-        <span class="sort_li_left t-color">Full Name: </span>
-        <span class="sort_li_right"> Alec M. Thompson</span>
+        <span class="sort_li_left t-color">CreatedAt: </span>
+        <span class="sort_li_right">{{ formatDate(userInfo.createdAt) }}</span>
       </li>
     </ul>
   </div>
@@ -40,7 +34,21 @@ export default {
   name: 'InformatSort',
 };
 </script>
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { toRefs } from 'vue';
+
+import type { UserInfoInt } from '@/types/user';
+import formatDate from '@/util/formatDate';
+
+const props = defineProps({
+  userInfo: {
+    type: Object as () => UserInfoInt,
+    default: null,
+  },
+});
+
+const { userInfo } = toRefs(props);
+</script>
 
 <style lang="less" scoped>
 .sort {

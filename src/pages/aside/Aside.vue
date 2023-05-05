@@ -7,11 +7,7 @@
     <el-menu :default-active="activeIndex" :collapse-transition="false" router>
       <el-sub-menu index="1" :collapse-transition="false">
         <template #title>
-          <img
-            class="aside_img"
-            src="https://demos.creative-tim.com/otis-admin-pro/static/media/team-3.0ef0be95e6850814c79e.jpg"
-            alt=""
-          />
+          <img class="aside_img" :src="userInfo?.user_pic" alt="" />
           <span class="t-color">Navigator One</span>
         </template>
 
@@ -69,21 +65,18 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { ref, watchEffect, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
+
+import { useUserStore } from '@/store/user';
 
 const route = useRoute();
 const activeIndex = ref('');
+const { userInfo } = toRefs(useUserStore());
 
-watch(
-  () => route.path,
-  () => {
-    activeIndex.value = route.path;
-  },
-  {
-    immediate: true,
-  },
-);
+watchEffect(() => {
+  activeIndex.value = route.path;
+});
 </script>
 
 <style lang="less" scoped>

@@ -86,7 +86,7 @@ interface TaskParamsInt {
 }
 
 const router = useRouter();
-const { getUserInfo } = toRefs(useUserStore());
+const { userInfo } = toRefs(useUserStore());
 const taskTimeRef = ref();
 let oldList: PanelInt[] = [];
 const list = ref<PanelInt[]>([]);
@@ -111,7 +111,6 @@ onBeforeMount(() => {
 });
 
 const submitTask = (data: TaskTimeInt) => {
-  console.log(data);
   handleTaskMove(data);
 };
 
@@ -141,7 +140,7 @@ const TaskMove = ({ tar, evt }: MoveInt) => {
 const handleTaskMove = async (data?: TaskTimeInt) => {
   loading.value = true;
   const params: MoveTaskParams = {
-    team_id: getUserInfo.value.team._id,
+    team_id: userInfo.value.team._id,
     type: 2,
     data: JSON.stringify(taskParams),
   };
@@ -214,7 +213,7 @@ const handleMove = async (tar: PanelInt) => {
   const params: MovePanelParams = {
     name: tar.name,
     _id: tar._id,
-    team_id: getUserInfo.value.team._id,
+    team_id: userInfo.value.team._id,
     sort: tar.sort,
   };
   const { code } = await panelMove(params);

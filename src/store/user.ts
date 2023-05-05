@@ -1,14 +1,9 @@
 import { defineStore } from 'pinia';
-import { UserInfoInt } from '@/types/user';
+import type { UserStateInt, UserInfoInt } from '@/types/user';
 
-interface StateInt {
-  _token: string;
-  _userInfo: UserInfoInt;
-}
-
-const userState: StateInt = {
+const userState: UserStateInt = {
   _token: '',
-  _userInfo: {} as UserInfoInt,
+  _userInfo: null,
 };
 
 export const useUserStore = defineStore('user', {
@@ -16,7 +11,7 @@ export const useUserStore = defineStore('user', {
   state: () => userState,
   getters: {
     getToken: (state) => state._token,
-    getUserInfo: (state) => state._userInfo as UserInfoInt,
+    userInfo: (state) => state._userInfo,
   },
   actions: {
     updateToken(token: string) {

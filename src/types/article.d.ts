@@ -28,4 +28,15 @@ export type ArticleDatailParams = Pick<ArticleInt, '_id'>;
 export type ArticleListParams = ParamsListInt &
   Pick<Partial<ArticleInt>, 'author_id'> & {
     not_id?: string;
+    keyWord?: string;
+    timeRang?: Array<number>;
+    cateIds?: Array<string>;
   };
+
+export interface ArticleFilterInt {
+  startTime: Date | null;
+  endTime: Date | null;
+  keyWord: string;
+  timeRang: Array<number>;
+  cateIds: Array<string>;
+}

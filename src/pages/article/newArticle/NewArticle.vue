@@ -9,9 +9,9 @@
       <div class="page_body">
         <div class="page_body_left">
           <PicCard
+            ref="coverRef"
             :data="picData"
             :show-footer="false"
-            :is-btn="true"
           ></PicCard>
         </div>
         <div class="page_body_right">
@@ -27,6 +27,7 @@
         >
       </div>
     </div>
+    <Overlay v-model="loading"></Overlay>
   </div>
 </template>
 
@@ -43,6 +44,7 @@ import { useRouter, useRoute } from 'vue-router';
 import PicCard from '@/components/card/PicCard.vue';
 import ArticleForm from './ArticleForm.vue';
 import { ElNotification } from 'element-plus';
+import Overlay from '@/components/mask/Overlay.vue';
 
 import pic1 from '@/assets/img/pic1.jpg';
 import type { FormInstance } from 'element-plus';
@@ -64,7 +66,9 @@ const picData = {
 const router = useRouter();
 const route = useRoute();
 const submitLoading = ref(false);
+const loading = ref(false);
 const articleFormRef = ref();
+const coverRef = ref();
 let articleId = '';
 
 onBeforeMount(() => {
@@ -75,6 +79,7 @@ onBeforeMount(() => {
 });
 
 const getDetail = async () => {
+  loading.value = true;
   const params = {
     _id: articleId,
   };
@@ -90,6 +95,12 @@ const getDetail = async () => {
       articleFormRef.value.ruleForm.introduce = data.introduce;
       articleFormRef.value.ruleForm.cover_img = data.cover_img;
       articleFormRef.value.tinymceRef.setContent(data.content);
+      try {
+        coverRef.value.imgList = data.cover_img;
+      } catch {
+        coverRef.value.imgList = [];
+      }
+      loading.value = false;
     });
   }
 };
@@ -114,6 +125,7 @@ const edit = async (data: AddArticleParams) => {
     ...data,
     _id: articleId,
   };
+  params.cover_img = coverRef.value.imgList;
   const { code } = await articleEdit(params);
   if (code === 200) {
     ElNotification({
@@ -131,6 +143,8 @@ const add = async (data: AddArticleParams) => {
   const params = {
     ...data,
   };
+  params.cover_img = coverRef.value.imgList;
+
   const res = await addArticle(params);
 
   if (res.code === 200) {

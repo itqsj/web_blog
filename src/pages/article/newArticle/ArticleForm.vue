@@ -37,15 +37,21 @@
           </el-form-item>
         </div>
         <el-form-item prop="introduce">
-          <v-textarea
+          <!-- <v-textarea
             v-model="ruleForm.introduce"
             :rows="2"
             color="blue-accent-4"
             label="introduce"
-          ></v-textarea>
+          ></v-textarea> -->
+          <BorInput
+            v-model="ruleForm.introduce"
+            :rows="4"
+            type="textarea"
+            placeholder="Article Introduce"
+          ></BorInput>
         </el-form-item>
         <el-form-item prop="content">
-          <Tinymce v-model="ruleForm.content" ref="tinymceRef"></Tinymce>
+          <Tinymce ref="tinymceRef" v-model="ruleForm.content"></Tinymce>
         </el-form-item>
       </el-form>
     </div>
@@ -62,6 +68,7 @@ export default {
 import { reactive, ref, onBeforeMount } from 'vue';
 
 import PlaInput from '@/components/input/PlaInput.vue';
+import BorInput from '@/components/input/BorInput.vue';
 import Tinymce from '@/components/tinymce/Tinymce.vue';
 import CommonSelect from '@/components/select/CommonSelect.vue';
 
