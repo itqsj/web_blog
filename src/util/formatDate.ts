@@ -22,8 +22,7 @@ export default function formatDate(value: number) {
   if (nowTimes - value < 24 * 60 * 60 * 1000) {
     return Math.floor((nowTimes - value) / (60 * 60 * 1000)) + '小时前';
   }
-  const date = new Date(value);
-  console.log(date);
+  const date = new Date(value - 0);
 
   const dateNumFun = (num: number) => (num < 10 ? `0${num}` : num);
   const [Y, M, D, h, m, s] = [

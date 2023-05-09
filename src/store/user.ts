@@ -1,5 +1,6 @@
+import { router } from '@/router';
 import { defineStore } from 'pinia';
-import type { UserStateInt, UserInfoInt } from '@/types/user';
+import type { UserStateInt, UserInfoInt, UpdateUserInt } from '@/types/user';
 
 const userState: UserStateInt = {
   _token: '',
@@ -19,6 +20,13 @@ export const useUserStore = defineStore('user', {
     },
     updateUserInfo(user: UserInfoInt) {
       this._userInfo = user;
+    },
+    updatePartUserInfo(user: UpdateUserInt) {
+      this._userInfo = { ...this._userInfo, ...user } as UserInfoInt;
+    },
+    loginOut() {
+      sessionStorage.clear();
+      router.replace('/login');
     },
   },
 });

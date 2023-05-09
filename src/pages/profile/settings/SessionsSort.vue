@@ -35,7 +35,7 @@
           <li><span /> One number (2 are recommended)</li>
           <li><span /> Change it often</li>
         </ul>
-        <el-button>update password</el-button>
+        <v-btn>update password</v-btn>
       </div>
     </div>
   </div>
@@ -97,7 +97,7 @@ const formInline = reactive({
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    .el-button {
+    .v-btn {
       font-family: Roboto, Helvetica, Arial, sans-serif;
       font-size: 0.75rem;
       background-image: linear-gradient(

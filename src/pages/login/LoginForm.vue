@@ -8,7 +8,12 @@
     status-icon
   >
     <el-form-item prop="email">
-      <el-input v-model="ruleForm.email" size="large" clearable />
+      <el-input
+        v-model="ruleForm.email"
+        placeholder="email"
+        size="large"
+        clearable
+      />
     </el-form-item>
 
     <el-form-item prop="password" class="mtop-15">
@@ -16,6 +21,7 @@
         v-model="ruleForm.password"
         size="large"
         clearable
+        placeholder="password"
         :suffix-icon="Search"
       />
     </el-form-item>
@@ -68,7 +74,7 @@ const loading = ref<boolean>(false);
 const userStore = useUserStore();
 const router = useRouter();
 const ruleForm = reactive<LoginFormInt>({
-  email: '1789337400@qq.com',
+  email: 'ceshi@qq.com',
   password: '123456',
 });
 

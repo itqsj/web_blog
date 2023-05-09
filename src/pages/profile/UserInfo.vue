@@ -2,18 +2,14 @@
   <div>
     <div class="user">
       <div class="user_left">
-        <img
-          class="user_left_avatar"
-          src="https://demos.creative-tim.com/otis-admin-pro/static/media/bruce-mars.8a606c4a6dab54c9ceff.jpg"
-          alt=""
-        />
+        <CommonImg class="user_left_avatar" :src="userInfo.user_pic" alt="" />
         <div class="user_left_text">
           <h3>{{ userInfo.username }}</h3>
-          <p>TEAM / {{ userInfo.team.name }}</p>
+          <p>TEAM / {{ composeTeam }}</p>
         </div>
       </div>
       <div class="user_right">
-        <commonTabs v-model:model-value="activeTab" :tabs="tabs" />
+        <!-- <commonTabs v-model:model-value="activeTab" :tabs="tabs" /> -->
       </div>
     </div>
     <div class="panel">
@@ -26,7 +22,7 @@
         <hr class="vertical_line" />
       </div>
       <div>
-        <ConversatSort />
+        <ConversatSort :user-info="userInfo" />
       </div>
     </div>
     <div class="article">
@@ -52,13 +48,14 @@ export default {
 };
 </script>
 <script lang="ts" setup>
-import { ref, toRefs } from 'vue';
+import { computed, ref, toRefs } from 'vue';
 
 import commonTabs from '@/components/tabs/commonTabs.vue';
 import SettingSort from './sort/SettingSort.vue';
 import ConversatSort from './sort/ConversatSort.vue';
 import InformatSort from './sort/InformatSort.vue';
 import ArticlePanel from '@/components/panel/ArticlePanel.vue';
+import CommonImg from '@/components/img/CommonImg.vue';
 
 import { useUserStore } from '@/store/user';
 
@@ -108,6 +105,13 @@ const tabs = [
   },
 ];
 const activeTab = ref(1);
+
+const composeTeam = computed(() => {
+  if (userInfo.value?.team?.name) {
+    return userInfo.value.team?.name;
+  }
+  return '当前还未加入任何团队喔~';
+});
 </script>
 
 <style lang="less" scoped>

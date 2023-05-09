@@ -7,10 +7,10 @@
       <el-affix :offset="13" style="width: 100%" @change="affixChange">
         <Head :is-fixed="isFixed"></Head>
       </el-affix>
-      <div class="page_body_conten">
+      <div class="page_body_content">
         <router-view v-slot="{ Component }">
           <Transition name="fade" mode="out-in" appear>
-            <keep-alive :include="['LoginPage', 'TaskPage']">
+            <keep-alive :include="['LoginPage', 'TaskPage', 'ProfilePage']">
               <component :is="Component" />
             </keep-alive>
           </Transition>
@@ -71,14 +71,12 @@ const verify = async () => {
     userStore.updateToken(data.token);
 
     getUserinfo();
-    // if (code === 4004)
   } else {
-    window.sessionStorage.clear();
     ElNotification({
       title: '提示',
       message: h('i', { style: 'color: teal' }, '当前token失效！请重新登录'),
     });
-    router.push('/login');
+    userStore.loginOut();
   }
 };
 const getUserinfo = async () => {
@@ -117,7 +115,7 @@ const affixChange = (fixed: boolean) => {
   box-sizing: border-box;
   // background: #f0f2f5;
   &_aside {
-    width: 250px;
+    width: 15.625rem;
     height: calc(100% - 32px);
     padding: 16px 0 16px 16px;
     box-sizing: content-box;
@@ -127,7 +125,11 @@ const affixChange = (fixed: boolean) => {
     overflow: auto;
     flex: 1;
     height: 100%;
-    padding: 16px 16px 16px 16px;
+    padding: 1rem;
+    &_content {
+      max-width: 125rem;
+      margin: 0 auto;
+    }
     &_footer {
       display: flex;
       justify-content: space-between;

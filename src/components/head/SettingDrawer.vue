@@ -24,8 +24,37 @@
       <CommonSwitch v-model="themeSwitch" @change="themeChange" />
     </div>
     <div class="line"></div>
-    <div class="drawer_close">
-      <el-button type="primary">Close</el-button>
+    <div class="drawer_btn">
+      <v-btn class="drawer_btn_close" type="primary" @click="emit('close')"
+        >Close</v-btn
+      >
+    </div>
+    <div class="line"></div>
+    <div class="drawer_btn">
+      <delConfirm
+        v-model="showLoginOutConfirm"
+        persistent
+        width="360"
+        title="LOGINOUT"
+        text="This operation will log out. Do you want to continue?"
+      >
+        <template #activator="{ props }">
+          <v-btn v-bind="props" class="drawer_btn_loginout" type="primary"
+            >loginout</v-btn
+          >
+        </template>
+        <template #actions>
+          <v-btn
+            variant="text"
+            color="teal-accent-4"
+            @click="showLoginOutConfirm = false"
+            >CANCEL</v-btn
+          >
+          <v-btn variant="text" color="teal-accent-4" @click="loginOut"
+            >COMFIRM</v-btn
+          >
+        </template>
+      </delConfirm>
     </div>
   </div>
 </template>
@@ -40,15 +69,20 @@ export default {
 import { ref } from 'vue';
 
 import CommonSwitch from '@/components/switch/CommonSwitch.vue';
+import delConfirm from '@/components/delConfirm/delConfirm.vue';
 
 import { toggleDark } from '@/composables';
 import { useThemeStore } from '@/store/theme';
+import { useUserStore } from '@/store/user';
 import { useTheme } from 'vuetify';
 
+const emit = defineEmits(['close']);
 const themeStore = useThemeStore();
+const userStore = useUserStore();
+const theme = useTheme();
 const sidenav = ref(false);
 const themeSwitch = ref(false);
-const theme = useTheme();
+const showLoginOutConfirm = ref(false);
 
 const themeChange = () => {
   toggleDark();
@@ -60,6 +94,11 @@ const toggleTheme = () =>
   (theme.global.name.value = theme.global.current.value.dark
     ? 'light'
     : 'dark');
+
+const loginOut = () => {
+  showLoginOutConfirm.value = false;
+  userStore.loginOut();
+};
 </script>
 
 <style lang="less" scoped>
@@ -91,16 +130,24 @@ const toggleTheme = () =>
     justify-content: space-between;
     margin-top: 24px;
   }
-  &_close {
-    .el-button {
-      width: 100%;
-      height: 37px;
-      font-weight: 700;
+  &_btn {
+    &_close {
       background-color: rgb(26, 115, 232);
-      color: rgb(255, 255, 255);
       box-shadow: rgb(26 115 232 / 15%) 0rem 0.1875rem 0.1875rem 0rem,
         rgb(26 115 232 / 20%) 0rem 0.1875rem 0.0625rem -0.125rem,
         rgb(26 115 232 / 15%) 0rem 0.0625rem 0.3125rem 0rem;
+    }
+    &_loginout {
+      background-image: linear-gradient(195deg, #ef5350, #e53935);
+      box-shadow: rgb(244 67 53 / 15%) 0rem 0.1875rem 0.1875rem 0rem,
+        rgb(244 67 53 / 20%) 0rem 0.1875rem 0.0625rem -0.125rem,
+        rgb(244 67 53 / 15%) 0rem 0.0625rem 0.3125rem 0rem;
+    }
+    .v-btn {
+      width: 100%;
+      height: 37px;
+      font-weight: 700;
+      color: rgb(255, 255, 255);
     }
   }
 }

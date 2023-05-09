@@ -3,6 +3,7 @@ export interface ParamsListInt<> {
   page: number;
   pageSize: number;
   keyWord?: string;
+  ids?: Array<string>;
 }
 
 // 结果

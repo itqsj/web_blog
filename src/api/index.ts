@@ -8,6 +8,9 @@ import axios, {
 import { h } from 'vue';
 import { ElNotification } from 'element-plus';
 import { ResInt } from '@/types/index';
+import { useUserStore } from '@/store/user';
+
+const userStore = useUserStore();
 
 interface MyAxiosHeaders {
   [key: string]: string | undefined;
@@ -50,7 +53,8 @@ service.interceptors.response.use(
       if (response.data.code !== 200) {
         ElNotification({
           title: '提示',
-          message: h('i', { style: 'color: teal' }, response.data.msg),
+          type: 'error',
+          message: h('i', { style: 'color: teal' }, response.data.message),
         });
       }
       return Promise.resolve(response);
@@ -59,6 +63,14 @@ service.interceptors.response.use(
     }
   },
   (error: AxiosError) => {
+    if (error.response?.status === 401) {
+      ElNotification({
+        title: '提示',
+        type: 'error',
+        message: h('i', { style: 'color: teal' }, error.response.statusText),
+      });
+      userStore.loginOut();
+    }
     // do something
     return Promise.reject(error);
   },

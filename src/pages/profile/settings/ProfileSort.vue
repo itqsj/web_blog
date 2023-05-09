@@ -2,14 +2,10 @@
   <div>
     <div class="sort t-color">
       <div class="sort_left">
-        <img
-          class="sort_left_avatar"
-          src="https://demos.creative-tim.com/otis-admin-pro/static/media/bruce-mars.8a606c4a6dab54c9ceff.jpg"
-          alt=""
-        />
+        <CommonImg class="sort_left_avatar" :src="userInfo.user_pic" alt="" />
         <div class="sort_left_text">
-          <h3>Richard Davis</h3>
-          <p>CEO / Co-Founder</p>
+          <h3>{{ userInfo.username }}</h3>
+          <p>TEAM / {{ composeTeam }}</p>
         </div>
       </div>
     </div>
@@ -21,7 +17,28 @@ export default {
   name: 'ProfileSort',
 };
 </script>
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { toRefs, computed } from 'vue';
+
+import CommonImg from '@/components/img/CommonImg.vue';
+
+import type { UserInfoInt } from '@/types/user';
+
+const props = defineProps({
+  userInfo: {
+    type: Object as () => UserInfoInt,
+    default: null,
+  },
+});
+const { userInfo } = toRefs(props);
+
+const composeTeam = computed(() => {
+  if (userInfo.value?.team?.name) {
+    return userInfo.value.team?.name;
+  }
+  return '当前还未加入任何团队喔~';
+});
+</script>
 
 <style scoped lang="less">
 .sort {

@@ -11,11 +11,11 @@
 
         <div class="page_body_right">
           <div class="page_body_right_item t-background t-boxshadow">
-            <ProfileSort ref="profileSort" />
+            <ProfileSort ref="profileSort" :user-info="userInfo" />
           </div>
           <div class="page_body_right_item t-background t-boxshadow">
             <h3 class="font-20 t-color">Basic Info</h3>
-            <BasicInfo ref="basicInfo" />
+            <BasicInfo ref="basicInfo" :user-info="userInfo" />
           </div>
           <div class="page_body_right_item t-background t-boxshadow">
             <h3 class="font-20 t-color">Change Password</h3>
@@ -40,7 +40,7 @@ export default {
 };
 </script>
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, toRefs } from 'vue';
 
 import commonTabs from '@/components/tabs/commonTabs.vue';
 import SettingNavigat from './SettingNavigat.vue';
@@ -49,6 +49,10 @@ import BasicInfo from './BasicInfo.vue';
 import ChangePwd from './ChangePwd.vue';
 import AccountDel from './AccountDel.vue';
 import SessionsSort from './SessionsSort.vue';
+
+import { useUserStore } from '@/store/user';
+
+const { userInfo } = toRefs(useUserStore());
 
 const tabs = [
   {

@@ -9,8 +9,29 @@
         </p>
       </div>
       <div class="sort_right">
-        <el-button class="sort_right_while">DEACTIVATE</el-button>
-        <el-button class="sort_right_red">DELETE ACCOUNT</el-button>
+        <delConfirm
+          v-model="showLoginOutConfirm"
+          persistent
+          width="360"
+          title="LOGINOUT"
+          text="This operation will log out. Do you want to continue?"
+        >
+          <template #activator="{ props }">
+            <v-btn v-bind="props" class="sort_right_while">LOGINOUT</v-btn>
+          </template>
+          <template #actions>
+            <v-btn
+              variant="text"
+              color="teal-accent-4"
+              @click="showLoginOutConfirm = false"
+              >CANCEL</v-btn
+            >
+            <v-btn variant="text" color="teal-accent-4" @click="loginOut"
+              >COMFIRM</v-btn
+            >
+          </template>
+        </delConfirm>
+        <v-btn class="sort_right_red">DELETE ACCOUNT</v-btn>
       </div>
     </div>
   </div>
@@ -23,13 +44,18 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { reactive } from 'vue';
+import { ref } from 'vue';
 
-import PlaInput from '@/components/input/PlaInput.vue';
+import delConfirm from '@/components/delConfirm/delConfirm.vue';
 
-const formInline = reactive({
-  user: '',
-});
+import { useUserStore } from '@/store/user';
+
+const userStore = useUserStore();
+const showLoginOutConfirm = ref(false);
+
+const loginOut = () => {
+  userStore.loginOut();
+};
 </script>
 
 <style lang="less" scoped>
@@ -43,7 +69,7 @@ const formInline = reactive({
     }
   }
   &_right {
-    .el-button {
+    .v-btn {
       height: 2.5rem;
       font-size: 0.75rem;
       font-weight: 700;
@@ -51,6 +77,7 @@ const formInline = reactive({
       border-radius: 0.5rem;
       background-size: 150% !important;
       background-position-x: 25% !important;
+      margin-left: 1.25rem;
     }
     &_while {
       font-family: Roboto, Helvetica, Arial, sans-serif;

@@ -54,7 +54,7 @@
         <el-icon class="mright-5"><LocationFilled /></el-icon>Barcelona, Spain
       </div>
     </div>
-    <CommonDialog v-model="uploadShow" draggable title="上传图片">
+    <CommonDialog v-model="uploadShow" width="800" draggable title="上传图片">
       <CommonUpload @success="uoloadSuccess"></CommonUpload>
     </CommonDialog>
   </div>

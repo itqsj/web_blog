@@ -1,5 +1,5 @@
 <template>
-  <div v-infinite-scroll="loadMore" class="container">
+  <div v-infinite-scroll="loadMore" class="container" @resize="waterfallReseze">
     <el-affix :offset="105">
       <v-expand-x-transition>
         <div v-show="showFilter" class="container_filter">
@@ -26,7 +26,7 @@
         </div>
       </div>
       <div class="container_right_list">
-        <waterfall ref="waterfallref" style="width: 100%">
+        <waterfall ref="waterfallref" :info="waterfallInfo" style="width: 100%">
           <ArticleItem
             v-for="item in list"
             :key="item._id"
@@ -72,6 +72,10 @@ const showFilter = ref(true);
 const waterfallref = ref();
 const loading = ref(false);
 const finish = ref(false);
+const waterfallInfo = ref({
+  space: 30,
+  columns: 4,
+});
 const { list, addToDefer, resetList } = useDefer<ArticleInt>();
 let filterData: ArticleFilterInt = {
   startTime: null,
@@ -94,6 +98,10 @@ onBeforeUnmount(() => {
 const reseize = () => {
   waterfallref.value.setWarpWith();
   imgLoad();
+};
+
+const waterfallReseze = () => {
+  console.log(132);
 };
 
 const filtersChange = (data: ArticleFilterInt) => {
@@ -125,6 +133,7 @@ const handleShowFilter = () => {
 
 const articleDel = (id: string) => {
   list.value = list.value.filter((item) => item._id !== id);
+  imgLoad();
 };
 
 const getList = async () => {
@@ -155,11 +164,11 @@ const getList = async () => {
     if (count <= list.value.length) {
       finish.value = true;
     }
+    page++;
+    nextTick(() => {
+      loading.value = false;
+    });
   }
-  page++;
-  nextTick(() => {
-    loading.value = false;
-  });
 };
 </script>
 
@@ -181,12 +190,15 @@ const getList = async () => {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 1.5rem;
     flex: 1;
-    width: 100%;
+    // width: 100%;
+
     &_list {
       overflow: hidden;
       width: 100%;
+      // max-width: 90.625rem;
       padding: 4rem 0 1rem;
       box-sizing: border-box;
       // height: 300px;
@@ -198,6 +210,7 @@ const getList = async () => {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      width: 100%;
       h4 {
         font-size: 2.0833rem;
       }

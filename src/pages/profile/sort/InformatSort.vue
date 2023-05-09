@@ -25,6 +25,10 @@
         <span class="sort_li_left t-color">CreatedAt: </span>
         <span class="sort_li_right">{{ formatDate(userInfo.createdAt) }}</span>
       </li>
+      <!-- <li class="sort_li">
+        <span class="sort_li_left t-color">Team: </span>
+        <span class="sort_li_right">{{ userInfo.team.name }}</span>
+      </li> -->
     </ul>
   </div>
 </template>
@@ -63,6 +67,7 @@ const { userInfo } = toRefs(props);
   &_introd {
     font-size: 0.875rem;
     line-height: 1.8;
+    text-align: justify;
     letter-spacing: 0.02857em;
     opacity: 1;
     text-transform: none;
@@ -71,6 +76,7 @@ const { userInfo } = toRefs(props);
     color: rgb(123, 128, 154);
     font-weight: 300;
     margin: 1rem 0;
+    white-space: pre-line;
   }
 
   &_li {

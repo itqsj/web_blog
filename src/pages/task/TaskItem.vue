@@ -140,13 +140,13 @@ const handleDel = async () => {
   const { code, message } = await taskDel(params);
   if (code === 200) {
     emit('del', data.value._id);
+    ElNotification({
+      type: 'success',
+      title: '提示',
+      message,
+    });
   }
   delLoading.value = false;
-  ElNotification({
-    type: 'success',
-    title: '提示',
-    message,
-  });
 };
 
 const closeDel = () => {

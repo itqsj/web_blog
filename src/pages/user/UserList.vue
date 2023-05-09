@@ -41,10 +41,18 @@
             :formatter="formatterDate"
             sortable
           />
-          <el-table-column prop="user_pic" label="Pic" />
+          <el-table-column prop="user_pic" label="Pic">
+            <template #default="{ row }">
+              <CommonImg class="table_img" :src="row.user_pic"></CommonImg>
+            </template>
+          </el-table-column>
           <el-table-column prop="username" label="Name" />
           <el-table-column prop="email" label="Email" />
-          <el-table-column prop="introduction" label="Introduction" />
+          <el-table-column prop="introduction" label="Introduction">
+            <template #default="{ row }">
+              <p class="ellipsis-2">{{ row.introduction }}</p>
+            </template>
+          </el-table-column>
           <el-table-column prop="background" label="Background" />
         </CommonTable>
         <div class="page_panel_footer">
@@ -75,10 +83,11 @@ import { onMounted, ref } from 'vue';
 
 import CommonTable from '@/components/table/CommonTable.vue';
 import CommonPagination from '@/components/pagination/CommonPagination.vue';
+import CommonImg from '@/components/img/CommonImg.vue';
 
 import { userList } from '@/api/api_user';
-import { User } from '@/types/user';
-import { ParamsListInt } from '@/types/index';
+import type { User } from '@/types/user';
+import type { ParamsListInt } from '@/types/index';
 import type { TableColumnCtx } from 'element-plus';
 import formatDate from '@/util/formatDate';
 
@@ -171,6 +180,12 @@ onMounted(() => {
         font-size: 0.875rem;
         margin-top: 0.5rem;
       }
+    }
+    &_img {
+      width: 3.125rem;
+      height: 3.125rem;
+      object-fit: cover;
+      border-radius: 50%;
     }
   }
 }

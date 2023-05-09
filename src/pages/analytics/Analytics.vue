@@ -29,13 +29,13 @@
           <LineEcharts echartsid="line2"></LineEcharts>
         </ViewPanel>
       </div>
-      <div class="page_group">
+      <!-- <div class="page_group">
         <PicCard
           v-for="(card, index) in cardList"
           :key="index"
           :data="card"
         ></PicCard>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

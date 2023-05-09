@@ -15,12 +15,12 @@
       <el-icon @click="toggleThem()"><Fold /></el-icon>
     </div>
     <div class="head_right">
-      <el-input
+      <!-- <el-input
         v-model="search"
         class="w-50 m-2"
         size="large"
         placeholder="Please Input"
-      />
+      /> -->
       <el-icon><Avatar /></el-icon>
       <el-icon @click="settingDrawer = true"><Setting /></el-icon>
       <el-badge :value="3" class="item">
@@ -39,7 +39,7 @@
         't-boxshadow': true,
       }"
     >
-      <SettingDrawer></SettingDrawer>
+      <SettingDrawer @close="settingDrawer = false"></SettingDrawer>
     </el-drawer>
   </div>
 </template>

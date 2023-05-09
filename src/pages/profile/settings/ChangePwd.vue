@@ -1,25 +1,33 @@
 <template>
   <div>
     <div class="sort t-color">
-      <el-form :model="formInline" label-position="top">
-        <el-form-item label="Current Password">
+      <el-form
+        ref="ruleFormRef"
+        :model="form"
+        :rules="rules"
+        label-position="top"
+      >
+        <el-form-item prop="oldPwd" label="Current Password">
           <PlaInput
-            v-model="formInline.user"
+            v-model="form.oldPwd"
             size="large"
+            type="password"
             placeholder="Current Password"
           />
         </el-form-item>
-        <el-form-item label="New Password">
+        <el-form-item prop="newPwd" label="New Password">
           <PlaInput
-            v-model="formInline.user"
+            v-model="form.newPwd"
             size="large"
+            type="password"
             placeholder="New Password"
           />
         </el-form-item>
-        <el-form-item label="Comfirm New Password">
+        <el-form-item prop="comfirmPwd" label="Comfirm New Password">
           <PlaInput
-            v-model="formInline.user"
+            v-model="form.comfirmPwd"
             size="large"
+            type="password"
             placeholder="Comfirm New Password"
           />
         </el-form-item>
@@ -32,10 +40,36 @@
         <ul class="font-14 mtop-10">
           <li><span /> One special characters</li>
           <li><span /> Min 6 characters</li>
-          <li><span /> One number (2 are recommended)</li>
+          <!-- <li><span /> One number (2 are recommended)</li> -->
           <li><span /> Change it often</li>
         </ul>
-        <el-button>update password</el-button>
+        <delConfirm
+          v-model="showConfirm"
+          persistent
+          width="360"
+          :loading="resetLoading"
+          title="UPDATE PASSWORD"
+          text="The current operation will change your password. Do you want to continue?"
+        >
+          <template #activator="{ props }">
+            <v-btn v-bind="props">update password</v-btn>
+          </template>
+          <template #actions>
+            <v-btn
+              variant="text"
+              color="teal-accent-4"
+              @click="showConfirm = false"
+              >CANCEL</v-btn
+            >
+            <v-btn
+              variant="text"
+              color="teal-accent-4"
+              :loading="resetLoading"
+              @click="hanldeSubmit"
+              >COMFIRM</v-btn
+            >
+          </template>
+        </delConfirm>
       </div>
     </div>
   </div>
@@ -47,13 +81,95 @@ export default {
 };
 </script>
 <script lang="ts" setup>
-import { reactive } from 'vue';
+import { reactive, ref, toRefs } from 'vue';
+import { useRouter } from 'vue-router';
 
 import PlaInput from '@/components/input/PlaInput.vue';
+import delConfirm from '@/components/delConfirm/delConfirm.vue';
 
-const formInline = reactive({
-  user: '',
+import { ElNotification } from 'element-plus';
+import type { FormInstance, FormRules } from 'element-plus';
+import type { ResetPwdInt } from '@/types/user';
+import { resetPwd } from '@/api/api_user';
+import { useUserStore } from '@/store/user';
+
+const { userInfo, loginOut } = toRefs(useUserStore());
+const router = useRouter();
+const form = reactive<ResetPwdInt>({
+  oldPwd: '',
+  newPwd: '',
+  comfirmPwd: '',
 });
+const rules: FormRules = {
+  oldPwd: [{ required: true, message: 'Please input oldPwd', trigger: 'blur' }],
+  newPwd: [
+    { required: true, message: 'Please input newPwd', trigger: 'blur' },
+    { min: 6, max: 12, message: 'Length should be 6 to 12', trigger: 'blur' },
+    {
+      pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
+      message:
+        'The password must contain letters and numbers of at least 6 digits in length',
+    },
+    {
+      validator: (rule, value, callback) => {
+        if (value === form.oldPwd) {
+          callback(
+            new Error("The new password can't be the same as the old one"),
+          );
+        } else {
+          callback();
+        }
+      },
+      trigger: 'blur',
+    },
+  ],
+  comfirmPwd: [
+    { required: true, message: 'Please input comfirmPwd', trigger: 'blur' },
+    { min: 6, max: 12, message: 'Length should be 6 to 12', trigger: 'blur' },
+    {
+      validator: (rule, value, callback) => {
+        if (value !== form.newPwd) {
+          callback(new Error('The passwords entered are not the same'));
+        } else {
+          callback();
+        }
+      },
+      trigger: 'blur',
+    },
+  ],
+};
+const ruleFormRef = ref<FormInstance>();
+const resetLoading = ref(false);
+const showConfirm = ref(false);
+
+const hanldeSubmit = async () => {
+  console.log(userInfo.value?.email);
+  if (!ruleFormRef.value) return;
+  await ruleFormRef.value.validate((valid, fields) => {
+    if (valid) {
+      submit();
+    }
+  });
+};
+
+const submit = async () => {
+  resetLoading.value = true;
+
+  const params = {
+    ...form,
+    email: userInfo.value?.email,
+  };
+  const { code } = await resetPwd(params);
+  if (code === 200) {
+    ElNotification({
+      type: 'success',
+      message: '操作成功！',
+    });
+    loginOut.value();
+  }
+  resetLoading.value = false;
+  showConfirm.value = false;
+};
 </script>
 
 <style scoped lang="less">
@@ -97,7 +213,7 @@ const formInline = reactive({
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    .el-button {
+    .v-btn {
       font-family: Roboto, Helvetica, Arial, sans-serif;
       font-size: 0.75rem;
       background-image: linear-gradient(

@@ -6,7 +6,9 @@
     </template> -->
     <div class="page">
       <h3 class="font-18 t-color mtop-15 mbottom-15">Tasks Panel</h3>
-      <v-btn class="page_add" @click="addTask">ADD TASK</v-btn>
+      <v-btn v-if="userInfo.team" class="page_add" @click="addTask"
+        >ADD TASK</v-btn
+      >
       <draggable
         v-model="list"
         class="list-group mtop-20"
@@ -32,18 +34,6 @@
       </draggable>
     </div>
     <!-- </commonSkeleton> -->
-    <el-dialog
-      v-model="dialogVis"
-      style="border-radius: 8px"
-      title="Task Time"
-      width="650"
-    >
-      <taskTime
-        ref="taskTimeRef"
-        @close="closeTimeDialog"
-        @submit="submitTask"
-      ></taskTime>
-    </el-dialog>
     <Overlay v-model="loading"> </Overlay>
   </div>
 </template>
@@ -61,7 +51,7 @@ import draggable from 'vuedraggable';
 import TaskGroup from './TaskGroup.vue';
 import commonSkeleton from '@/components/skeleton/commonSkeleton.vue';
 import Overlay from '@/components/mask/Overlay.vue';
-import taskTime from './taskTime.vue';
+import { ElNotification } from 'element-plus';
 
 import { useUserStore } from '@/store/user';
 import { panelList, panelMove, taskMove } from '@/api/api_task';
@@ -93,7 +83,6 @@ const list = ref<PanelInt[]>([]);
 const drag = ref(false);
 const loading = ref(false);
 const skeletonLoad = ref(true);
-const dialogVis = ref(false);
 const taskParams: TaskParamsInt = {
   added: {},
   removed: {},
@@ -110,10 +99,6 @@ onBeforeMount(() => {
   getPanels();
 });
 
-const submitTask = (data: TaskTimeInt) => {
-  handleTaskMove(data);
-};
-
 const TaskMove = ({ tar, evt }: MoveInt) => {
   if (evt.added) {
     taskParams.added = {
@@ -129,24 +114,17 @@ const TaskMove = ({ tar, evt }: MoveInt) => {
       panel_id: tar._id,
     };
 
-    // if (taskParams.added.type === 2) {
-    //   dialogVis.value = true;
-    //   return;
-    // }
     handleTaskMove();
   }
 };
 
-const handleTaskMove = async (data?: TaskTimeInt) => {
+const handleTaskMove = async () => {
   loading.value = true;
   const params: MoveTaskParams = {
-    team_id: userInfo.value.team._id,
+    team_id: userInfo.value?.team._id as string,
     type: 2,
     data: JSON.stringify(taskParams),
   };
-  // if (data) {
-  //   params.needTime = data.needTime;
-  // }
 
   const { code } = await taskMove(params);
   if (code === 200) {
@@ -185,17 +163,23 @@ const handleTaskMove = async (data?: TaskTimeInt) => {
     });
 
     cloneList();
+  } else {
+    resetList();
   }
   nextTick(() => {
     loading.value = false;
-    if (data) {
-      taskTimeRef.value.submitLoad = false;
-      closeTimeDialog();
-    }
   });
 };
 
 const getPanels = async () => {
+  if (!userInfo.value?.team) {
+    ElNotification({
+      type: 'info',
+      message: '当前还没加入团队，请加入团队后重试',
+    });
+    return;
+  }
+
   loading.value = true;
   const { code, data } = await panelList();
   if (code === 200) {
@@ -213,7 +197,7 @@ const handleMove = async (tar: PanelInt) => {
   const params: MovePanelParams = {
     name: tar.name,
     _id: tar._id,
-    team_id: userInfo.value.team._id,
+    team_id: userInfo.value?.team._id as string,
     sort: tar.sort,
   };
   const { code } = await panelMove(params);
@@ -241,11 +225,6 @@ const change = (evt: DragChange<PanelInt>) => {
     sort: evt.moved.newIndex,
   };
   handleMove(tar);
-};
-
-const closeTimeDialog = () => {
-  resetList();
-  dialogVis.value = false;
 };
 
 const addTask = () => {

@@ -11,9 +11,13 @@ export interface User {
   introduction: string;
   user_pic: string;
   username: string;
-  __v: number;
+  __v?: number;
   _id: string;
 }
+
+export type UpdateUserInt = Partial<
+  Pick<User, 'username' | 'email' | 'user_pic' | 'introduction' | 'background'>
+>;
 
 export interface UsersDataRes {
   count: number;
@@ -42,4 +46,12 @@ export interface UserInfoInt extends User {
 export interface UserStateInt {
   _token: string;
   _userInfo: UserInfoInt | null;
+}
+
+// 重置密码表单
+export interface ResetPwdInt {
+  oldPwd: string;
+  newPwd: string;
+  comfirmPwd: string;
+  email?: string;
 }
