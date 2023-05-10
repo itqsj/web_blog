@@ -15,11 +15,15 @@
                 src="https://demos.creative-tim.com/otis-admin-pro/static/media/black-chair.ae677f8f033997d585d0.jpeg"
                 alt=""
               />
-              <span>{{ row.title }}</span>
+              <span class="t-color">{{ row.title }}</span>
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="REVIEW">
+        <el-table-column
+          v-if="!getIsPhone"
+          class="reseize_hidden"
+          label="REVIEW"
+        >
           <template #default="{ row }">
             <el-rate
               v-model="row.review"
@@ -30,8 +34,18 @@
             />
           </template>
         </el-table-column>
-        <el-table-column label="Date" :formatter="formatterDate" sortable />
-        <el-table-column label="State" :formatter="formatterState" sortable />
+        <el-table-column
+          v-if="!getIsPhone"
+          class="reseize_hidden"
+          label="Date"
+          :formatter="formatterDate"
+          sortable
+        />
+        <el-table-column
+          v-if="!getIsPhone"
+          label="State"
+          :formatter="formatterState"
+        />
         <el-table-column sortable>
           <template #default="{ row }">
             <span class="table_detail" @click="goDetail(row)">详情</span>
@@ -51,6 +65,7 @@ export default {
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
+import { useCommonStore } from '@/store/common';
 
 import CommonTable from '@/components/table/CommonTable.vue';
 
@@ -66,6 +81,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['refresh']);
 const router = useRouter();
+const { getIsPhone } = toRefs(useCommonStore());
 const { list } = toRefs(props);
 
 const formatterDate = (row: ArticleInt, column: TableColumnCtx<ArticleInt>) => {
@@ -134,7 +150,6 @@ const goDetail = (row: ArticleInt) => {
         font-size: 0.875rem;
         line-height: 1.5;
         letter-spacing: 0.02857em;
-        color: rgb(52, 71, 103);
         font-weight: 600;
       }
     }

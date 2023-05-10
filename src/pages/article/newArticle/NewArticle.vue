@@ -8,11 +8,7 @@
       </p>
       <div class="page_body">
         <div class="page_body_left">
-          <PicCard
-            ref="coverRef"
-            :data="picData"
-            :show-footer="false"
-          ></PicCard>
+          <PicCard ref="coverRef"></PicCard>
         </div>
         <div class="page_body_right">
           <ArticleForm ref="articleFormRef"></ArticleForm>
@@ -46,7 +42,6 @@ import ArticleForm from './ArticleForm.vue';
 import { ElNotification } from 'element-plus';
 import Overlay from '@/components/mask/Overlay.vue';
 
-import pic1 from '@/assets/img/pic1.jpg';
 import type { FormInstance } from 'element-plus';
 import type { AddArticleParams, EditArticleParams } from '@/types/article';
 import { addArticle, articleDetail, articleEdit } from '@/api/api_article';
@@ -57,12 +52,6 @@ interface ArticleFormRef {
   ruleForm: AddArticleParams;
 }
 
-const picData = {
-  img: pic1,
-  title: 'Cozy 5 Stars Apartment',
-  content:
-    'The place is close to Barceloneta Beach and bus stop just 2 min by walk and near to "Naviglio" where you can enjoy the main night life in Barcelona.',
-};
 const router = useRouter();
 const route = useRoute();
 const submitLoading = ref(false);
@@ -215,6 +204,15 @@ const add = async (data: AddArticleParams) => {
         rgb(26 115 232 / 15%) 0rem 0.0625rem 0.3125rem 0rem;
       background-size: 150% !important;
       background-position-x: 25% !important;
+    }
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .page {
+    padding-left: 0;
+    &_body {
+      grid-template-columns: 1fr;
     }
   }
 }

@@ -32,8 +32,8 @@
       </h3>
       <div class="article_body">
         <ArticlePanel
-          v-for="(item, index) in cardList"
-          :key="index"
+          v-for="(item, index) in articles"
+          :key="item._id"
           :data="item"
           :index="index"
         />
@@ -48,7 +48,7 @@ export default {
 };
 </script>
 <script lang="ts" setup>
-import { computed, ref, toRefs } from 'vue';
+import { computed, onBeforeMount, ref, toRefs } from 'vue';
 
 import commonTabs from '@/components/tabs/commonTabs.vue';
 import SettingSort from './sort/SettingSort.vue';
@@ -58,38 +58,11 @@ import ArticlePanel from '@/components/panel/ArticlePanel.vue';
 import CommonImg from '@/components/img/CommonImg.vue';
 
 import { useUserStore } from '@/store/user';
-
-import pic1 from '@/assets/img/pic1.jpg';
-import pic2 from '@/assets/img/pic2.jpg';
-import pic3 from '@/assets/img/pic3.jpg';
+import { articleList } from '@/api/api_article';
+import type { ArticleListParams, ArticleInt } from '@/types/article';
 
 const { userInfo } = toRefs(useUserStore());
-const cardList = [
-  {
-    img: pic1,
-    title: 'Cozy 5 Stars Apartment',
-    content:
-      'The place is close to Barceloneta Beach and bus stop just 2 min by walk and near to "Naviglio" where you can enjoy the main night life in Barcelona.',
-  },
-  {
-    img: pic2,
-    title: 'Office Studio',
-    content:
-      'The place is close to Metro Station and bus stop just 2 min by walk and near to "Naviglio" where you can enjoy the night life in London, UK.',
-  },
-  {
-    img: pic3,
-    title: 'Beautiful Castle',
-    content:
-      'The place is close to Metro Station and bus stop just 2 min by walk and near to "Naviglio" where you can enjoy the main night life in Milan.',
-  },
-  {
-    img: pic2,
-    title: 'Office Studio',
-    content:
-      'The place is close to Metro Station and bus stop just 2 min by walk and near to "Naviglio" where you can enjoy the night life in London, UK.',
-  },
-];
+const articles = ref<ArticleInt[]>([]);
 const tabs = [
   {
     label: 'App',
@@ -106,12 +79,30 @@ const tabs = [
 ];
 const activeTab = ref(1);
 
+onBeforeMount(() => {
+  getList();
+});
+
 const composeTeam = computed(() => {
   if (userInfo.value?.team?.name) {
     return userInfo.value.team?.name;
   }
   return '当前还未加入任何团队喔~';
 });
+
+const getList = async () => {
+  const params: ArticleListParams = {
+    page: 1,
+    pageSize: 4,
+    author_id: userInfo.value?._id,
+  };
+
+  const { code, data } = await articleList(params);
+
+  if (code === 200) {
+    articles.value = data.list || [];
+  }
+};
 </script>
 
 <style lang="less" scoped>
@@ -205,8 +196,9 @@ const composeTeam = computed(() => {
 
 @media screen and (max-width: 890px) {
   .user {
-    flex-direction: column;
-    gap: 1rem;
+    margin-left: 1rem;
+    // flex-direction: column;
+    // gap: 1rem;
   }
   .panel {
     grid-template-columns: repeat(2, 1fr);
@@ -217,6 +209,9 @@ const composeTeam = computed(() => {
 }
 
 @media screen and (max-width: 640px) {
+  .vertical_line {
+    display: none;
+  }
   .panel {
     grid-template-columns: repeat(1, 1fr);
   }

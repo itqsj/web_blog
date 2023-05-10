@@ -53,7 +53,14 @@
               <p class="ellipsis-2">{{ row.introduction }}</p>
             </template>
           </el-table-column>
-          <el-table-column prop="background" label="Background" />
+          <el-table-column prop="background" label="isAdmin">
+            <template #default="{ row }">
+              <CommonSwitch
+                :model-value="!!row.isAdmin"
+                disabled
+              ></CommonSwitch>
+            </template>
+          </el-table-column>
         </CommonTable>
         <div class="page_panel_footer">
           <p class="t-color page_panel_footer_txt">
@@ -84,6 +91,7 @@ import { onMounted, ref } from 'vue';
 import CommonTable from '@/components/table/CommonTable.vue';
 import CommonPagination from '@/components/pagination/CommonPagination.vue';
 import CommonImg from '@/components/img/CommonImg.vue';
+import CommonSwitch from '@/components/switch/CommonSwitch.vue';
 
 import { userList } from '@/api/api_user';
 import type { User } from '@/types/user';

@@ -1,9 +1,13 @@
 <template>
-  <div v-infinite-scroll="loadMore" class="container" @resize="waterfallReseze">
+  <div v-infinite-scroll="loadMore" class="container">
     <el-affix :offset="105">
       <v-expand-x-transition>
         <div v-show="showFilter" class="container_filter">
-          <FiltersForm :loading="loading" @change="filtersChange"></FiltersForm>
+          <FiltersForm
+            :loading="loading"
+            @change="filtersChange"
+            @close="showFilter = false"
+          ></FiltersForm>
         </div>
       </v-expand-x-transition>
     </el-affix>
@@ -89,6 +93,7 @@ let count = 0;
 
 onBeforeMount(() => {
   window.addEventListener('resize', reseize);
+  window.dispatchEvent(new Event('resize'));
 });
 
 onBeforeUnmount(() => {
@@ -96,12 +101,22 @@ onBeforeUnmount(() => {
 });
 
 const reseize = () => {
-  waterfallref.value.setWarpWith();
-  imgLoad();
-};
+  const width = window.innerWidth;
+  if (width > 1900) {
+    waterfallInfo.value.columns = 4;
+  } else if (width < 1900 && width > 1200) {
+    waterfallInfo.value.columns = 3;
+  } else if (width < 1200 && width > 900) {
+    waterfallInfo.value.columns = 2;
+  } else {
+    waterfallInfo.value.columns = 1;
+    showFilter.value = false;
+  }
 
-const waterfallReseze = () => {
-  console.log(132);
+  setTimeout(() => {
+    waterfallref.value.setWarpWith();
+    imgLoad();
+  }, 200);
 };
 
 const filtersChange = (data: ArticleFilterInt) => {
@@ -214,6 +229,18 @@ const getList = async () => {
       h4 {
         font-size: 2.0833rem;
       }
+    }
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .container {
+    &_right_head {
+      flex-direction: column;
+    }
+    .el-affix {
+      z-index: 1000;
+      position: absolute;
     }
   }
 }

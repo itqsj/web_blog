@@ -97,4 +97,21 @@ const loginOut = () => {
     }
   }
 }
+@media screen and (max-width: 900px) {
+  .sort {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+    &_right {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      .v-btn {
+        width: 100%;
+        margin-left: 0;
+      }
+    }
+  }
+}
 </style>

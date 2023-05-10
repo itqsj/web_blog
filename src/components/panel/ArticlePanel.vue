@@ -1,20 +1,20 @@
 <template>
   <div class="card">
     <div class="card_img">
-      <img :src="data.img" alt="" />
+      <CommonImg :src="data.cover_img[0]" alt="" />
     </div>
     <div class="card_body">
       <p class="font-16">Article#{{ index + 1 }}</p>
-      <h4 class="font-20 t-color">Cozy 5 Stars Apartment</h4>
-      <p class="font-16">
-        The place is close to Barceloneta Beach and bus stop just 2 min by walk
-        and near to "Naviglio" where you can enjoy the main night life in
-        Barcelona.
+      <h4 class="font-20 t-color ellipsis-2">{{ data.title }}</h4>
+      <p class="font-16 ellipsis-2">
+        {{ data.introduce }}
       </p>
       <div class="line mtop-16 mbouttom-16"></div>
     </div>
     <div class="card_footer font-14">
-      <el-button color="#626aef" :dark="isDark" plain>VIEW ARTICLE</el-button>
+      <el-button color="#626aef" :dark="isDark" plain @click="goDetail"
+        >VIEW ARTICLE</el-button
+      >
       <div class="card_footer_right flex_center">
         <img
           src="	https://demos.creative-tim.com/otis-admin-pro/static/media/marie.c28f32663b6432b46f78.jpg"
@@ -53,12 +53,17 @@ export default {
 
 <script lang="ts" setup>
 import { toRefs } from 'vue';
+import { useRouter } from 'vue-router';
+
+import CommonImg from '@/components/img/CommonImg.vue';
 
 import { isDark } from '@/composables';
+import type { ArticleInt } from '@/types/article';
 
+const router = useRouter();
 const props = defineProps({
   data: {
-    type: Object,
+    type: Object as () => ArticleInt,
     default: () => ({}),
   },
   index: {
@@ -66,8 +71,17 @@ const props = defineProps({
     default: 0,
   },
 });
-
 const { data, index } = toRefs(props);
+
+const goDetail = () => {
+  const query = {
+    id: data.value._id,
+  };
+  router.push({
+    path: '/articleDetail',
+    query,
+  });
+};
 </script>
 
 <style lang="less" scoped>
@@ -80,10 +94,12 @@ const { data, index } = toRefs(props);
   //     }
   //   }
   &_img {
+    overflow: hidden;
     z-index: 20;
     position: relative;
     // top: -20px;
-    padding: 0 1rem;
+    margin: 0 1rem;
+    border-radius: 0.5rem;
     transition: all 300ms cubic-bezier(0.34, 1.61, 0.7, 1) 0s;
     img {
       width: 100%;
@@ -101,7 +117,7 @@ const { data, index } = toRefs(props);
     }
     p {
       color: rgb(123, 128, 154);
-      padding: 0.875rem 1rem;
+      margin: 0.875rem 1rem;
       font-weight: 300;
     }
   }

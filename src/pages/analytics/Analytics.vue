@@ -29,13 +29,6 @@
           <LineEcharts echartsid="line2"></LineEcharts>
         </ViewPanel>
       </div>
-      <!-- <div class="page_group">
-        <PicCard
-          v-for="(card, index) in cardList"
-          :key="index"
-          :data="card"
-        ></PicCard>
-      </div> -->
     </div>
   </div>
 </template>
@@ -47,7 +40,6 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import PicCard from '@/components/card/PicCard.vue';
 import RegionEcharts from './RegionEcharts.vue';
 import PicEcharts from './PicEcharts.vue';
 import RegionTable from './RegionTable.vue';
@@ -85,13 +77,13 @@ const cardList = [
   &_group {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    margin-top: 48px;
+    gap: 1.5rem;
+    margin-top: 3rem;
   }
   &_views {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+    gap: 2rem 1.5rem;
     margin-top: 48px;
   }
   &_region {
@@ -138,7 +130,6 @@ const cardList = [
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 1.5rem;
-      height: 50rem;
     }
 
     &_table {
@@ -146,7 +137,7 @@ const cardList = [
       display: flex;
       flex-direction: column;
       // flex: 1;
-      height: 100%;
+      height: 50rem;
 
       &_body {
         overflow: hidden;
@@ -156,8 +147,17 @@ const cardList = [
     &_echarts {
       // flex: 1;
       overflow: hidden;
-      height: 100%;
+      min-height: 18.75rem;
     }
+  }
+}
+@media screen and (max-width: 900px) {
+  .page_region_content {
+    grid-template-columns: 1fr;
+  }
+  .page_views {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 2.5rem;
   }
 }
 </style>

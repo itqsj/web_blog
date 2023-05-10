@@ -40,21 +40,16 @@
           </v-btn>
         </el-tooltip>
       </div>
-      <h4 class="font-20">Cozy 5 Stars Apartment</h4>
-      <p class="font-16">
-        The place is close to Barceloneta Beach and bus stop just 2 min by walk
-        and near to "Naviglio" where you can enjoy the main night life in
-        Barcelona.
-      </p>
-      <div v-show="showFooter" class="line mtop-16 mbouttom-16"></div>
+      <h4 class="font-20">Upload Photo</h4>
+      <p class="font-16">Support for uploading image types:.png, .jpg, .jpeg</p>
+      <div class="line mtop-16 mbouttom-16"></div>
     </div>
-    <div v-show="showFooter" class="card_footer font-16">
-      <div>$899/night</div>
-      <div class="flex_center">
-        <el-icon class="mright-5"><LocationFilled /></el-icon>Barcelona, Spain
-      </div>
-    </div>
-    <CommonDialog v-model="uploadShow" width="800" draggable title="上传图片">
+    <CommonDialog
+      v-model="uploadShow"
+      style="max-width: 800px; min-width: 340px"
+      draggable
+      title="上传图片"
+    >
       <CommonUpload @success="uoloadSuccess"></CommonUpload>
     </CommonDialog>
   </div>
@@ -76,10 +71,6 @@ const props = defineProps({
   data: {
     type: Object,
     default: () => ({}),
-  },
-  showFooter: {
-    type: Boolean,
-    default: true,
   },
 });
 const { data } = toRefs(props);

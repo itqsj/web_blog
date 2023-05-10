@@ -17,7 +17,7 @@
       <div class="line"></div>
       <el-sub-menu index="2" :collapse-transition="false">
         <template #title>
-          <el-icon><location class="t-color" /></el-icon>
+          <el-icon class="mright-10"><location class="t-color" /></el-icon>
           <span class="t-color">Dashboards</span>
         </template>
 
@@ -28,7 +28,7 @@
       <h3 class="aside_text t-color">PAGES</h3>
       <el-sub-menu index="3" :collapse-transition="false">
         <template #title>
-          <el-icon><location class="t-color" /></el-icon>
+          <el-icon class="mright-10"><UserFilled /></el-icon>
           <span class="t-color">Users</span>
         </template>
 
@@ -36,7 +36,7 @@
       </el-sub-menu>
       <el-sub-menu index="4" :collapse-transition="false">
         <template #title>
-          <el-icon><location class="t-color" /></el-icon>
+          <el-icon class="mright-10"><Notebook /></el-icon>
           <span class="t-color">Article</span>
         </template>
         <el-menu-item index="/newArticle" class="t-color"

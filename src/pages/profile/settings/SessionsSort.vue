@@ -116,4 +116,13 @@ const formInline = reactive({
     }
   }
 }
+@media screen and (max-width: 900px) {
+  .sort_footer {
+    flex-direction: column;
+    align-items: flex-start;
+    .v-btn {
+      width: 100%;
+    }
+  }
+}
 </style>

@@ -1,5 +1,12 @@
 <template>
   <div class="form t-background t-boxshadow t-color">
+    <v-btn
+      class="form_close"
+      icon="$close"
+      size="30"
+      variant="text"
+      @click="emit('close')"
+    ></v-btn>
     <h4>Filters</h4>
     <!-- <v-text-field
       label="Prepend inner"
@@ -80,7 +87,7 @@ const props = defineProps({
   },
 });
 const { loading } = toRefs(props);
-const emit = defineEmits(['change']);
+const emit = defineEmits(['change', 'close']);
 const form = reactive<ArticleFilterInt>({
   startTime: null,
   endTime: null,
@@ -130,7 +137,8 @@ const endTimeChange = () => {
 
 <style scoped lang="less">
 .form {
-  width: 20rem;
+  position: relative;
+  max-width: 20rem;
   height: 80vh;
   margin-right: 1.5rem;
   padding: 1rem;
@@ -155,6 +163,18 @@ const endTimeChange = () => {
   &_category {
     overflow: auto;
     max-height: 15.625rem;
+  }
+  &_close {
+    display: none;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .form_close {
+    display: block;
   }
 }
 </style>

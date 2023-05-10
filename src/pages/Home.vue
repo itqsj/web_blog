@@ -1,8 +1,11 @@
 <template>
   <div v-if="isFinish" class="page">
-    <div class="page_aside">
-      <Aside></Aside>
-    </div>
+    <div class="page_placeholder"></div>
+    <v-expand-x-transition>
+      <div v-show="isShowAside" class="page_aside">
+        <Aside></Aside>
+      </div>
+    </v-expand-x-transition>
     <div class="page_body">
       <el-affix :offset="13" style="width: 100%" @change="affixChange">
         <Head :is-fixed="isFixed"></Head>
@@ -34,9 +37,8 @@ export default {
 };
 </script>
 <script lang="ts" setup>
-import { onBeforeMount, h, ref, toRefs } from 'vue';
+import { onBeforeMount, h, ref, toRefs, onBeforeUnmount } from 'vue';
 import { useUserStore } from '@/store/user';
-import { useRouter } from 'vue-router';
 import { useThemeStore } from '@/store/theme';
 
 import { ElNotification } from 'element-plus';
@@ -45,17 +47,24 @@ import Head from '@/components/head/Head.vue';
 // import CommonTable from '@/components/table/CommonTable.vue';
 // import Analytics from '@/pages/analytics/Analytics.vue';
 
+import { useCommonStore } from '@/store/common';
 import { verifyToken, userInfo } from '@/api/api_user';
+import { windowResize } from '@/util/resize';
 
 const userStore = useUserStore();
+const { isShowAside } = toRefs(useCommonStore());
 const themeStore = useThemeStore();
 const { getThemStyle } = toRefs(themeStore);
-const router = useRouter();
 const isFixed = ref(false);
 const isFinish = ref(false);
 
 onBeforeMount(() => {
   verify();
+  window.addEventListener('resize', windowResize);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', windowResize);
 });
 
 const verify = async () => {
@@ -114,10 +123,14 @@ const affixChange = (fixed: boolean) => {
   height: 100vh;
   box-sizing: border-box;
   // background: #f0f2f5;
+  &_placeholder {
+    width: 1rem;
+    background: transparent;
+  }
   &_aside {
     width: 15.625rem;
-    height: calc(100% - 32px);
-    padding: 16px 0 16px 16px;
+    height: calc(100% - 2rem);
+    padding: 1rem 0 1rem 0;
     box-sizing: content-box;
     transition: all 0.3s;
   }
@@ -138,14 +151,6 @@ const affixChange = (fixed: boolean) => {
       background: transparent;
       color: rgb(123, 128, 154);
       box-sizing: border-box;
-    }
-  }
-}
-@media screen and (max-width: 1400px) {
-  .page {
-    &_aside {
-      width: 0px;
-      padding: 0;
     }
   }
 }

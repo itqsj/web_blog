@@ -48,7 +48,14 @@ import UserInfoVue from './UserInfo.vue';
     margin-top: -64px;
     margin-left: 24px;
     margin-right: 24px;
-    padding: 16px;
+    margin: -4rem 1.5rem 0;
+    padding: 1rem;
+  }
+}
+@media screen and (max-width: 900px) {
+  .page_card {
+    padding: 1rem 0;
+    margin: -4rem 0.5rem 0;
   }
 }
 </style>

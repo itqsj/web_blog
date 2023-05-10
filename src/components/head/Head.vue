@@ -5,14 +5,18 @@
         <el-breadcrumb-item :to="{ path: '/' }"
           ><el-icon><HomeFilled /></el-icon
         ></el-breadcrumb-item>
-        <el-breadcrumb-item>Dashboards</el-breadcrumb-item>
+        <el-breadcrumb-item>Home</el-breadcrumb-item>
         <el-breadcrumb-item> {{ title }}</el-breadcrumb-item>
       </el-breadcrumb>
       <h3 class="t-color">{{ title }}</h3>
     </div>
     <div class="head_center">
-      <el-icon v-show="false"><Expand /></el-icon>
-      <el-icon @click="toggleThem()"><Fold /></el-icon>
+      <el-icon v-show="!isShowAside" @click="updateShowAside(true)"
+        ><Expand
+      /></el-icon>
+      <el-icon v-show="isShowAside" @click="updateShowAside(false)"
+        ><Fold
+      /></el-icon>
     </div>
     <div class="head_right">
       <!-- <el-input
@@ -21,11 +25,11 @@
         size="large"
         placeholder="Please Input"
       /> -->
-      <el-icon><Avatar /></el-icon>
+      <el-icon @click="router.push('/profile')"><Avatar /></el-icon>
       <el-icon @click="settingDrawer = true"><Setting /></el-icon>
-      <el-badge :value="3" class="item">
+      <!-- <el-badge :value="3" class="item">
         <el-icon><Bell /></el-icon>
-      </el-badge>
+      </el-badge> -->
     </div>
 
     <el-drawer
@@ -51,17 +55,20 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { ref, watch, toRefs, reactive } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, watch, toRefs, reactive, watchEffect } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 import { ArrowRight } from '@element-plus/icons-vue';
 import SettingDrawer from '@/components/head/SettingDrawer.vue';
 
 import { useThemeStore } from '@/store/theme';
-import { toggleDark, isDark } from '@/composables';
+import { useCommonStore } from '@/store/common';
+import { isDark } from '@/composables';
 
 const { getThemStyle } = toRefs(useThemeStore());
+const { updateShowAside, isShowAside } = toRefs(useCommonStore());
 const route = useRoute();
+const router = useRouter();
 const props = defineProps({
   isFixed: {
     type: Boolean,
@@ -83,6 +90,11 @@ const style = ref(styleObj.fixed);
 const search = ref('');
 const settingDrawer = ref(false);
 
+// onBeforeRouteUpdate((to, from, next) => {
+//   console.log(to, from, next);
+//   next();
+// });
+
 watch(
   () => route.path,
   () => {
@@ -93,30 +105,21 @@ watch(
   },
 );
 
-watch(
-  () => props.isFixed,
-  () => {
-    styleObj.fixed = { ...getThemStyle.value };
-    style.value = props.isFixed ? styleObj.fixed : styleObj.noFixed;
+watchEffect(() => {
+  styleObj.fixed = { ...getThemStyle.value };
+  style.value = props.isFixed ? styleObj.fixed : styleObj.noFixed;
 
-    if (props.isFixed && !isDark.value) {
-      styleObj.fixed.background = '#ffffff';
-    }
-  },
-  {
-    immediate: true,
-  },
-);
-
-const toggleThem = () => {
-  toggleDark();
-};
+  if (props.isFixed && !isDark.value) {
+    styleObj.fixed.background = '#ffffff';
+  }
+});
 </script>
 
 <style lang="less" scoped>
 .head {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
   height: 75px;
   padding: 0 16px;
@@ -150,7 +153,7 @@ const toggleThem = () => {
     flex: 1;
     .el-icon {
       font-size: 18px;
-      margin-left: 50px;
+      margin-left: 2rem;
       color: #7b809a;
       cursor: pointer;
     }
@@ -178,6 +181,12 @@ const toggleThem = () => {
     .el-drawer__body {
       padding: 0 20px;
     }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .head_center {
+    display: none;
   }
 }
 </style>

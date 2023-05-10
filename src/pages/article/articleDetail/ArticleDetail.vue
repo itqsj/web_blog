@@ -127,4 +127,13 @@ const getList = async () => {
   box-sizing: border-box;
   border-radius: 0.5rem;
 }
+
+@media screen and (max-width: 900px) {
+  .page {
+    padding: 1rem;
+    &_body {
+      flex-direction: column;
+    }
+  }
+}
 </style>

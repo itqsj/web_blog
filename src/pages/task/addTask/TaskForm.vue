@@ -154,4 +154,13 @@ defineExpose({
     margin-bottom: 2.1875rem;
   }
 }
+
+@media screen and (max-width: 900px) {
+  .form {
+    padding: 1.5rem 0.8rem;
+    &_body_flex {
+      flex-direction: column;
+    }
+  }
+}
 </style>

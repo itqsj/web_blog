@@ -1,7 +1,11 @@
 <template>
   <div>
     <div class="page">
-      <commonTabs v-model:model-value="activeTab" :tabs="tabs" />
+      <commonTabs
+        v-model:model-value="activeTab"
+        class="page_tab"
+        :tabs="tabs"
+      />
       <div class="page_body">
         <el-affix :offset="105">
           <div class="page_body_left t-background t-boxshadow t-clolr">
@@ -141,6 +145,22 @@ const activeTab = ref(1);
         padding: 1rem;
         box-sizing: border-box;
         // height: 300px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .page {
+    margin: 0;
+    &_tab {
+      display: none;
+    }
+    &_body {
+      gap: 0;
+
+      .el-affix {
+        display: none;
       }
     }
   }

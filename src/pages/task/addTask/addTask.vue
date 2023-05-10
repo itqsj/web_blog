@@ -8,12 +8,7 @@
       </p>
       <div class="page_body">
         <div class="page_body_left">
-          <PicCard
-            ref="imgsRef"
-            :data="picData"
-            :show-footer="false"
-            :is-btn="true"
-          ></PicCard>
+          <PicCard ref="imgsRef"></PicCard>
         </div>
         <div class="page_body_right">
           <TaskForm ref="taskFormRef"> </TaskForm>
@@ -62,12 +57,6 @@ interface TaskFormRef {
 
 const router = useRouter();
 const route = useRoute();
-const picData = {
-  img: pic1,
-  title: 'Cozy 5 Stars Apartment',
-  content:
-    'The place is close to Barceloneta Beach and bus stop just 2 min by walk and near to "Naviglio" where you can enjoy the main night life in Barcelona.',
-};
 const taskFormRef = ref();
 const imgsRef = ref();
 const submitLoading = ref(false);
@@ -219,6 +208,14 @@ onMounted(init);
         rgb(26 115 232 / 15%) 0rem 0.0625rem 0.3125rem 0rem;
       background-size: 150% !important;
       background-position-x: 25% !important;
+    }
+  }
+}
+@media screen and (max-width: 900px) {
+  .page {
+    padding-left: 0;
+    &_body {
+      grid-template-columns: 1fr;
     }
   }
 }
