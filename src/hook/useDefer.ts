@@ -17,6 +17,8 @@ export function useDefer<T>() {
         //16.6 一帧，有空时再做
         if (Date.now() - start < 16.6) {
           const item = newList.shift();
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           list.value.push(item);
           callback && callback();
           return resolve(addToDefer(newList, callback));
