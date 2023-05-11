@@ -13,7 +13,7 @@ export default {
 <script lang="ts" setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 
-// import * as echarts from 'echarts';
+import * as echarts from 'echarts';
 import chinaJson from '@/util/region/china.json';
 import { RegionInt, TooltipInt, EchartsInt } from '@/types/analytics';
 
@@ -62,8 +62,10 @@ const initEchart = () => {
     dataList[i].value = Math.ceil(Math.random() * 1000 - 1);
   }
 
-  const myChart = (window as any).echarts.init(document.getElementById('main'));
-  (window as any).echarts.registerMap('china', chinaJson);
+  const myChart = echarts.init(document.getElementById('main') as HTMLElement);
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  echarts.registerMap('china', chinaJson);
   const option = {
     tooltip: {
       //数据格式化
@@ -120,12 +122,12 @@ const initEchart = () => {
   };
   myChart.setOption(option);
   Chart.value = myChart;
-  myChart.on('click', function (params: { data: RegionInt; name: string }) {
-    if (!params.data.ename) {
-      alert('暂无' + params.name + '地图数据');
-      return;
-    }
-  });
+  // myChart.on('click', function (params: { data: RegionInt; name: string }) {
+  //   if (!params.data.ename) {
+  //     alert('暂无' + params.name + '地图数据');
+  //     return;
+  //   }
+  // });
 };
 
 const resize = () => {

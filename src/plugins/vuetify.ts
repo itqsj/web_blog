@@ -1,13 +1,27 @@
 import type { App } from 'vue';
 import '@mdi/font/css/materialdesignicons.css'; // Ensure you are using css-loader
-import { createVuetify, ThemeDefinition } from 'vuetify';
-
+import * as Vuetify from 'vuetify';
+import {
+  VBtn,
+  VDialog,
+  VCard,
+  VCardActions,
+  VExpandTransition,
+  VExpandXTransition,
+  VCarousel,
+  VCardItem,
+  VProgressCircular,
+  VProgressLinear,
+  VCheckbox,
+} from 'vuetify/components';
+// import * as components from 'vuetify/components';
+import * as directives from 'vuetify/directives';
 // element
 import { useDark } from '@vueuse/core';
 
 export const isDark = useDark();
 
-const light: ThemeDefinition = {
+const light: Vuetify.ThemeDefinition = {
   colors: {
     background: '#ffffff',
     surface: '#ffffff',
@@ -21,7 +35,7 @@ const light: ThemeDefinition = {
     warning: '#ffffff',
   },
 };
-const dark: ThemeDefinition = {
+const dark: Vuetify.ThemeDefinition = {
   colors: {
     background: '#202940',
     surface: '#202940',
@@ -36,7 +50,21 @@ const dark: ThemeDefinition = {
   },
 };
 
-const vuetify = createVuetify({
+const vuetify = Vuetify.createVuetify({
+  components: {
+    VBtn,
+    VDialog,
+    VCard,
+    VCardActions,
+    VExpandTransition,
+    VExpandXTransition,
+    VCarousel,
+    VCardItem,
+    VProgressCircular,
+    VProgressLinear,
+    VCheckbox,
+  },
+  directives,
   theme: {
     defaultTheme: isDark.value ? 'dark' : 'light',
     themes: {

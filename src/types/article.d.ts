@@ -34,8 +34,8 @@ export type ArticleListParams = ParamsListInt &
   };
 
 export interface ArticleFilterInt {
-  startTime: Date | null;
-  endTime: Date | null;
+  startTime: Date;
+  endTime: Date;
   keyWord: string;
   timeRang: Array<number>;
   cateIds: Array<string>;

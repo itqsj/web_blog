@@ -89,8 +89,8 @@ const props = defineProps({
 const { loading } = toRefs(props);
 const emit = defineEmits(['change', 'close']);
 const form = reactive<ArticleFilterInt>({
-  startTime: null,
-  endTime: null,
+  startTime: new Date(),
+  endTime: new Date(),
   keyWord: '',
   timeRang: [0, 0],
   cateIds: [],

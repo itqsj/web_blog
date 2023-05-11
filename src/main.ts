@@ -10,11 +10,11 @@ import '@/assets/css/reset.css';
 import '@/assets/css/global.less';
 import './style.css';
 // element ui
-import 'element-plus/dist/index.css';
+// import 'element-plus/dist/index.css';
 import 'element-plus/theme-chalk/dark/css-vars.css';
 import '@/assets/css/theme.less';
 // vuetify
-import 'vuetify/styles';
+// import 'vuetify/styles';
 
 const app = createApp(App);
 // 挂载路由

@@ -1,5 +1,5 @@
 // 时间戳转换为 时间格式
-export default function formatDate(value: number) {
+export default function formatDate(value?: number) {
   if (!value) {
     return '';
   }

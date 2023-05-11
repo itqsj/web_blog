@@ -15,11 +15,14 @@
 
         <div class="page_body_right">
           <div class="page_body_right_item t-background t-boxshadow">
-            <ProfileSort ref="profileSort" :user-info="userInfo" />
+            <ProfileSort
+              ref="profileSort"
+              :user-info="(userInfo as UserInfoInt)"
+            />
           </div>
           <div class="page_body_right_item t-background t-boxshadow">
             <h3 class="font-20 t-color">Basic Info</h3>
-            <BasicInfo ref="basicInfo" :user-info="userInfo" />
+            <BasicInfo ref="basicInfo" :user-info="(userInfo as UserInfoInt)" />
           </div>
           <div class="page_body_right_item t-background t-boxshadow">
             <h3 class="font-20 t-color">Change Password</h3>
@@ -55,6 +58,7 @@ import AccountDel from './AccountDel.vue';
 import SessionsSort from './SessionsSort.vue';
 
 import { useUserStore } from '@/store/user';
+import type { UserInfoInt } from '@/types/user';
 
 const { userInfo } = toRefs(useUserStore());
 

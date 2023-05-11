@@ -82,8 +82,8 @@ const waterfallInfo = ref({
 });
 const { list, addToDefer, resetList } = useDefer<ArticleInt>();
 let filterData: ArticleFilterInt = {
-  startTime: null,
-  endTime: null,
+  startTime: new Date(),
+  endTime: new Date(),
   keyWord: '',
   timeRang: [],
   cateIds: [],

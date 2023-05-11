@@ -36,8 +36,6 @@ export interface TaskInt {
   team?: TeamInt;
 }
 
-export type TaskTimeInt = Pick<TaskInt, 'usageTime' | 'needTime'>;
-
 // 移动改变
 export interface DragChange<T> {
   moved: {

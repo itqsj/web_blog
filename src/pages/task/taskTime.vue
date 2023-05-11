@@ -42,11 +42,10 @@ export default {
 <script lang="ts" setup>
 import { reactive, ref, defineExpose } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus';
-import { TaskTimeInt } from '@/types/task';
 
 const emit = defineEmits(['close', 'submit']);
 const formRef = ref<FormInstance>();
-const form = reactive<TaskTimeInt>({
+const form = reactive({
   startTime: Date.now(),
   needTime: Date.now(),
 });

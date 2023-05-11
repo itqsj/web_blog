@@ -4,8 +4,8 @@
       <!-- <img class="page_left_bg" src="@/assets/img/lg_bg.jpeg" alt="" /> -->
     </div>
     <div class="page_right">
-      <h3>Welcome to admin! 👋🏻</h3>
-      <p class="font-14 mtop-15 page_right_txt">
+      <h3 class="t-color">Welcome to admin! 👋🏻</h3>
+      <p class="t-color font-14 mtop-15 page_right_txt">
         Please sign-in to your account and start the adventure
       </p>
       <LoginForm></LoginForm>

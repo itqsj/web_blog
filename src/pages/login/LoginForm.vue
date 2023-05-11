@@ -42,7 +42,7 @@
       >
     </el-form-item>
     <el-form-item>
-      <p class="form_creat mtop-15">
+      <p class="form_creat mtop-15 t-color">
         New on our platform?
         <span class="form_creat_jump">Create an account</span>
       </p>

@@ -33,7 +33,11 @@ export function useDefer<T>() {
     if (list.value.length) {
       list.value = intersectionBy(list.value, newList, '_id');
       callback && callback();
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       const addList = xorWith(list.value, newList, isEqual); //获取两个数组对象的补集
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       await addToDefer(addList, callback);
     } else {
       await addToDefer(newList, callback);

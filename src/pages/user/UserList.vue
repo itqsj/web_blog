@@ -104,7 +104,7 @@ const pageSize = ref<number>(10);
 const count = ref<number>(0);
 
 const formatterDate = (row: User, column: TableColumnCtx<User>) => {
-  const date = parseInt(row.createdAt);
+  const date = row.createdAt - 0;
   return formatDate(date);
 };
 

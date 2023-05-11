@@ -14,6 +14,7 @@ export default {
 import { onMounted, nextTick, toRefs, onBeforeUnmount, ref } from 'vue';
 
 import { EchartsInt } from '@/types/analytics';
+import * as echarts from 'echarts';
 
 const props = defineProps({
   echartsid: {
@@ -26,12 +27,10 @@ const { echartsid } = toRefs(props);
 const Chart = ref<EchartsInt>(null as unknown as EchartsInt);
 
 const initEchart = () => {
-  const myChart = (window as any).echarts.init(
-    document.getElementById(echartsid.value),
-  );
+  const myChart = echarts.init(document.getElementById(echartsid.value) as HTMLElement);
 
   const option = {
-    backgroundColor: new (window as any).echarts.graphic.LinearGradient(
+    backgroundColor: new echarts.graphic.LinearGradient(
       0,
       0,
       1,
@@ -115,7 +114,7 @@ onBeforeUnmount(() => {
   // background-color: 'linear-gradient(195deg, rgb(73, 163, 241), rgb(26, 115, 232))';
   border-radius: 0.5rem;
 
-  :deep(div){
+  :deep(div) {
     width: 100% !important;
     height: 100% !important;
   }

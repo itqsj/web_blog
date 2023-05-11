@@ -17,26 +17,26 @@
       >
       <div class="card_footer_right flex_center">
         <img
-          src="	https://demos.creative-tim.com/otis-admin-pro/static/media/marie.c28f32663b6432b46f78.jpg"
+          src="https://demos.creative-tim.com/otis-admin-pro/static/media/marie.c28f32663b6432b46f78.jpg"
           alt=""
         />
         <img
-          src="	https://demos.creative-tim.com/otis-admin-pro/static/media/marie.c28f32663b6432b46f78.jpg"
+          src="https://demos.creative-tim.com/otis-admin-pro/static/media/marie.c28f32663b6432b46f78.jpg"
           alt=""
           :style="{ left: '-0.4rem' }"
         />
         <img
-          src="	https://demos.creative-tim.com/otis-admin-pro/static/media/marie.c28f32663b6432b46f78.jpg"
+          src="https://demos.creative-tim.com/otis-admin-pro/static/media/marie.c28f32663b6432b46f78.jpg"
           alt=""
           :style="{ left: '-0.8rem' }"
         />
         <img
-          src="	https://demos.creative-tim.com/otis-admin-pro/static/media/marie.c28f32663b6432b46f78.jpg"
+          src="https://demos.creative-tim.com/otis-admin-pro/static/media/marie.c28f32663b6432b46f78.jpg"
           alt=""
           :style="{ left: '-1.2rem' }"
         />
         <img
-          src="	https://demos.creative-tim.com/otis-admin-pro/static/media/marie.c28f32663b6432b46f78.jpg"
+          src="https://demos.creative-tim.com/otis-admin-pro/static/media/marie.c28f32663b6432b46f78.jpg"
           alt=""
           :style="{ left: '-1.6rem' }"
         />

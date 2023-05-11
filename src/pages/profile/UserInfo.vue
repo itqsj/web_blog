@@ -2,9 +2,9 @@
   <div>
     <div class="user">
       <div class="user_left">
-        <CommonImg class="user_left_avatar" :src="userInfo.user_pic" alt="" />
+        <CommonImg class="user_left_avatar" :src="userInfo?.user_pic" alt="" />
         <div class="user_left_text">
-          <h3>{{ userInfo.username }}</h3>
+          <h3>{{ userInfo?.username }}</h3>
           <p>TEAM / {{ composeTeam }}</p>
         </div>
       </div>
@@ -18,11 +18,11 @@
         <hr class="vertical_line" />
       </div>
       <div class="panel_item">
-        <InformatSort :user-info="userInfo" />
+        <InformatSort :user-info="(userInfo as UserInfoInt)" />
         <hr class="vertical_line" />
       </div>
       <div>
-        <ConversatSort :user-info="userInfo" />
+        <ConversatSort :user-info="(userInfo as UserInfoInt)" />
       </div>
     </div>
     <div class="article">
@@ -60,6 +60,7 @@ import CommonImg from '@/components/img/CommonImg.vue';
 import { useUserStore } from '@/store/user';
 import { articleList } from '@/api/api_article';
 import type { ArticleListParams, ArticleInt } from '@/types/article';
+import type { UserInfoInt } from '@/types/user';
 
 const { userInfo } = toRefs(useUserStore());
 const articles = ref<ArticleInt[]>([]);

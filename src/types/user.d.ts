@@ -6,7 +6,7 @@ export interface TabsInt {
 //用户
 export interface User {
   background: string;
-  createdAt: string;
+  createdAt: number;
   email: string;
   introduction: string;
   user_pic: string;

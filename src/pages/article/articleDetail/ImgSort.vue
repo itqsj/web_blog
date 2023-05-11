@@ -2,40 +2,40 @@
   <div class="sort">
     <img
       class="sort_img"
-      src="	https://bobbyhadz.com/images/blog/typescript-no-overload-matches-this-call/banner.webp"
+      src="https://bobbyhadz.com/images/blog/typescript-no-overload-matches-this-call/banner.webp"
       alt=""
     />
     <div class="sort_imgs">
       <img
-        src="	https://bobbyhadz.com/images/blog/typescript-no-overload-matches-this-call/banner.webp"
+        src="https://bobbyhadz.com/images/blog/typescript-no-overload-matches-this-call/banner.webp"
         alt=""
       />
       <img
-        src="	https://bobbyhadz.com/images/blog/typescript-no-overload-matches-this-call/banner.webp"
+        src="https://bobbyhadz.com/images/blog/typescript-no-overload-matches-this-call/banner.webp"
         alt=""
       />
       <img
-        src="	https://bobbyhadz.com/images/blog/typescript-no-overload-matches-this-call/banner.webp"
+        src="https://bobbyhadz.com/images/blog/typescript-no-overload-matches-this-call/banner.webp"
         alt=""
       />
       <img
-        src="	https://bobbyhadz.com/images/blog/typescript-no-overload-matches-this-call/banner.webp"
+        src="https://bobbyhadz.com/images/blog/typescript-no-overload-matches-this-call/banner.webp"
         alt=""
       />
       <img
-        src="	https://bobbyhadz.com/images/blog/typescript-no-overload-matches-this-call/banner.webp"
+        src="https://bobbyhadz.com/images/blog/typescript-no-overload-matches-this-call/banner.webp"
         alt=""
       />
       <img
-        src="	https://bobbyhadz.com/images/blog/typescript-no-overload-matches-this-call/banner.webp"
+        src="https://bobbyhadz.com/images/blog/typescript-no-overload-matches-this-call/banner.webp"
         alt=""
       />
       <img
-        src="	https://bobbyhadz.com/images/blog/typescript-no-overload-matches-this-call/banner.webp"
+        src="https://bobbyhadz.com/images/blog/typescript-no-overload-matches-this-call/banner.webp"
         alt=""
       />
       <img
-        src="	https://bobbyhadz.com/images/blog/typescript-no-overload-matches-this-call/banner.webp"
+        src="https://bobbyhadz.com/images/blog/typescript-no-overload-matches-this-call/banner.webp"
         alt=""
       />
     </div>

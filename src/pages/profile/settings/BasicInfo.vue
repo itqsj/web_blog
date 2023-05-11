@@ -128,7 +128,7 @@ const rules: FormRules = {
 const { userInfo } = toRefs(props);
 const form = reactive<User>({
   background: '',
-  createdAt: '',
+  createdAt: 0,
   email: '',
   introduction: '',
   user_pic: '',

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "vite --open",
-    "build": "vue-tsc --noEmit && vite build",
+    "build": "vue-tsc --noEmit --skipLibCheck && vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix",
     "format": "prettier --write ./**/*.{vue,ts,tsx,js,jsx,css,less,scss,json,md}"
@@ -14,12 +14,12 @@
     "@element-plus/icons-vue": "^2.0.10",
     "@vueuse/core": "^9.6.0",
     "axios": "^1.1.2",
+    "echarts": "5.4.2",
     "element-plus": "^2.2.26",
     "highlight.js": "^11.7.0",
     "jsencrypt": "^3.3.2",
     "lodash": "^4.17.21",
     "pinia": "^2.0.23",
-    "vite-plugin-vuetify": "^1.0.2",
     "vue": "^3.2.37",
     "vue-advanced-cropper": "^2.8.8",
     "vue-router": "^4.1.5",
@@ -40,6 +40,8 @@
     "prettier": "^2.7.1",
     "typescript": "^4.6.4",
     "vite": "^3.1.0",
+    "vite-plugin-cdn-import": "^0.3.5",
+    "vite-plugin-compression": "^0.5.1",
     "vue-tsc": "^0.40.4"
   }
 }

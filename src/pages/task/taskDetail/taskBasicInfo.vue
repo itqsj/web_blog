@@ -10,10 +10,10 @@
       <div class="info_cell_title">title</div>
       <div class="info_cell_body">{{ data.name }}</div>
     </div>
-    <div v-if="data.startTime" class="line"></div>
-    <div v-if="data.startTime" class="info_cell">
+    <div v-if="data.usageTime.length" class="line"></div>
+    <div v-if="data.usageTime.length" class="info_cell">
       <div class="info_cell_title">startTime</div>
-      <div class="info_cell_body">{{ formatDate(data.startTime) }}</div>
+      <div class="info_cell_body">{{ formatDate(data.usageTime[0][0]) }}</div>
     </div>
     <div v-if="data.completeTime" class="line"></div>
     <div v-if="data.completeTime" class="info_cell">

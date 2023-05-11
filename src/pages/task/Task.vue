@@ -6,7 +6,7 @@
     </template> -->
     <div class="page">
       <h3 class="font-18 t-color mtop-15 mbottom-15">Tasks Panel</h3>
-      <v-btn v-if="userInfo.team" class="page_add" @click="addTask"
+      <v-btn v-if="userInfo?.team" class="page_add" @click="addTask"
         >ADD TASK</v-btn
       >
       <draggable
@@ -60,7 +60,6 @@ import {
   MovePanelParams,
   DragChange,
   TaskInt,
-  TaskTimeInt,
   MoveTaskParams,
 } from '@/types/task';
 import cloneDeep from 'lodash/cloneDeep';
