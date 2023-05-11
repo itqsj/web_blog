@@ -64,11 +64,11 @@ export default {
       font-size: 1.25rem;
       line-height: 1.334;
       letter-spacing: 0px;
-      color: rgba(58, 53, 65, 0.87);
+      // color: rgba(58, 53, 65, 0.87);
       font-weight: 600;
     }
     &_txt {
-      color: rgba(58, 53, 65, 0.68);
+      // color: rgba(58, 53, 65, 0.68);
     }
   }
 }

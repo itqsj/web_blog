@@ -2,7 +2,7 @@
   <el-dialog
     ref="dialog"
     v-model="show"
-    custom-class="common_dialog"
+    class="common_dialog"
     v-bind="$attrs"
     :show-close="false"
   >

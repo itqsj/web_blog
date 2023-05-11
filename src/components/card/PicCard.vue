@@ -66,7 +66,10 @@ import { toRefs, ref } from 'vue';
 import CommonDialog from '@/components/dialog/CommonDialog.vue';
 import CommonUpload from '@/components/upload/uploadImg.vue';
 import CommonImg from '@/components/img/CommonImg.vue';
+import { useThemeStore } from '@/store/theme';
 
+const themeStore = useThemeStore();
+const { getThemStyle } = toRefs(themeStore);
 const props = defineProps({
   data: {
     type: Object,
@@ -123,7 +126,7 @@ defineExpose({
       width: 100%;
       height: 100%;
       // background: #ffffff;
-      border: 1px dashed rgba(0, 0, 0, 0.1);
+      border: 1px dashed rgba(0, 0, 0, 0.4);
       cursor: pointer;
       span {
         font-size: 14px;

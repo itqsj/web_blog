@@ -15,8 +15,8 @@ export const useThemeStore = defineStore('theme', {
       dark: {
         color: 'rgb(255, 255, 255)',
         boxShadow:
-          'rgb(0 0 0 / 14%) 0rem 0.125rem 0.125rem 0rem,rgb(0 0 0 / 20%) 0rem 0.1875rem 0.0625rem -0.125rem,rgb(0 0 0 / 12%) 0rem 0.0625rem 0.3125rem 0rem',
-        background: 'rgb(32, 41, 64)',
+          'rgb(0 0 0 / 14%) 0rem 0.125rem 0.125rem .1rem,rgb(0 0 0 / 20%) 0rem 0.1875rem 1rem -0.125rem,rgb(0 0 0 / 12%) 0rem 0.0625rem 0.3125rem 0rem',
+        background: '#222f3e',
         codeBg: '#282a36',
       },
     },

@@ -9,6 +9,7 @@ import {
   VExpandTransition,
   VExpandXTransition,
   VCarousel,
+  VCarouselItem,
   VCardItem,
   VProgressCircular,
   VProgressLinear,
@@ -63,6 +64,7 @@ const vuetify = Vuetify.createVuetify({
     VProgressCircular,
     VProgressLinear,
     VCheckbox,
+    VCarouselItem,
   },
   directives,
   theme: {

@@ -54,7 +54,6 @@ import { windowResize } from '@/util/resize';
 const userStore = useUserStore();
 const { isShowAside } = toRefs(useCommonStore());
 const themeStore = useThemeStore();
-const { getThemStyle } = toRefs(themeStore);
 const isFixed = ref(false);
 const isFinish = ref(false);
 
@@ -100,21 +99,6 @@ const affixChange = (fixed: boolean) => {
   isFixed.value = fixed;
 };
 </script>
-
-<style lang="less">
-.t-codebg {
-  background-color: v-bind('getThemStyle.codeBg');
-}
-.t-color {
-  color: v-bind('getThemStyle.color');
-}
-.t-background {
-  background: v-bind('getThemStyle.background');
-}
-.t-boxshadow {
-  box-shadow: v-bind('getThemStyle.boxShadow');
-}
-</style>
 
 <style scoped lang="less">
 .page {

@@ -202,7 +202,7 @@ const getList = async () => {
     // padding: 1rem;
   }
   &_right {
-    overflow: hidden;
+    // overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -211,7 +211,7 @@ const getList = async () => {
     // width: 100%;
 
     &_list {
-      overflow: hidden;
+      // overflow: hidden;
       width: 100%;
       // max-width: 90.625rem;
       padding: 4rem 0 1rem;

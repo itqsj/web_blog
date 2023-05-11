@@ -3,7 +3,7 @@
     <div class="item t-color t-background t-boxshadow">
       <CommonImg v-if="cover" class="item_img mbottom-15" :src="cover" alt="" />
       <p class="mbottom-10">{{ data.name }}</p>
-      <p v-if="type === 3 || type === 4" class="mbottom-10 item_time">
+      <p v-if="type === 3 || type === 4" class="mbottom-10 item_time t-color">
         completeTime:&nbsp;&nbsp;&nbsp;{{ formatDate(data.completeTime) }}
       </p>
       <v-progress-linear
@@ -178,10 +178,8 @@ const handleUpdate = () => {
 
 <style lang="less" scoped>
 .item {
-  // color: rgb(123, 128, 154);
   margin-bottom: 1.25rem;
   padding: 1rem;
-  // background: rgb(255, 255, 255);
   border-radius: 0.75rem;
   font-size: 1rem;
   cursor: move;
@@ -190,7 +188,6 @@ const handleUpdate = () => {
   }
   &_time {
     font-size: 0.875rem;
-    color: rgba(0, 0, 0, 0.5);
   }
   &_img {
     width: 100%;

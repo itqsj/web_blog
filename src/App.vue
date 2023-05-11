@@ -1,4 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { toRefs } from 'vue';
+
+import { useThemeStore } from '@/store/theme';
+
+const themeStore = useThemeStore();
+const { getThemStyle } = toRefs(themeStore);
+</script>
 
 <template>
   <router-view v-slot="{ Component }">
@@ -9,8 +16,19 @@
     </Transition>
   </router-view>
 </template>
-
 <style lang="less">
+.t-codebg {
+  background-color: v-bind('getThemStyle.codeBg');
+}
+.t-color {
+  color: v-bind('getThemStyle.color');
+}
+.t-background {
+  background: v-bind('getThemStyle.background');
+}
+.t-boxshadow {
+  box-shadow: v-bind('getThemStyle.boxShadow');
+}
 /* 开始过渡 */
 .fade-enter-from {
   opacity: 0;

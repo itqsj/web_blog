@@ -122,7 +122,7 @@ const goDetail = (row: ArticleInt) => {
     font-size: 1.25rem;
     line-height: 1.375;
     font-family: Roboto, Helvetica, Arial, sans-serif;
-    color: rgb(52, 71, 103);
+    // color: rgb(52, 71, 103);
     font-weight: 600;
   }
   &_table {
