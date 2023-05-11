@@ -92,7 +92,7 @@ const getUserinfo = async () => {
   if (code === 200) {
     userStore.updateUserInfo(data);
     isFinish.value = true;
-    themeStore.changeCodeLink();
+    // themeStore.changeCodeLink();
   }
 };
 const affixChange = (fixed: boolean) => {

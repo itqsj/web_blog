@@ -1,5 +1,8 @@
 <template>
-  <div ref="bodyRef" class="body t-color" v-html="data"></div>
+  <div ref="bodyRef" class="body">
+    <MdEditor v-model="data" preview-only theme="light" :copy="true" />
+    <!-- <div class="t-color" v-html="data"></div> -->
+  </div>
 </template>
 
 <script lang="ts">
@@ -10,6 +13,8 @@ export default {
 <script lang="ts" setup>
 import { toRefs, ref, watchEffect, nextTick } from 'vue';
 import hljs from 'highlight.js';
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
 
 const props = defineProps({
   data: {
@@ -23,9 +28,13 @@ const { data } = toRefs(props);
 watchEffect(() => {
   data.value; //收集依赖
   nextTick(() => {
+    // hljs.highlightAll();
     const codeArr: HTMLElement[] = bodyRef.value.querySelectorAll('code');
     codeArr.forEach((el) => {
-      el.classList.add('mtop-10', 't-boxshadow', 'font-14');
+      const pre = el.parentNode as HTMLElement;
+      if (pre.classList.contains('language-markup')) {
+        pre.classList.replace('language-markup', 'language-html');
+      }
       hljs.highlightElement(el);
     });
   });
@@ -38,6 +47,9 @@ watchEffect(() => {
   :deep(img) {
     max-width: 100%;
     height: auto;
+  }
+  :deep(.md-editor) {
+    background-color: transparent;
   }
 }
 </style>

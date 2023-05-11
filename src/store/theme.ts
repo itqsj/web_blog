@@ -29,52 +29,50 @@ export const useThemeStore = defineStore('theme', {
   },
   actions: {
     changeCodeLink() {
-      interface ReplaceLinkInt {
-        oldEle: HTMLElement | null;
-        newUrl: string;
-      }
+      // interface ReplaceLinkInt {
+      //   oldEle: HTMLElement | null;
+      //   newUrl: string;
+      // }
       // 获取head元素
-      const head = document.getElementsByTagName('head')[0];
-      const assistDark =
-        '//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/atom-one-dark.min.css';
-      const assistLight =
-        '//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/styles/vs.min.css';
-      const defaultDark =
-        'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/dark.min.css';
-      const defaultLight =
-        '//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css';
-      const oldUrl = isDark.value ? defaultLight : defaultDark;
-      const newUrl = isDark.value ? defaultDark : defaultLight;
-      const assistOldUrl = isDark.value ? assistLight : assistDark;
-      const assistNewUrl = isDark.value ? assistDark : assistLight;
-
-      const defaultEle: HTMLElement | null = document.querySelector(
-        `link[href="${oldUrl}"]`,
-      );
-      const assistEle: HTMLElement | null = document.querySelector(
-        `link[href="${assistOldUrl}"]`,
-      );
-      replaceLink({ oldEle: defaultEle, newUrl });
-      replaceLink({ oldEle: assistEle, newUrl: assistNewUrl });
-
-      function replaceLink({ oldEle, newUrl }: ReplaceLinkInt) {
-        if (oldEle) {
-          // 创建新的link元素
-          const newLink = document.createElement('link');
-          newLink.rel = 'stylesheet';
-          newLink.type = 'text/css';
-          newLink.href = newUrl;
-          // 将新的link元素替换原有的link元素
-          head.replaceChild(newLink, oldEle);
-        } else {
-          // 如果原有的link元素不存在，则创建新的link元素并添加到head元素中
-          const newLink = document.createElement('link');
-          newLink.rel = 'stylesheet';
-          newLink.type = 'text/css';
-          newLink.href = newUrl;
-          head.appendChild(newLink);
-        }
-      }
+      // const head = document.getElementsByTagName('head')[0];
+      // const assistDark =
+      //   '//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/atom-one-dark.min.css';
+      // const assistLight =
+      //   '//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/styles/vs.min.css';
+      // const defaultDark =
+      //   'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/dark.min.css';
+      // const defaultLight =
+      //   '//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css';
+      // const oldUrl = isDark.value ? defaultLight : defaultDark;
+      // const newUrl = isDark.value ? defaultDark : defaultLight;
+      // const assistOldUrl = isDark.value ? assistLight : assistDark;
+      // const assistNewUrl = isDark.value ? assistDark : assistLight;
+      // const defaultEle: HTMLElement | null = document.querySelector(
+      //   `link[href="${oldUrl}"]`,
+      // );
+      // const assistEle: HTMLElement | null = document.querySelector(
+      //   `link[href="${assistOldUrl}"]`,
+      // );
+      // replaceLink({ oldEle: defaultEle, newUrl });
+      // replaceLink({ oldEle: assistEle, newUrl: assistNewUrl });
+      // function replaceLink({ oldEle, newUrl }: ReplaceLinkInt) {
+      //   if (oldEle) {
+      //     // 创建新的link元素
+      //     const newLink = document.createElement('link');
+      //     newLink.rel = 'stylesheet';
+      //     newLink.type = 'text/css';
+      //     newLink.href = newUrl;
+      //     // 将新的link元素替换原有的link元素
+      //     head.replaceChild(newLink, oldEle);
+      //   } else {
+      //     // 如果原有的link元素不存在，则创建新的link元素并添加到head元素中
+      //     const newLink = document.createElement('link');
+      //     newLink.rel = 'stylesheet';
+      //     newLink.type = 'text/css';
+      //     newLink.href = newUrl;
+      //     head.appendChild(newLink);
+      //   }
+      // }
     },
   },
 });

@@ -87,7 +87,7 @@ const showLoginOutConfirm = ref(false);
 const themeChange = () => {
   toggleDark();
   toggleTheme();
-  themeStore.changeCodeLink();
+  // themeStore.changeCodeLink();
 };
 
 const toggleTheme = () =>

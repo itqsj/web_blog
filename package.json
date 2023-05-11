@@ -19,6 +19,7 @@
     "highlight.js": "^11.7.0",
     "jsencrypt": "^3.3.2",
     "lodash": "^4.17.21",
+    "md-editor-v3": "^3.0.1",
     "pinia": "^2.0.23",
     "vue": "^3.2.37",
     "vue-advanced-cropper": "^2.8.8",
