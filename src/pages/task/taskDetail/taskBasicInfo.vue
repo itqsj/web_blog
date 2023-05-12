@@ -64,7 +64,7 @@
 
 <script lang="ts">
 export default {
-  name: 'TaskDetail',
+  name: 'TaskBasicInfo',
 };
 </script>
 <script lang="ts" setup>

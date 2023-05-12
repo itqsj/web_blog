@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "vite --open",
-    "build": "vue-tsc --noEmit --skipLibCheck && vite build",
+    "start": "vite --mode dev --open",
+    "build": "vue-tsc --noEmit --skipLibCheck && vite build --mode pro",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix",
     "format": "prettier --write ./**/*.{vue,ts,tsx,js,jsx,css,less,scss,json,md}"

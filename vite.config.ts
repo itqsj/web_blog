@@ -145,7 +145,7 @@ export default defineConfig({
     // 设置 https 代理
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:3007',
+        target: 'https://api-server-bhm0gyf1w-itqsj.vercel.app/',
         changeOrigin: true,
         rewrite: (path: string) => path.replace(/^\/api/, ''),
       },

@@ -38,7 +38,7 @@ export default {
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 
-import TaskBasicInfo from './TaskBasicInfo.vue';
+import TaskBasicInfo from './taskBasicInfo.vue';
 import Overlay from '@/components/mask/Overlay.vue';
 import EchoTinymce from '@/components/tinymce/EchoTinymce.vue';
 
