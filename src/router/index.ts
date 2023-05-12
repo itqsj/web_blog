@@ -95,7 +95,7 @@ const routes: Array<RouteRecordRaw> = [
           keepAlive: true,
           requireAuth: false,
         },
-        component: () => import('@/pages/task/addTask/AddTask.vue'),
+        component: () => import('@/pages/task/addTask/AddTaskVue.vue'),
       },
       {
         path: '/taskDetail',
