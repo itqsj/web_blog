@@ -29,7 +29,7 @@
 
 <script lang="ts">
 export default {
-  name: 'AddTask',
+  name: 'AddTaskPage',
 };
 </script>
 

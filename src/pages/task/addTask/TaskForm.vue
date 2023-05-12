@@ -46,7 +46,7 @@
 
 <script lang="ts">
 export default {
-  name: 'ArticleForm',
+  name: 'TaskForm',
 };
 </script>
 
