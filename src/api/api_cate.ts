@@ -6,7 +6,7 @@ import type { DataInt } from '@/types/index';
 // 分类列表
 export function cateList(params: ParamsListInt) {
   return http<DataInt<CateInt[]>>({
-    url: '/api/cate/list',
+    url: '/cate/list',
     params,
     method: 'get',
   });

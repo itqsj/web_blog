@@ -14,7 +14,7 @@ interface VerifyRes extends User, TokenInt {}
 // 登录
 export function verifyToken(data: TokenInt) {
   return http<VerifyRes>({
-    url: '/api/user/verifyToken',
+    url: '/user/verifyToken',
     data,
   });
 }
@@ -22,7 +22,7 @@ export function verifyToken(data: TokenInt) {
 // 用户列表
 export function userList(params: ParamsListInt) {
   return http<UsersDataRes>({
-    url: '/api/user/list',
+    url: '/user/list',
     method: 'get',
     params,
   });
@@ -31,7 +31,7 @@ export function userList(params: ParamsListInt) {
 // 用户信息
 export function userInfo() {
   return http<UserInfoInt>({
-    url: '/api/user/info',
+    url: '/user/info',
     method: 'get',
   });
 }
@@ -39,7 +39,7 @@ export function userInfo() {
 // 重置密码
 export function resetPwd(data: ResetPwdInt) {
   return http({
-    url: '/api/user/resetpwd',
+    url: '/user/resetpwd',
     method: 'post',
     data,
   });
@@ -48,7 +48,7 @@ export function resetPwd(data: ResetPwdInt) {
 // 更改信息
 export function updateInfo(data: UpdateUserInt) {
   return http({
-    url: '/api/user/updateInfo',
+    url: '/user/updateInfo',
     method: 'post',
     data,
   });

@@ -10,14 +10,14 @@ import type {
 
 export function addArticle(data: AddArticleParams) {
   return http({
-    url: '/api/article/add',
+    url: '/article/add',
     data,
   });
 }
 
 export function articleList(params: ArticleListParams) {
   return http<DataInt<ArticleInt[]>>({
-    url: '/api/article/list',
+    url: '/article/list',
     params,
     method: 'get',
   });
@@ -25,7 +25,7 @@ export function articleList(params: ArticleListParams) {
 
 export function articleDetail(params: ArticleDatailParams) {
   return http<ArticleInt>({
-    url: '/api/article/detail',
+    url: '/article/detail',
     params,
     method: 'get',
   });
@@ -33,14 +33,14 @@ export function articleDetail(params: ArticleDatailParams) {
 
 export function articleEdit(data: EditArticleParams) {
   return http({
-    url: '/api/article/edit',
+    url: '/article/edit',
     data,
   });
 }
 
 export function articleDel(data: Pick<ArticleInt, '_id'>) {
   return http({
-    url: '/api/article/del',
+    url: '/article/del',
     data,
   });
 }

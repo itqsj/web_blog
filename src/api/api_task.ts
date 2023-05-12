@@ -12,14 +12,14 @@ import type { DataInt } from '@/types/index';
 // 面板列表
 export function panelList() {
   return http<DataInt<PanelInt[]>>({
-    url: '/api/task/panel_list',
+    url: '/task/panel_list',
   });
 }
 
 // 面板移动
 export function panelMove(data: MovePanelParams) {
   return http({
-    url: '/api/task/panel_move',
+    url: '/task/panel_move',
     data,
   });
 }
@@ -27,7 +27,7 @@ export function panelMove(data: MovePanelParams) {
 // task
 export function taskMove(data: MoveTaskParams) {
   return http({
-    url: '/api/task/move',
+    url: '/task/move',
     data,
   });
 }
@@ -35,7 +35,7 @@ export function taskMove(data: MoveTaskParams) {
 // task
 export function taskAdd(data: AddTaskParams) {
   return http({
-    url: '/api/task/add',
+    url: '/task/add',
     data,
   });
 }
@@ -43,7 +43,7 @@ export function taskAdd(data: AddTaskParams) {
 // task编辑
 export function taskEdit(data: EditTaskParams) {
   return http({
-    url: '/api/task/edit',
+    url: '/task/edit',
     data,
   });
 }
@@ -51,7 +51,7 @@ export function taskEdit(data: EditTaskParams) {
 // task详情
 export function taskDetail(data: IdParamsInt) {
   return http<TaskInt>({
-    url: '/api/task/detail',
+    url: '/task/detail',
     data,
   });
 }
@@ -59,7 +59,7 @@ export function taskDetail(data: IdParamsInt) {
 // task删除
 export function taskDel(data: IdParamsInt) {
   return http({
-    url: '/api/task/del',
+    url: '/task/del',
     data,
   });
 }
