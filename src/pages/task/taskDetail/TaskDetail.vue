@@ -115,7 +115,7 @@ const showImg = ref(false);
   .content {
     padding: 0 24px 24px;
     box-sizing: border-box;
-    /deep/img {
+    :deep(img) {
       max-width: 100%;
       object-fit: contain;
     }

@@ -1,6 +1,6 @@
 <template>
   <div ref="bodyRef" class="body">
-    <MdEditor v-model="data" preview-only theme="light" :copy="true" />
+    <MdEditor v-model="data" preview-only />
     <!-- <div class="t-color" v-html="data"></div> -->
   </div>
 </template>
@@ -27,17 +27,21 @@ const { data } = toRefs(props);
 
 watchEffect(() => {
   data.value; //收集依赖
-  nextTick(() => {
-    // hljs.highlightAll();
-    const codeArr: HTMLElement[] = bodyRef.value.querySelectorAll('code');
-    codeArr.forEach((el) => {
-      const pre = el.parentNode as HTMLElement;
-      if (pre.classList.contains('language-markup')) {
-        pre.classList.replace('language-markup', 'language-html');
-      }
-      hljs.highlightElement(el);
+  setTimeout(() => {
+    nextTick(() => {
+      // hljs.highlightAll();
+      const codeArr: HTMLElement[] = bodyRef.value.querySelectorAll('code');
+
+      codeArr.forEach((el) => {
+        const pre = el.parentNode as HTMLElement;
+
+        if (pre.classList.contains('language-markup')) {
+          pre.classList.replace('language-markup', 'language-html');
+        }
+        hljs.highlightElement(el);
+      });
     });
-  });
+  }, 200);
 });
 </script>
 

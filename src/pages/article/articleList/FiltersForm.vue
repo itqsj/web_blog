@@ -18,7 +18,7 @@
       v-model="form.keyWord"
       class="mtop-20 mbottom-20"
       placeholder="keyWord"
-      :prefix-icon="Search"
+      prefix-icon="Search"
     />
     <p class="form_text">Issue date</p>
     <el-date-picker
@@ -73,7 +73,6 @@ export default {
 <script lang="ts" setup>
 import { onMounted, reactive, ref, toRefs } from 'vue';
 
-import { Search } from '@element-plus/icons-vue';
 import BorInput from '@/components/input/BorInput.vue';
 
 import type { ArticleFilterInt } from '@/types/article';

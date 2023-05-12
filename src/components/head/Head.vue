@@ -1,7 +1,7 @@
 <template>
   <div class="head">
     <div class="head_left">
-      <el-breadcrumb :separator-icon="ArrowRight">
+      <el-breadcrumb separator-icon="ArrowRight">
         <el-breadcrumb-item :to="{ path: '/' }"
           ><el-icon><HomeFilled /></el-icon
         ></el-breadcrumb-item>
@@ -58,7 +58,6 @@ export default {
 import { ref, watch, toRefs, reactive, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
-import { ArrowRight } from '@element-plus/icons-vue';
 import SettingDrawer from '@/components/head/SettingDrawer.vue';
 
 import { useThemeStore } from '@/store/theme';

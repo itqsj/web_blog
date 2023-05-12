@@ -22,7 +22,7 @@
         size="large"
         clearable
         placeholder="password"
-        :suffix-icon="Search"
+        suffix-icon="Search"
       />
     </el-form-item>
 
@@ -55,7 +55,6 @@
 import { reactive, ref, h } from 'vue';
 
 import type { FormInstance, FormRules } from 'element-plus';
-import { Search } from '@element-plus/icons-vue';
 import { ElNotification } from 'element-plus';
 
 import { login } from '@/api/api_login';
