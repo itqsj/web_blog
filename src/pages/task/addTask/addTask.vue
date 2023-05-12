@@ -45,7 +45,6 @@ import Overlay from '@/components/mask/Overlay.vue';
 import { taskAdd, taskDetail, taskEdit } from '@/api/api_task';
 import type { AddTaskParams, IdParamsInt } from '@/types/task';
 import type { FormInstance } from 'element-plus';
-import pic1 from '@/assets/img/pic1.jpg';
 
 interface TaskFormRef {
   ruleFormRef: FormInstance;
