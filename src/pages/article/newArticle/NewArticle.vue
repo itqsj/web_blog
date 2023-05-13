@@ -96,7 +96,13 @@ const getDetail = async () => {
 
 const handleSubmit = async () => {
   const { ruleFormRef, ruleForm }: ArticleFormRef = articleFormRef.value;
-
+  if (!coverRef.value.imgList.length) {
+    return ElNotification({
+      title: '提示',
+      type: 'info',
+      message: '最少需要上传一张封面',
+    });
+  }
   await ruleFormRef.validate((valid: boolean) => {
     if (valid) {
       if (articleId) {

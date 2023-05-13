@@ -20,6 +20,7 @@ export const useCommonStore = defineStore('common', {
   actions: {
     updateIsPhone(isPhone: boolean) {
       this.isPhone = isPhone;
+      this.showAside = !isPhone;
     },
     updateShowAside(showAside: boolean) {
       this.showAside = showAside;

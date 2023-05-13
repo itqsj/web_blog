@@ -2,7 +2,9 @@
   <div>
     <div class="user">
       <div class="user_left">
-        <CommonImg class="user_left_avatar" :src="userInfo?.user_pic" alt="" />
+        <div class="user_left_avatar">
+          <CommonImg :src="userInfo?.user_pic" alt="" />
+        </div>
         <div class="user_left_text">
           <h3>{{ userInfo?.username }}</h3>
           <p>TEAM / {{ composeTeam }}</p>
@@ -123,9 +125,10 @@ const getList = async () => {
       margin-top: 0.5rem;
     }
     &_avatar {
+      overflow: hidden;
       width: 74px;
       height: 74px;
-      object-fit: cover;
+      // object-fit: cover;
       border-radius: 50%;
     }
   }
