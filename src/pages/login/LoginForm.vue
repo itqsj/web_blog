@@ -21,9 +21,18 @@
         v-model="ruleForm.password"
         size="large"
         clearable
+        :type="pwdType"
         placeholder="password"
-        suffix-icon="Search"
-      />
+      >
+        <template #suffix>
+          <el-icon v-show="pwdType === 'password'" @click="pwdType = ''"
+            ><View
+          /></el-icon>
+          <el-icon v-show="pwdType !== 'password'" @click="pwdType = 'password'"
+            ><Hide
+          /></el-icon>
+        </template>
+      </el-input>
     </el-form-item>
 
     <el-form-item>
@@ -72,6 +81,7 @@ const remember = ref<boolean>(false);
 const loading = ref<boolean>(false);
 const userStore = useUserStore();
 const router = useRouter();
+const pwdType = ref('password');
 const ruleForm = reactive<LoginFormInt>({
   email: 'ceshi@qq.com',
   password: '123456',
