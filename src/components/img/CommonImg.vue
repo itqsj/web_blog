@@ -41,6 +41,7 @@ export default {
 .el-image {
   width: 100%;
   height: 100%;
+  vertical-align: middle;
 }
 .bg-placeholder {
   background-color: #ffffff;

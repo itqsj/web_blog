@@ -1,6 +1,11 @@
 <template>
-  <div ref="bodyRef" class="body">
-    <MdEditor v-model="data" preview-only />
+  <div ref="bodyRef" class="t-color body">
+    <MdEditor
+      v-model="data"
+      preview-only
+      class="t-color"
+      :theme="mdEditorTheme"
+    />
     <!-- <div class="t-color" v-html="data"></div> -->
   </div>
 </template>
@@ -15,6 +20,7 @@ import { toRefs, ref, watchEffect, nextTick } from 'vue';
 import hljs from 'highlight.js';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
+import { isDark } from '@/composables';
 
 const props = defineProps({
   data: {
@@ -23,8 +29,12 @@ const props = defineProps({
   },
 });
 const bodyRef = ref();
+const mdEditorTheme = ref('dark');
 const { data } = toRefs(props);
 
+watchEffect(() => {
+  mdEditorTheme.value = isDark.value ? 'dark' : 'linght';
+});
 watchEffect(() => {
   data.value; //收集依赖
   setTimeout(() => {

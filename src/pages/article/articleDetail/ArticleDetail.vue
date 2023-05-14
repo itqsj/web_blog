@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div class="page t-boxshadow t-background">
+    <div class="page">
       <h3 class="t-color">Article Details</h3>
       <section class="page_body">
-        <div class="page_body_left">
+        <div class="page_body_left t-boxshadow t-background">
           <ImgSort :data="article"></ImgSort>
         </div>
-        <div class="page_body_right">
+        <div class="page_body_right t-boxshadow t-background">
           <InfoSort :data="article"></InfoSort>
         </div>
       </section>
@@ -90,9 +90,6 @@ const getList = async () => {
 <style lang="less" scoped>
 .page {
   margin-top: 1.875rem;
-  padding: 1.5rem;
-  box-sizing: border-box;
-  border-radius: 0.5rem;
   h3 {
     font-size: 1.25rem;
     line-height: 1.375;
@@ -104,13 +101,22 @@ const getList = async () => {
     overflow: hidden;
     display: flex;
     justify-content: space-between;
-    gap: 2.5rem;
+    gap: 1.5rem;
     &_right {
       flex: 1.7;
+      max-width: 100%;
+      padding: 1.5rem;
+      box-sizing: border-box;
+      border-radius: 0.5rem;
     }
     &_left {
       overflow: hidden;
       flex: 1;
+      max-width: 100%;
+      padding: 1.5rem;
+      box-sizing: border-box;
+      border-radius: 0.5rem;
+      align-self: flex-start;
       img {
         width: 100%;
         border-radius: 0.5rem;
@@ -128,7 +134,7 @@ const getList = async () => {
   border-radius: 0.5rem;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1200px) {
   .page {
     padding: 1rem;
     &_body {

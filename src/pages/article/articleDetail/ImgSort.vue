@@ -1,43 +1,19 @@
 <template>
   <div class="sort">
-    <img
-      class="sort_img"
-      src="https://bobbyhadz.com/images/blog/typescript-no-overload-matches-this-call/banner.webp"
-      alt=""
-    />
-    <div class="sort_imgs">
-      <img
-        src="https://bobbyhadz.com/images/blog/typescript-no-overload-matches-this-call/banner.webp"
-        alt=""
-      />
-      <img
-        src="https://bobbyhadz.com/images/blog/typescript-no-overload-matches-this-call/banner.webp"
-        alt=""
-      />
-      <img
-        src="https://bobbyhadz.com/images/blog/typescript-no-overload-matches-this-call/banner.webp"
-        alt=""
-      />
-      <img
-        src="https://bobbyhadz.com/images/blog/typescript-no-overload-matches-this-call/banner.webp"
-        alt=""
-      />
-      <img
-        src="https://bobbyhadz.com/images/blog/typescript-no-overload-matches-this-call/banner.webp"
-        alt=""
-      />
-      <img
-        src="https://bobbyhadz.com/images/blog/typescript-no-overload-matches-this-call/banner.webp"
-        alt=""
-      />
-      <img
-        src="https://bobbyhadz.com/images/blog/typescript-no-overload-matches-this-call/banner.webp"
-        alt=""
-      />
-      <img
-        src="https://bobbyhadz.com/images/blog/typescript-no-overload-matches-this-call/banner.webp"
-        alt=""
-      />
+    <div class="sort_img">
+      <CommonImg :src="data?.cover_img[avtiveImg]" fit="cover" alt="" />
+    </div>
+    <div
+      v-for="(item, index) in data?.cover_img"
+      :key="index"
+      :class="{ active: index === avtiveImg }"
+      class="sort_item"
+      @click="avtiveImg = index"
+    >
+      <div class="sort_item_cover">
+        <CommonImg :src="item" alt="" />
+      </div>
+      封面{{ index }}
     </div>
   </div>
 </template>
@@ -48,31 +24,51 @@ export default {
 };
 </script>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { toRefs, ref } from 'vue';
+import CommonImg from '@/components/img/CommonImg.vue';
+import type { ArticleInt } from '@/types/article';
+
+const props = defineProps({
+  data: {
+    type: Object as () => ArticleInt | null,
+    default: null,
+  },
+});
+const { data } = toRefs(props);
+const avtiveImg = ref(0);
+</script>
 
 <style lang="less" scoped>
 .sort {
   &_img {
-    width: 100%;
+    overflow: hidden;
     border-radius: 0.5rem;
     box-shadow: rgb(0 0 0 / 10%) 0rem 0.625rem 0.9375rem -0.1875rem,
       rgb(0 0 0 / 5%) 0rem 0.25rem 0.375rem -0.125rem;
-    object-fit: contain;
+    margin-bottom: 1.5rem;
   }
-  &_imgs {
-    overflow: auto;
+  &_item {
+    overflow: hidden;
     display: flex;
-    flex-wrap: nowrap;
+    align-items: center;
     gap: 1rem;
     width: 100%;
     height: 5rem;
-    margin-top: 1.5rem;
-    img {
-      height: 100%;
-      object-fit: contain;
-      border-radius: 0.5rem;
-      cursor: pointer;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    &:last-child {
+      margin-bottom: 0;
     }
+    &_cover {
+      width: 6rem;
+    }
+  }
+  .active {
+    background-color: rgba(0, 0, 0, 0.1);
   }
 }
 </style>

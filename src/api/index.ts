@@ -27,7 +27,7 @@ interface ReqInt {
 const service = axios.create({
   baseURL: import.meta.env.VITE_APP_URL,
 });
-service.defaults.timeout = 10000; // 请求超时时间
+service.defaults.timeout = 20000; // 请求超时时间
 // Request interceptors
 service.interceptors.request.use(
   (config: AxiosRequestConfig) => {
