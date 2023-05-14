@@ -104,7 +104,7 @@ const getList = async () => {
     gap: 1.5rem;
     &_right {
       flex: 1.7;
-      max-width: 100%;
+      width: 100%;
       padding: 1.5rem;
       box-sizing: border-box;
       border-radius: 0.5rem;
@@ -112,7 +112,7 @@ const getList = async () => {
     &_left {
       overflow: hidden;
       flex: 1;
-      max-width: 100%;
+      width: 100%;
       padding: 1.5rem;
       box-sizing: border-box;
       border-radius: 0.5rem;

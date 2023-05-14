@@ -10,11 +10,11 @@
         ></v-progress-circular>
       </div>
     </template>
-    <!-- <template #error>
+    <template #error>
       <div class="image-slot">
         <el-icon><icon-picture /></el-icon>
       </div>
-    </template> -->
+    </template>
   </el-image>
 </template>
 
@@ -42,6 +42,10 @@ export default {
   width: 100%;
   height: 100%;
   vertical-align: middle;
+}
+.image-slot {
+  width: 100%;
+  height: 100%;
 }
 .bg-placeholder {
   background-color: #ffffff;

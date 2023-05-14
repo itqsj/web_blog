@@ -1,7 +1,7 @@
 <template>
   <div class="sort">
     <div class="sort_img">
-      <CommonImg :src="data?.cover_img[avtiveImg]" fit="cover" alt="" />
+      <CommonImg :src="data?.cover_img[avtiveImg]" alt="" />
     </div>
     <div
       v-for="(item, index) in data?.cover_img"
@@ -43,6 +43,7 @@ const avtiveImg = ref(0);
 .sort {
   &_img {
     overflow: hidden;
+    min-height: 10rem;
     border-radius: 0.5rem;
     box-shadow: rgb(0 0 0 / 10%) 0rem 0.625rem 0.9375rem -0.1875rem,
       rgb(0 0 0 / 5%) 0rem 0.25rem 0.375rem -0.125rem;
@@ -54,7 +55,7 @@ const avtiveImg = ref(0);
     align-items: center;
     gap: 1rem;
     width: 100%;
-    height: 5rem;
+    min-height: 5rem;
     padding: 0.5rem;
     margin-bottom: 0.5rem;
     border-radius: 0.5rem;
@@ -65,6 +66,8 @@ const avtiveImg = ref(0);
     }
     &_cover {
       width: 6rem;
+      // height: 100%;
+      min-height: 3.75rem;
     }
   }
   .active {
