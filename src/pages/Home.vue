@@ -52,7 +52,7 @@ import { verifyToken, userInfo } from '@/api/api_user';
 import { windowResize } from '@/util/resize';
 
 const userStore = useUserStore();
-const { isShowAside } = toRefs(useCommonStore());
+const { isShowAside, updateIsPhone } = toRefs(useCommonStore());
 const themeStore = useThemeStore();
 const isFixed = ref(false);
 const isFinish = ref(false);
@@ -60,6 +60,9 @@ const isFinish = ref(false);
 onBeforeMount(() => {
   verify();
   window.addEventListener('resize', windowResize);
+  if (window.innerWidth < 900) {
+    updateIsPhone.value(true);
+  }
 });
 
 onBeforeUnmount(() => {
