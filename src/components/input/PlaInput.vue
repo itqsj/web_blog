@@ -30,7 +30,8 @@ export default {
 };
 </script>
 <script lang="ts" setup>
-import { watch, toRefs, useSlots, ref, onMounted } from 'vue';
+import { watchEffect } from 'vue';
+import { toRefs, useSlots, ref, onMounted, computed } from 'vue';
 
 interface ExposeObjInt {
   [key: string]: any;
@@ -56,25 +57,24 @@ const emit = defineEmits(['focus', 'blur', 'update:modelValue']);
 const isFacus = ref<boolean>(false);
 const input = ref();
 const hasVal = ref<boolean>(false);
-const inputValue = ref('');
 const { placeholder, modelValue } = toRefs(props);
 const exposeObj: ExposeObjInt = {};
 
-watch(
-  () => modelValue.value,
-  () => {
-    if (inputValue.value !== modelValue.value) {
-      inputValue.value = modelValue.value;
-    }
-    hasVal.value = !!modelValue.value;
-  },
-  {
-    immediate: true,
-  },
-);
-
 onMounted(() => {
   setRefExpose();
+});
+
+watchEffect(() => {
+  hasVal.value = !!modelValue.value;
+});
+
+const inputValue = computed({
+  get() {
+    return modelValue.value;
+  },
+  set(val) {
+    emit('update:modelValue', val);
+  },
 });
 
 const setRefExpose = () => {
@@ -94,7 +94,6 @@ const focus = () => {
 const blur = () => {
   isFacus.value = false;
   emit('blur');
-  emit('update:modelValue', inputValue.value);
 };
 
 const click = () => {

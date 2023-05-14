@@ -25,7 +25,8 @@ export default {
 };
 </script>
 <script lang="ts" setup>
-import { toRefs, ref, watch } from 'vue';
+import { watchEffect } from 'vue';
+import { toRefs, ref, computed } from 'vue';
 type ValueInt = string | number;
 
 const props = defineProps({
@@ -43,30 +44,27 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(['focus', 'blur', 'change', 'update:modelValue']);
-
 const isFacus = ref<boolean>(false);
 const hasVal = ref<boolean>(false);
-const value = ref<number | string>();
-
 const { placeholder, modelValue } = toRefs(props);
+
+const value = computed({
+  get() {
+    return modelValue.value;
+  },
+  set(val) {
+    emit('update:modelValue', val);
+  },
+});
+
+watchEffect(() => {
+  hasVal.value = !!modelValue.value;
+});
 
 const focus = () => {
   isFacus.value = true;
   emit('focus');
 };
-
-watch(
-  () => modelValue.value,
-  () => {
-    if (value.value !== modelValue.value) {
-      value.value = modelValue.value;
-    }
-    hasVal.value = !!modelValue.value;
-  },
-  {
-    immediate: true,
-  },
-);
 
 const blur = () => {
   isFacus.value = false;
@@ -75,7 +73,6 @@ const blur = () => {
 
 const change = (data: number) => {
   hasVal.value = !!value.value;
-  emit('update:modelValue', value.value);
   emit('change', data);
 };
 </script>
