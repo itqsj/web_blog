@@ -6,7 +6,11 @@
       @focus="focus"
       @change="change"
       @blur="blur"
-    />
+    >
+      <template v-for="(value, name) in slots" #[name]="slotData">
+        <slot :name="name" v-bind="slotData || {}"></slot>
+      </template>
+    </el-select-v2>
     <span
       :style="{
         transform: hasVal ? 'translate(0, -75%)' : '',
@@ -25,8 +29,7 @@ export default {
 };
 </script>
 <script lang="ts" setup>
-import { watchEffect } from 'vue';
-import { toRefs, ref, computed } from 'vue';
+import { toRefs, ref, computed, useSlots, watchEffect } from 'vue';
 type ValueInt = string | number;
 
 const props = defineProps({
@@ -44,6 +47,7 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(['focus', 'blur', 'change', 'update:modelValue']);
+const slots = useSlots();
 const isFacus = ref<boolean>(false);
 const hasVal = ref<boolean>(false);
 const { placeholder, modelValue } = toRefs(props);

@@ -30,8 +30,7 @@ export default {
 };
 </script>
 <script lang="ts" setup>
-import { watchEffect } from 'vue';
-import { toRefs, useSlots, ref, onMounted, computed } from 'vue';
+import { toRefs, useSlots, ref, onMounted, computed, watchEffect } from 'vue';
 
 interface ExposeObjInt {
   [key: string]: any;

@@ -7,7 +7,9 @@
       v-bind="$attrs"
       style="width: 100%"
     >
-      <slot></slot>
+      <template v-for="(value, name) in slots" #[name]="slotData">
+        <slot :name="name" v-bind="slotData || {}"></slot>
+      </template>
     </el-table>
   </div>
 </template>
@@ -18,7 +20,11 @@ export default {
 };
 </script>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { useSlots } from 'vue';
+
+const slots = useSlots();
+</script>
 
 <style lang="less" scoped>
 .ctable {

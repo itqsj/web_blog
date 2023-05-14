@@ -1,5 +1,9 @@
 <template>
-  <el-input v-bind="$attrs" />
+  <el-input v-bind="$attrs">
+    <template v-for="(value, name) in slots" #[name]="slotData">
+      <slot :name="name" v-bind="slotData || {}"></slot>
+    </template>
+  </el-input>
 </template>
 
 <script lang="ts">
@@ -7,7 +11,11 @@ export default {
   name: 'BorInput',
 };
 </script>
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { useSlots } from 'vue';
+
+const slots = useSlots();
+</script>
 
 <style lang="less" scoped>
 .el-input {
