@@ -138,6 +138,16 @@ const routes: Array<RouteRecordRaw> = [
         component: () =>
           import('@/pages/article/articleDetail/ArticleDetail.vue'),
       },
+      {
+        path: '/chatBot',
+        name: 'chatBot',
+        meta: {
+          title: 'chatBot',
+          keepAlive: true,
+          requireAuth: false,
+        },
+        component: () => import('@/pages/chatBot/ChatBot.vue'),
+      },
     ],
   },
 ];

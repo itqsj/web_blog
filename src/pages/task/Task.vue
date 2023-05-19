@@ -43,6 +43,7 @@ export default {
   name: 'TaskPage',
 };
 </script>
+
 <script lang="ts" setup>
 import { ref, computed, onBeforeMount, toRefs, nextTick } from 'vue';
 import { useRouter } from 'vue-router';

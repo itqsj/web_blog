@@ -13,7 +13,9 @@
       <div class="page_body_content">
         <router-view v-slot="{ Component }">
           <Transition name="fade" mode="out-in" appear>
-            <keep-alive :include="['LoginPage', 'TaskPage', 'ProfilePage']">
+            <keep-alive
+              :include="['TaskPage', 'ProfilePage', 'ChatBot', 'UserList']"
+            >
               <component :is="Component" />
             </keep-alive>
           </Transition>
@@ -58,6 +60,8 @@ const isFixed = ref(false);
 const isFinish = ref(false);
 
 onBeforeMount(() => {
+  // console.log(navigator.userAgent);
+  // useGithubFetch('/repos/itqsj/web_blog/events');
   verify();
   window.addEventListener('resize', windowResize);
   ElNotification({
@@ -132,6 +136,7 @@ const affixChange = (fixed: boolean) => {
     flex: 1;
     height: 100%;
     padding: 1rem;
+    position: relative;
     &_content {
       max-width: 125rem;
       margin: 0 auto;

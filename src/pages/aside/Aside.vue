@@ -54,6 +54,14 @@
         }"
         >Task</el-menu-item
       >
+      <el-menu-item
+        index="/chatBot"
+        class="t-color"
+        :style="{
+          background: activeIndex === '/chatBot' ? 'rgb(26, 115, 232)' : '',
+        }"
+        >ChatBot</el-menu-item
+      >
     </el-menu>
   </div>
 </template>
