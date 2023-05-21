@@ -62,6 +62,22 @@
         }"
         >ChatBot</el-menu-item
       >
+      <el-menu-item
+        index="/codeSandBox"
+        class="t-color"
+        :style="{
+          background: activeIndex === '/codeSandBox' ? 'rgb(26, 115, 232)' : '',
+        }"
+        >CodeSandBox</el-menu-item
+      >
+      <el-menu-item
+        index="/flowChart"
+        class="t-color"
+        :style="{
+          background: activeIndex === '/flowChart' ? 'rgb(26, 115, 232)' : '',
+        }"
+        >FlowChart</el-menu-item
+      >
     </el-menu>
   </div>
 </template>

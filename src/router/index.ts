@@ -148,6 +148,26 @@ const routes: Array<RouteRecordRaw> = [
         },
         component: () => import('@/pages/chatBot/ChatBot.vue'),
       },
+      {
+        path: '/codeSandBox',
+        name: 'codeSandBox',
+        meta: {
+          title: 'codeSandBox',
+          keepAlive: true,
+          requireAuth: false,
+        },
+        component: () => import('@/pages/codeSandBox/codeSandBox.vue'),
+      },
+      {
+        path: '/flowChart',
+        name: 'flowChart',
+        meta: {
+          title: 'flowChart',
+          keepAlive: true,
+          requireAuth: false,
+        },
+        component: () => import('@/pages/flowChart/FlowChart.vue'),
+      },
     ],
   },
 ];

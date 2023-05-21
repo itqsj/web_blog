@@ -14,7 +14,13 @@
         <router-view v-slot="{ Component }">
           <Transition name="fade" mode="out-in" appear>
             <keep-alive
-              :include="['TaskPage', 'ProfilePage', 'ChatBot', 'UserList']"
+              :include="[
+                'TaskPage',
+                'ProfilePage',
+                'ChatBot',
+                'UserList',
+                'CodeSandBox',
+              ]"
             >
               <component :is="Component" />
             </keep-alive>
