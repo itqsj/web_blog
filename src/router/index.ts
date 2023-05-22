@@ -156,7 +156,7 @@ const routes: Array<RouteRecordRaw> = [
           keepAlive: true,
           requireAuth: false,
         },
-        component: () => import('@/pages/codeSandBox/codeSandBox.vue'),
+        component: () => import('@/pages/codeSandBox/CodeSandBox.vue'),
       },
       {
         path: '/flowChart',

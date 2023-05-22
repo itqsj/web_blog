@@ -11,6 +11,7 @@
     "format": "prettier --write ./**/*.{vue,ts,tsx,js,jsx,css,less,scss,json,md}"
   },
   "dependencies": {
+    "@codesandbox/sandpack-react": "^2.6.5",
     "@element-plus/icons-vue": "^2.0.10",
     "@logicflow/core": "^1.2.7",
     "@logicflow/extension": "^1.2.7",
@@ -23,6 +24,9 @@
     "lodash": "^4.17.21",
     "md-editor-v3": "^3.0.1",
     "pinia": "^2.0.23",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "veaury": "^2.3.12",
     "vue": "^3.2.37",
     "vue-advanced-cropper": "^2.8.8",
     "vue-json-pretty": "^2.2.4",
@@ -34,9 +38,13 @@
   "devDependencies": {
     "@mdi/font": "^7.2.96",
     "@types/node": "18.7.18",
+    "@types/react": "^18.2.6",
+    "@types/react-dom": "^18.2.4",
     "@typescript-eslint/eslint-plugin": "^5.40.0",
     "@typescript-eslint/parser": "^5.40.0",
+    "@vitejs/plugin-react": "^4.0.0",
     "@vitejs/plugin-vue": "^3.1.0",
+    "@vitejs/plugin-vue-jsx": "^3.0.1",
     "eslint": "^8.25.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",

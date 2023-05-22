@@ -5,16 +5,21 @@ import viteCompression from 'vite-plugin-compression';
 import { Plugin as importToCDN, autoComplete } from 'vite-plugin-cdn-import';
 // build视图依赖文件分析
 import { visualizer } from 'rollup-plugin-visualizer';
+import veauryVitePlugins from 'veaury/vite/index.js';
 
 export default defineConfig({
   resolve: {
     //设置别名
     alias: {
       '@': path.resolve(__dirname, './src'),
+      '~': path.resolve(__dirname, './src/react_app'),
     },
   },
   plugins: [
-    vue(),
+    // vue(),
+    veauryVitePlugins({
+      type: 'vue',
+    }),
     splitVendorChunkPlugin(),
     visualizer({
       emitFile: false,
@@ -32,6 +37,8 @@ export default defineConfig({
       modules: [
         autoComplete('lodash'),
         autoComplete('vue'),
+        autoComplete('react'),
+        autoComplete('react-dom'),
         {
           name: 'vue-demi',
           var: 'VueDemi',

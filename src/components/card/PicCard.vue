@@ -46,6 +46,7 @@
     </div>
     <CommonDialog
       v-model="uploadShow"
+      class="t-color"
       style="max-width: 800px; min-width: 340px"
       draggable
       title="上传图片"
