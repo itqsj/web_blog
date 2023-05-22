@@ -6,6 +6,7 @@
       v-model="showJson"
       style="max-width: 800px; min-width: 340px"
       draggable
+      class="t-color"
       title="流程数据"
     >
       <JsonPreview :data="graphData"></JsonPreview>

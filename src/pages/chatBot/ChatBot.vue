@@ -44,6 +44,18 @@ const sendMessage = async () => {
   }
 };
 
+const submitApiKey = () => {
+  if (!inputApiKey.value) {
+    ElNotification({
+      message: '请输入apiKey',
+      type: 'info',
+    });
+    return;
+  }
+  dialogShow.value = false;
+  apiKey.value = inputApiKey.value;
+};
+
 const createCompletion = async () => {
   // Check if the API key is set
   if (!apiKey.value) {
@@ -79,7 +91,7 @@ const createCompletion = async () => {
       const errorData = await completion.json();
       ElNotification({
         type: 'info',
-        message: errorData.error.message,
+        message: errorData.error.message || errorData.error.code,
       });
       return;
     }
@@ -229,6 +241,7 @@ const displayMessages = computed(() => {
       v-model="dialogShow"
       style="max-width: 800px; min-width: 340px"
       draggable
+      class="t-color"
       title="apiKey Input"
     >
       <v-text-field
@@ -236,7 +249,16 @@ const displayMessages = computed(() => {
         label="apiKey input"
         hide-details="auto"
       ></v-text-field>
+      <div class="dialog_footer">
+        <v-btn @click="dialogShow = false"> Cancel </v-btn>
+        <v-btn class="dialog_footer_submit" @click="submitApiKey">
+          Submit
+        </v-btn>
+      </div>
     </CommonDialog>
+    <v-btn class="v-btn--icon api_key_btn" @click="dialogShow = true">
+      <el-icon :size="18"><Key /></el-icon>
+    </v-btn>
   </div>
 </template>
 
@@ -317,6 +339,36 @@ const displayMessages = computed(() => {
 
 .font-1 {
   font-size: 13px !important;
+}
+
+.dialog_footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.25rem;
+  margin-top: 3rem;
+  &_submit {
+    background-image: linear-gradient(195deg, #49a3f1, #1a73e8);
+    background-position-y: initial;
+    background-repeat: initial;
+    background-attachment: initial;
+    background-origin: initial;
+    background-clip: initial;
+    background-color: initial;
+    color: #ffffff;
+    box-sizing: border-box;
+    box-shadow: rgb(26 115 232 / 15%) 0rem 0.1875rem 0.1875rem 0rem,
+      rgb(26 115 232 / 20%) 0rem 0.1875rem 0.0625rem -0.125rem,
+      rgb(26 115 232 / 15%) 0rem 0.0625rem 0.3125rem 0rem;
+    background-size: 150% !important;
+    background-position-x: 25% !important;
+  }
+}
+
+.api_key_btn {
+  position: fixed;
+  right: 2rem;
+  bottom: 5.4rem;
+  color: #216aab;
 }
 
 @media screen and (max-width: 768px) {

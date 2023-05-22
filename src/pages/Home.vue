@@ -20,6 +20,7 @@
                 'ChatBot',
                 'UserList',
                 'CodeSandBox',
+                'FlowChart',
               ]"
             >
               <component :is="Component" />

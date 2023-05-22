@@ -1,3 +1,11 @@
+interface ElementInt {
+  properties: any;
+  incoming?: any;
+  outgoing?: any;
+  key?: any;
+  type?: any;
+}
+
 const TurboType = {
   SEQUENCE_FLOW: 1,
   START_EVENT: 2,
@@ -7,7 +15,7 @@ const TurboType = {
   EXCLUSIVE_GATEWAY: 6,
 };
 
-function convertFlowElementToEdge(element) {
+function convertFlowElementToEdge(element: ElementInt) {
   const { incoming, outgoing, properties, key } = element;
   const { text, startPoint, endPoint, pointsList, logicFlowType } = properties;
   const edge = {
@@ -30,13 +38,15 @@ function convertFlowElementToEdge(element) {
   ];
   Object.keys(element.properties).forEach((property) => {
     if (excludeProperties.indexOf(property) === -1) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       edge.properties[property] = element.properties[property];
     }
   });
   return edge;
 }
 
-function convertFlowElementToNode(element) {
+function convertFlowElementToNode(element: ElementInt) {
   const { properties, key } = element;
   const { x, y, text, logicFlowType } = properties;
   const node = {
@@ -50,13 +60,15 @@ function convertFlowElementToNode(element) {
   const excludeProperties = ['x', 'y', 'text', 'logicFlowType'];
   Object.keys(element.properties).forEach((property) => {
     if (excludeProperties.indexOf(property) === -1) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       node.properties[property] = element.properties[property];
     }
   });
   return node;
 }
 
-export function toLogicFlowData(data) {
+export function toLogicFlowData(data: { flowElementList: any }) {
   const lfData: {
     // TODO type
     nodes: any[];
@@ -68,7 +80,7 @@ export function toLogicFlowData(data) {
   const list = data.flowElementList;
   list &&
     list.length > 0 &&
-    list.forEach((element) => {
+    list.forEach((element: ElementInt) => {
       if (element.type === TurboType.SEQUENCE_FLOW) {
         const edge = convertFlowElementToEdge(element);
         lfData.edges.push(edge);

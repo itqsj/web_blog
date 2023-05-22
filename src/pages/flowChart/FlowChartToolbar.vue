@@ -1,5 +1,5 @@
 <template>
-  <div class="toolbar t-background">
+  <div class="toolbar t-background t-color">
     <div v-for="(item, index) in toolbarItemList" :key="index">
       <v-btn
         v-if="!item.separate"
