@@ -71,12 +71,6 @@ onBeforeMount(() => {
   // useGithubFetch('/repos/itqsj/web_blog/events');
   verify();
   window.addEventListener('resize', windowResize);
-  ElNotification({
-    title: '提示',
-    type: 'info',
-    message:
-      '由于当前网址使用的是https协议，七牛当前斤支持http,访问图片时，自动将http转换为https，导致图片无法访问，后续会将七牛绑定的域名升级为https来解决此问题',
-  });
   if (window.innerWidth < 900) {
     updateIsPhone.value(true);
   }
