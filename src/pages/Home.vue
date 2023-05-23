@@ -19,7 +19,7 @@
                 'ProfilePage',
                 'ChatBot',
                 'UserList',
-                'CodeSandBox',
+                'CodeBox',
                 'FlowChart',
               ]"
             >

@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<script setup lang="ts" name="CodeSandBox">
+<script setup lang="ts" name="CodeBox">
 import { applyPureReactInVue } from 'veaury';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
