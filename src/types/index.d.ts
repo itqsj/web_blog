@@ -8,7 +8,7 @@ export interface ParamsListInt<> {
 
 // 结果
 export interface ResInt<T> {
-  code: number;
+  code: number | string;
   message: string;
   data: T;
 }

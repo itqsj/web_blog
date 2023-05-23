@@ -27,7 +27,7 @@ interface ReqInt {
 const service = axios.create({
   baseURL: import.meta.env.VITE_APP_URL,
 });
-service.defaults.timeout = 20000; // 请求超时时间
+// service.defaults.timeout = 30000; // 请求超时时间
 // Request interceptors
 service.interceptors.request.use(
   (config: AxiosRequestConfig) => {
@@ -52,7 +52,7 @@ service.interceptors.response.use(
     // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
     // 否则的话抛出错误 结合自身业务和后台返回的接口状态约定写respone拦截器
     if (response.status === 200) {
-      if (response.data.code !== 200) {
+      if (response.data.code !== 200 && response.data.code !== 'success') {
         ElNotification({
           title: '提示',
           type: 'error',

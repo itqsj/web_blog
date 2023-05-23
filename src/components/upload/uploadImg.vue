@@ -86,10 +86,10 @@ const submit = () => {
   const formD = new FormData();
   const blob = dataURLtoBlob(corImg);
   const file = blobToFile(blob, guid());
-  formD.append('file', file);
+  formD.append('smfile', file);
 
   uploadFile(formD).then((res) => {
-    if (res.code === 200) {
+    if (res.code === 'success') {
       ElNotification({
         title: '提示',
         message: '上传成功',

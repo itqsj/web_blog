@@ -71,10 +71,10 @@ const init = () => {
           const file = blobInfo.blob();
 
           const formD = new FormData();
-          formD.append('file', file);
+          formD.append('smfile', file);
           uploadFile(formD).then((res) => {
             // succFun(res.data.url + '?download=0')
-            if (res.code === 200) {
+            if (res.code === 'success') {
               resolve(res.data.url);
             } else {
               resolve('');
